@@ -29,3 +29,21 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Infinite scroll animation for brands - very fast speed */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 6s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
