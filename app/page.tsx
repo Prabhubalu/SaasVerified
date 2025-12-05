@@ -1,9 +1,11 @@
 import { Hero } from "@/components/Hero";
 import { TrustBar } from "@/components/TrustBar";
 import { WhyVerification } from "@/components/WhyVerification";
-import { HowItWorks } from "@/components/HowItWorks";
-import { TopCategories } from "@/components/TopCategories";
+import { WhatMembersGet } from "@/components/WhatMembersGet";
 import { TopVendors } from "@/components/TopVendors";
+import { TopCategories } from "@/components/TopCategories";
+import { Testimonials } from "@/components/Testimonials";
+import { FAQs } from "@/components/FAQs";
 
 export default function Home() {
   return (
@@ -11,9 +13,11 @@ export default function Home() {
       <Hero />
       <TrustBar />
       <WhyVerification />
-      <HowItWorks />
-      <TopCategories />
+      <WhatMembersGet />
       <TopVendors />
+      <TopCategories />
+      <Testimonials />
+      <FAQs />
     </>
   );
 }

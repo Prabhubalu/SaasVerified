@@ -31,16 +31,9 @@ export function TrustBar() {
   const duplicatedCompanies = [...companies, ...companies];
 
   return (
-    <section className="py-6 bg-white/50 backdrop-blur-sm overflow-hidden">
+    <section className="py-6 backdrop-blur-sm overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-gray-600 mb-4 text-base md:text-lg font-medium">
-          Join 800,000+ Highly Productive Teams
-        </p>
         <div className="relative">
-          {/* Gradient overlays for fade effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white/50 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white/50 to-transparent z-10 pointer-events-none" />
-          
           {/* Scrolling container */}
           <div className="flex animate-scroll gap-16 items-center">
             {duplicatedCompanies.map((company, index) => (

@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { FooterWrapper } from "@/components/FooterWrapper";
 
-const inter = Inter({ subsets: ["latin"] });
+const plusJakartaSans = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -62,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={plusJakartaSans.variable}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"} />
@@ -85,11 +88,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={plusJakartaSans.className}>
         <Providers>
           <Navbar />
           <main className="min-h-screen">{children}</main>
-          <Footer />
+          <FooterWrapper />
         </Providers>
       </body>
     </html>

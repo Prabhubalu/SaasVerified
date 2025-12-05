@@ -4,67 +4,94 @@ import { useState } from "react";
 import Image from "next/image";
 
 export function Hero() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [email, setEmail] = useState("");
 
-  const categories = ["CRM", "Project Management", "Marketing Automation", "HR Software"];
+  const categories = ["CRM", "HRMS", "Support", "Automation", "Finance", "Billing"];
 
   return (
-    <section className="relative min-h-[calc(100vh-200px)] flex items-center justify-center overflow-hidden pt-20 md:pt-24">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Main Heading */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
-            Find the Right SaaS, Verified for You
-          </h1>
-          
-          {/* Subheading */}
-          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            We independently vet SaaS vendors, validate real-world performance, and ensure you make a safe, confident purchase.
-          </p>
+    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden pt-40 md:pt-48 pb-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
+          <div className="max-w-2xl">
+            {/* Main Heading */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              Buy SaaS with High <span className="text-[#12b76a]">Confidence</span>
+            </h1>
+            
+            {/* Subheading */}
+            <p className="text-lg md:text-xl text-gray-600 mb-8">
+              Join the SaaS Verify Inner Circle. Get access to verified software, vendor truth audits, and buyer protection for your future purchases.
+            </p>
 
-          {/* Hero Image */}
-          <div className="mb-6 flex items-center justify-center">
-            <div className="relative w-full max-w-xl h-auto">
+            {/* Category Pills - 2 rows of 3 */}
+            <div className="mb-8">
+              <div className="flex flex-wrap gap-3 mb-3">
+                {categories.slice(0, 3).map((category) => (
+                  <button
+                    key={category}
+                    className="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors flex items-center gap-2"
+                  >
+                    {category}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {categories.slice(3, 6).map((category) => (
+                  <button
+                    key={category}
+                    className="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors flex items-center gap-2"
+                  >
+                    {category}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Email Signup Form */}
+            <div className="space-y-4">
+              {/* Email Input */}
+              <div className="bg-white border border-gray-300 rounded-lg px-4 py-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your work email"
+                  className="w-full outline-none text-gray-700 placeholder-gray-400 text-base"
+                />
+              </div>
+              
+              {/* Button and Text Row */}
+              <div className="flex items-start gap-4">
+                <button className="bg-[#12b76a] text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors whitespace-nowrap">
+                  Get Membership. It's FREE!
+                </button>
+                <div className="text-sm text-gray-600 pt-1">
+                  <div>Free forever.</div>
+                  <div>No credit card.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Content - Illustration */}
+          <div className="hidden lg:block relative">
+            <div className="relative w-full h-[500px]">
               <Image
-                src="/assets/hero-image.png"
+                src="/assets/Hero-image-1.png"
                 alt="Hero illustration"
-                width={800}
-                height={400}
-                className="w-full h-auto object-contain max-h-48 md:max-h-64"
+                width={560}
+                height={600}
+                className="w-full h-full object-contain"
                 priority
               />
             </div>
-          </div>
-
-          {/* Search Bar */}
-          <div className="mb-4">
-            <div className="bg-white rounded-full border border-gray-300 shadow-lg flex items-center px-6 py-3 max-w-2xl mx-auto">
-              <svg className="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search categories or vendors..."
-                className="flex-1 outline-none text-gray-700 placeholder-gray-400 text-sm md:text-base"
-              />
-              <button className="bg-blue-50 text-blue-900 px-5 py-2 rounded-full font-medium hover:bg-blue-100 transition-colors text-sm md:text-base">
-                Search
-              </button>
-            </div>
-          </div>
-
-          {/* Category Pills */}
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories.map((category) => (
-              <button
-                key={category}
-                className="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full text-xs md:text-sm hover:bg-gray-200 transition-colors"
-              >
-                {category}
-              </button>
-            ))}
           </div>
         </div>
       </div>
