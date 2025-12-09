@@ -57,3 +57,12 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Member {
+  id        String   @id @default(cuid())
+  fullName  String
+  company   String
+  role      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+

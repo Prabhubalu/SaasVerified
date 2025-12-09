@@ -1,11 +1,29 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useMembershipModal } from "@/contexts/MembershipModalContext";
+import { usePathname, useRouter } from "next/navigation";
 
 interface FooterProps {
   showCTA?: boolean;
 }
 
 export function Footer({ showCTA = false }: FooterProps) {
+  const { openModal } = useMembershipModal();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleGetMembershipClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pathname === "/") {
+      // If on home page, just open the modal (it will scroll to hero)
+      openModal();
+    } else {
+      // If on another page, navigate to home with a query param
+      router.push("/?openMembership=true");
+    }
+  };
   return (
     <footer className="relative overflow-hidden">
       {/* Background Image for entire footer */}
@@ -29,15 +47,15 @@ export function Footer({ showCTA = false }: FooterProps) {
               </h2>
               
               <div className="flex" data-aos="zoom-in" data-aos-delay="200">
-                <Link
-                  href="#"
+                <button
+                  onClick={handleGetMembershipClick}
                   className="inline-flex items-center gap-2 bg-[#12b76a] text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors text-base"
                 >
                   <span>Get Membership</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </Link>
+                </button>
               </div>
             </div>
           </div>
