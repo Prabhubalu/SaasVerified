@@ -105,16 +105,16 @@ export function TopCategories() {
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12" data-aos="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Our Categories
           </h2>
-          {/* Gradient underline - pink, orange, yellow, green, light blue */}
-          <div className="w-48 h-0.5 mx-auto mb-8 bg-gradient-to-r from-pink-400 via-orange-400 via-yellow-400 via-green-400 to-blue-400"></div>
+          {/* Gradient underline - pink, orange, yellow, light green */}
+          <div className="w-48 h-1 mx-auto mb-8 bg-gradient-to-r from-pink-400 via-orange-400 via-yellow-400 to-green-400 rounded-full"></div>
         </div>
 
         {/* Search Section with Image */}
-        <div className="max-w-[501px] mx-auto mb-12">
+        <div className="max-w-[501px] mx-auto mb-12" data-aos="fade-up" data-aos-delay="100">
           {/* Image above search bar */}
           <div className="relative w-full h-[153px] mb-2 rounded-lg overflow-hidden">
             <Image
@@ -187,6 +187,8 @@ export function TopCategories() {
                       ${isLastInRow ? 'border-r-0' : ''}
                       ${isLastRow ? 'border-b-0' : ''}
                     `}
+                    data-aos="zoom-in"
+                    data-aos-delay={40 * (index % 10)}
                   >
                     <IconComponent className="w-8 h-8 text-gray-400 group-hover:scale-110 transition-transform" />
                     <span className="text-xs text-gray-400 text-center font-normal leading-5">

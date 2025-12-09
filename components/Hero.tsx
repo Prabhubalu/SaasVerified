@@ -6,14 +6,21 @@ import Image from "next/image";
 export function Hero() {
   const [email, setEmail] = useState("");
 
-  const categories = ["CRM", "HRMS", "Support", "Automation", "Finance", "Billing"];
+  const categories = [
+    { name: "CRM", icon: "/assets/hero-category/crm.svg" },
+    { name: "HRMS", icon: "/assets/hero-category/hrms.svg" },
+    { name: "Support", icon: "/assets/hero-category/support.svg" },
+    { name: "Automation", icon: "/assets/hero-category/automation.svg" },
+    { name: "Finance", icon: "/assets/hero-category/finance.svg" },
+    { name: "Billing", icon: "/assets/hero-category/billing.svg" },
+  ];
 
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden pt-40 md:pt-48 pb-20">
+    <section className="relative flex-1 flex items-center justify-center overflow-hidden pt-40 md:pt-48 pb-12 md:pb-16">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
-          <div className="max-w-2xl">
+          <div className="max-w-2xl" data-aos="fade-up">
             {/* Main Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Buy SaaS with High <span className="text-[#12b76a]">Confidence</span>
@@ -29,33 +36,41 @@ export function Hero() {
               <div className="flex flex-wrap gap-3 mb-3">
                 {categories.slice(0, 3).map((category) => (
                   <button
-                    key={category}
+                    key={category.name}
                     className="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors flex items-center gap-2"
                   >
-                    {category}
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    <Image
+                      src={category.icon}
+                      alt={category.name}
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
+                    {category.name}
                   </button>
                 ))}
               </div>
               <div className="flex flex-wrap gap-3">
                 {categories.slice(3, 6).map((category) => (
                   <button
-                    key={category}
+                    key={category.name}
                     className="bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors flex items-center gap-2"
                   >
-                    {category}
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    <Image
+                      src={category.icon}
+                      alt={category.name}
+                      width={16}
+                      height={16}
+                      className="w-4 h-4"
+                    />
+                    {category.name}
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Email Signup Form */}
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-sm">
               {/* Email Input */}
               <div className="bg-white border border-gray-300 rounded-lg px-4 py-3">
                 <input
@@ -81,7 +96,7 @@ export function Hero() {
           </div>
 
           {/* Right Content - Illustration */}
-          <div className="hidden lg:block relative">
+          <div className="hidden lg:block relative" data-aos="fade-left" data-aos-delay="200">
             <div className="relative w-full h-[500px]">
               <Image
                 src="/assets/Hero-image-1.png"

@@ -4,16 +4,16 @@ export function WhyVerification() {
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Why Membership Matters?
           </h2>
-          <div className="w-48 h-0.5 bg-gray-300 mx-auto"></div>
+          <div className="w-48 h-1 mx-auto bg-gradient-to-r from-pink-400 via-orange-400 via-yellow-400 to-green-400 rounded-full"></div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Image */}
-          <div className="relative">
+          <div className="relative" data-aos="fade-right">
             <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
               <Image
                 src="/assets/why-memberships.png"
@@ -26,7 +26,7 @@ export function WhyVerification() {
           </div>
 
           {/* Right Side - Content */}
-          <div>
+          <div data-aos="fade-left" data-aos-delay="150">
             <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               SaaS Verify protects members from these mistakes.
             </h3>

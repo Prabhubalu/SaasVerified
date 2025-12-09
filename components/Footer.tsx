@@ -14,7 +14,7 @@ export function Footer({ showCTA = false }: FooterProps) {
           src="/assets/footer-bg.png"
           alt="Footer Background"
           fill
-          className="object-cover"
+          className="object-cover object-top"
           priority
         />
       </div>
@@ -23,12 +23,12 @@ export function Footer({ showCTA = false }: FooterProps) {
       {showCTA && (
         <div className="relative py-20 overflow-hidden rounded-tr-[120px]">
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-5xl md:text-6xl font-normal text-gray-900 mb-8 leading-tight tracking-[-1px]" style={{ fontFamily: 'Literata, serif' }}>
+            <div className="max-w-4xl">
+              <h2 className="text-5xl md:text-6xl font-normal text-gray-900 mb-8 leading-tight tracking-[-1px]" style={{ fontFamily: 'Literata, serif' }} data-aos="fade-up">
                 Ready to go? Join the SaaS Verify Inner Circle
               </h2>
               
-              <div className="flex justify-center">
+              <div className="flex" data-aos="zoom-in" data-aos-delay="200">
                 <Link
                   href="#"
                   className="inline-flex items-center gap-2 bg-[#12b76a] text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors text-base"
@@ -45,11 +45,11 @@ export function Footer({ showCTA = false }: FooterProps) {
       )}
 
       {/* Footer Section */}
-      <div className={`relative ${showCTA ? 'pt-24' : 'pt-16'} pb-0`}>
+      <div className={`relative ${showCTA ? 'pt-16' : 'pt-16'} pb-0`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 pb-16">
             {/* Logo and Contact */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4" data-aos="fade-up">
               <Link href="/" className="inline-block mb-2">
                 <div className="relative w-36 h-14">
                   <Image
@@ -70,7 +70,7 @@ export function Footer({ showCTA = false }: FooterProps) {
             </div>
 
             {/* Company */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4" data-aos="fade-up" data-aos-delay="100">
               <h4 className="text-sm font-semibold text-black">Company</h4>
               <ul className="space-y-3 text-sm text-[#333333]">
                 <li>
@@ -97,7 +97,7 @@ export function Footer({ showCTA = false }: FooterProps) {
             </div>
 
             {/* Social */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4" data-aos="fade-up" data-aos-delay="200">
               <h4 className="text-sm font-semibold text-black">Social</h4>
               <ul className="space-y-3 text-sm text-[#333333]">
                 <li>
@@ -129,7 +129,7 @@ export function Footer({ showCTA = false }: FooterProps) {
             </div>
 
             {/* Product */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4" data-aos="fade-up" data-aos-delay="300">
               <h4 className="text-sm font-semibold text-black">Product</h4>
               <ul className="space-y-3 text-sm text-[#333333]">
                 <li>
@@ -161,7 +161,7 @@ export function Footer({ showCTA = false }: FooterProps) {
             </div>
 
             {/* Resources */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4" data-aos="fade-up" data-aos-delay="400">
               <h4 className="text-sm font-semibold text-black">Resources</h4>
               <ul className="space-y-3 text-sm text-[#333333]">
                 <li>
@@ -184,7 +184,7 @@ export function Footer({ showCTA = false }: FooterProps) {
           </div>
 
           {/* Copyright Bar - Dark Background */}
-          <div className="bg-gray-900 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4">
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between">
               <p className="text-base text-[#676d79] mb-4 sm:mb-0 text-center sm:text-left">
                 © 2025 SaaSVerify. All rights reserved.

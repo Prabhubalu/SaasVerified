@@ -75,13 +75,14 @@ export function HowItWorks() {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+        <div className="text-center mb-16" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             How it works
           </h2>
+          <div className="w-48 h-1 mx-auto mb-6 bg-gradient-to-r from-pink-400 via-orange-400 via-yellow-400 to-green-400 rounded-full"></div>
           
           {/* Tabs */}
-          <div className="inline-flex bg-gray-100 rounded-xl p-1.5 mb-12">
+          <div className="inline-flex bg-gray-100 rounded-xl p-1.5 mb-12" data-aos="fade-up" data-aos-delay="100">
             <button
               onClick={() => setActiveTab("buyers")}
               className={`px-8 py-2.5 rounded-lg font-medium transition-all duration-300 ${
@@ -109,7 +110,7 @@ export function HowItWorks() {
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Step Content */}
-            <div className="relative flex items-center min-h-[280px]">
+            <div className="relative flex items-center min-h-[280px]" data-aos="fade-right">
               <div
                 key={`${activeTab}-${currentStepIndex}`}
                 className={`w-full transition-all duration-500 ${
@@ -133,7 +134,7 @@ export function HowItWorks() {
             </div>
 
             {/* Right Side - Vertical Timeline */}
-            <div className="relative hidden lg:flex items-center justify-center w-full">
+            <div className="relative hidden lg:flex items-center justify-center w-full" data-aos="fade-left" data-aos-delay="150">
               <div className="relative flex justify-center items-center w-full">
                 {/* Container for line and steps - fixed height, centered */}
                 <div className="relative h-[280px] w-full max-w-xs mx-auto">
