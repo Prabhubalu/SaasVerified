@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { Navbar } from "@/components/Navbar";
-import { FooterWrapper } from "@/components/FooterWrapper";
+import { ConditionalNavbar } from "@/components/ConditionalNavbar";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ["latin"],
@@ -90,9 +89,9 @@ export default function RootLayout({
       </head>
       <body className={plusJakartaSans.className}>
         <Providers>
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <FooterWrapper />
+          <ConditionalNavbar>
+            <main className="min-h-screen">{children}</main>
+          </ConditionalNavbar>
         </Providers>
       </body>
     </html>

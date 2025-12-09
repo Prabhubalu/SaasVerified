@@ -59,9 +59,9 @@ export function TopVendors() {
                   <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 to-green-100" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-white/85 via-white/30 to-transparent" />
-                <div className="absolute inset-0 flex items-end">
+                {/* <div className="absolute inset-0 flex items-end">
                   <p className="font-bold text-gray-900 p-4">{vendor.description}</p>
-                </div>
+                </div> */}
               </div>
               <div className="p-4 text-center">
                 <div className="h-8 mb-2 flex items-center justify-center">
