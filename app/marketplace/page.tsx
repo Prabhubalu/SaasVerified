@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { MarketplaceHero } from "@/components/MarketplaceHero";
-import { MarketplaceFilters } from "@/components/MarketplaceFilters";
-import { MarketplaceGrid } from "@/components/MarketplaceGrid";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { MarketplaceHero } from "@/components/marketplace/MarketplaceHero";
+import { MarketplaceFilters } from "@/components/marketplace/MarketplaceFilters";
+import { MarketplaceGrid } from "@/components/marketplace/MarketplaceGrid";
 
 // Sample vendor data - in production, this would come from an API or database
 const sampleVendors = [
@@ -142,6 +143,8 @@ const sampleVendors = [
 ];
 
 export default function MarketplacePage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState({
@@ -149,6 +152,66 @@ export default function MarketplacePage() {
     pricing: [] as string[],
     features: [] as string[],
   });
+  const hasInitializedFromUrl = useRef(false);
+
+  // Read category from URL query params and apply it (only once on initial load)
+  useEffect(() => {
+    // Only apply category from URL on initial load, not when filters change
+    if (hasInitializedFromUrl.current) return;
+
+    const categoryParam = searchParams.get("category");
+    if (categoryParam) {
+      hasInitializedFromUrl.current = true;
+      const decodedCategory = decodeURIComponent(categoryParam);
+      // Check if the category exists in the marketplace filter options
+      const categoryOptions = [
+        "CRM",
+        "HRMS",
+        "Support",
+        "Automation",
+        "Finance",
+        "Billing",
+        "Project Management",
+        "Marketing",
+        "Sales",
+        "Analytics",
+        "Security",
+        "Communication",
+      ];
+      
+      // If category matches a filter option, add it to filters
+      if (categoryOptions.includes(decodedCategory)) {
+        setFilters((prev) => ({
+          ...prev,
+          categories: [decodedCategory],
+        }));
+      } else {
+        // If category doesn't match filter options, use it as search query
+        setSearchQuery(decodedCategory);
+      }
+
+      // Clear the URL param after applying it to prevent interference with manual filter changes
+      const url = new URL(window.location.href);
+      url.searchParams.delete("category");
+      router.replace(url.pathname + url.search, { scroll: false });
+
+      // Scroll to search section after a short delay to ensure DOM is ready
+      // Scroll just enough so the search section becomes sticky (at top-28 = 112px)
+      setTimeout(() => {
+        const searchElement = document.getElementById("marketplace-search");
+        if (searchElement) {
+          const elementTop = searchElement.getBoundingClientRect().top + window.pageYOffset;
+          const stickyOffset = 112; // top-28 = 7rem = 112px
+          const scrollPosition = elementTop - stickyOffset;
+          
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
+    }
+  }, [searchParams, router]);
 
   // Filter and search vendors
   const filteredVendors = useMemo(() => {
@@ -215,6 +278,8 @@ export default function MarketplacePage() {
         vendors={filteredVendors} 
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        filters={filters}
+        onFiltersChange={setFilters}
       />
     </>
   );

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,12 @@ export default async function MembersAdminPage() {
     <main className="min-h-screen bg-gray-50 pt-32 lg:pt-40 pb-12 px-4 sm:px-8 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          {/* <p className="text-sm text-gray-500">Admin</p> */}
+          <Link
+            href="/admin/dashboard"
+            className="text-sm text-gray-600 hover:text-gray-900 mb-2 inline-block"
+          >
+            ← Back to Dashboard
+          </Link>
           <h1 className="text-3xl font-bold text-gray-900">Members</h1>
           <p className="text-gray-600 mt-2">
             Recently added members from the public signup flow.

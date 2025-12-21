@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { ConditionalNavbar } from "@/components/ConditionalNavbar";
+import { ConditionalNavbar } from "@/components/ui/ConditionalNavbar";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ["latin"],
