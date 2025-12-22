@@ -6,20 +6,6 @@ import Link from "next/link";
 export function TopVendors() {
   const vendors = [
     {
-      id: "zoho",
-      name: "ZOHO",
-      // description: "CHEW GUM, HAVE ENERGY, RUN THE DAY!",
-      image: "/assets/vendors/zoho_screenshot.jpg",
-      logo: "/assets/vendors/zoho.svg",
-    },
-    {
-      id: "vtiger",
-      name: "vtiger",
-      // description: "PROJECT OF THE MONTH",
-      image: "/assets/vendors/vtiger-screenshot.png",
-      logo: "/assets/vendors/vtiger.svg",
-    },
-    {
       id: "clickup",
       name: "ClickUp",
       // description: "WE MISS YOU?",
@@ -32,6 +18,20 @@ export function TopVendors() {
       // description: "PRODUCTIVITY REIMAGINED",
       image: "/assets/vendors/monday-screenshot.avif",
       logo: "/assets/vendors/monday.svg",
+    },
+    {
+      id: "zoho",
+      name: "ZOHO",
+      // description: "CHEW GUM, HAVE ENERGY, RUN THE DAY!",
+      image: "/assets/vendors/zoho_screenshot.jpg",
+      logo: "/assets/vendors/zoho.svg",
+    },
+    {
+      id: "vtiger",
+      name: "vtiger",
+      // description: "PROJECT OF THE MONTH",
+      image: "/assets/vendors/vtiger-screenshot.png",
+      logo: "/assets/vendors/vtiger.svg",
     },
   ];
 

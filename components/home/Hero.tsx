@@ -91,13 +91,11 @@ export function Hero() {
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (showMembershipModal) {
-      // Save the original overflow style
-      const originalOverflow = document.body.style.overflow;
       // Prevent scrolling
       document.body.style.overflow = "hidden";
-      // Restore on cleanup
+      // Restore scrolling on cleanup
       return () => {
-        document.body.style.overflow = originalOverflow;
+        document.body.style.overflow = "";
       };
     }
   }, [showMembershipModal]);

@@ -216,7 +216,17 @@ export function Footer({ showCTA = false }: FooterProps) {
                 <svg className="w-4 h-4 text-[#9195a2]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
-                <span className="text-sm text-[#9195a2]">Powered by Arivu</span>
+                <span className="text-sm text-[#9195a2]">
+                  Powered by{" "}
+                  <a
+                    href="https://arivusystems.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#9195a2] hover:text-[#12b76a] transition-colors"
+                  >
+                    Arivu
+                  </a>
+                </span>
               </div>
             </div>
           </div>
