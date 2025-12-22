@@ -71,7 +71,7 @@ export function WhatWeAudit() {
         {/* Secondary CTA */}
         <div className="text-center" data-aos="fade-up">
           <Link
-            href="/how-we-verify"
+            href="/verify"
             className="inline-block text-[#12b76a] font-semibold hover:text-green-700 transition-colors"
           >
             View Full Audit Criteria →

@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useVendorModal } from "@/contexts/VendorModalContext";
 
 export function VerifyHero() {
+  const { openModal: openVendorModal } = useVendorModal();
   return (
     <section className="relative flex-1 flex items-center justify-center overflow-hidden min-h-screen pt-40 md:pt-48 pb-20">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -30,12 +32,12 @@ export function VerifyHero() {
             >
               Explore Verified SaaS
             </Link>
-            <Link
-              href="/vendors"
+            <button
+              onClick={openVendorModal}
               className="inline-block bg-white border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors shadow-lg"
             >
               Apply for Verification
-            </Link>
+            </button>
           </div>
         </div>
       </div>
