@@ -179,10 +179,19 @@ SaasVerified/
 3. Add environment variables
 4. Deploy!
 
+### Netlify (Temporary Hosting)
+
+For detailed instructions on deploying to Netlify, see [NETLIFY_DEPLOYMENT.md](./NETLIFY_DEPLOYMENT.md).
+
+**Note:** You'll need an external PostgreSQL database (Supabase, Neon, or Railway recommended).
+
+### Hostinger VPS
+
+For detailed instructions on deploying to Hostinger VPS, see [HOSTINGER_DEPLOYMENT.md](./HOSTINGER_DEPLOYMENT.md).
+
 ### Other Platforms
 
 The app can be deployed to any platform that supports Next.js:
-- Netlify
 - AWS Amplify
 - Railway
 - DigitalOcean App Platform
