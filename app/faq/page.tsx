@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import { useRef } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -80,7 +80,7 @@ const allFAQs: { buyers: FAQSection[]; vendors: FAQSection[] } = {
   ],
 };
 
-export default function FAQPage() {
+function FAQContent() {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"buyers" | "vendors">("buyers");
@@ -390,6 +390,25 @@ export default function FAQPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function FAQPage() {
+  return (
+    <Suspense fallback={
+      <div className="pt-40 md:pt-48 pb-16 bg-gradient-to-b from-purple-50 via-white to-green-50 min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              We'll Help You Get Started
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </div>
+    }>
+      <FAQContent />
+    </Suspense>
   );
 }
 
