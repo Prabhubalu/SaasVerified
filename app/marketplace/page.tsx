@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { MarketplaceHero } from "@/components/marketplace/MarketplaceHero";
 import { MarketplaceFilters } from "@/components/marketplace/MarketplaceFilters";
@@ -142,7 +142,7 @@ const sampleVendors = [
   },
 ];
 
-export default function MarketplacePage() {
+function MarketplaceContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
@@ -282,6 +282,18 @@ export default function MarketplacePage() {
         onFiltersChange={setFilters}
       />
     </>
+  );
+}
+
+export default function MarketplacePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-600">Loading marketplace...</p>
+      </div>
+    }>
+      <MarketplaceContent />
+    </Suspense>
   );
 }
 

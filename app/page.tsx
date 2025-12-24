@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Hero } from "@/components/home/Hero";
 import { TrustBar } from "@/components/home/TrustBar";
 import { SectionDivider } from "@/components/home/SectionDivider";
@@ -12,7 +13,13 @@ export default function Home() {
   return (
     <>
       <div className="min-h-screen flex flex-col">
-        <Hero />
+        <Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        }>
+          <Hero />
+        </Suspense>
         <TrustBar />
         <SectionDivider />
       </div>
