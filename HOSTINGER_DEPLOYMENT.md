@@ -50,15 +50,40 @@ sudo apt install git -y
 ```bash
 # Switch to postgres user
 sudo -u postgres psql
+```
 
-# In PostgreSQL prompt, create database and user
+In the PostgreSQL prompt, run these commands:
+
+```sql
+-- Create database
 CREATE DATABASE saasverified;
+
+-- Create user with password
 CREATE USER saasverified_user WITH ENCRYPTED PASSWORD 'your_secure_password_here';
+
+-- Grant database privileges
 GRANT ALL PRIVILEGES ON DATABASE saasverified TO saasverified_user;
+
+-- Connect to the database
+\c saasverified
+
+-- Grant schema privileges (important for PostgreSQL 15+)
+GRANT USAGE ON SCHEMA public TO saasverified_user;
+GRANT CREATE ON SCHEMA public TO saasverified_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO saasverified_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO saasverified_user;
+
+-- Grant privileges on future tables and sequences
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO saasverified_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO saasverified_user;
+
+-- Exit PostgreSQL
 \q
 ```
 
 **Note:** Replace `your_secure_password_here` with a strong password. Save this password for your `.env` file.
+
+**Important:** The schema permissions are required for PostgreSQL 15+ to prevent permission errors when running `prisma db push`.
 
 ## Step 4: Clone and Set Up Your Application
 
