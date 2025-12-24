@@ -431,7 +431,7 @@ export function Hero() {
           <div className="hidden lg:block relative" data-aos="fade-left" data-aos-delay="200">
             <div className="relative w-full h-[500px]">
               <Image
-                src="/assets/Hero-image-1.png"
+                src="/assets/herofinal.svg"
                 alt="Hero illustration"
                 width={560}
                 height={600}

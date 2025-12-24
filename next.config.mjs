@@ -12,6 +12,13 @@ const nextConfig = {
         hostname: "cdn.simpleicons.org",
       },
     ],
+    // Enable image optimization in production
+    unoptimized: false,
+    // Add formats support
+    formats: ["image/avif", "image/webp"],
+    // Increase image sizes if needed
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   // Disable ESLint during builds to prevent build failures
   eslint: {
