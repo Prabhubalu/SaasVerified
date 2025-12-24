@@ -153,3 +153,4 @@ npx prisma db push
 - Try making the user the owner (see alternative method above)
 - Check PostgreSQL version - if it's 15+, you need explicit schema permissions
 
+

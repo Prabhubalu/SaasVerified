@@ -171,7 +171,7 @@ Add the following configuration:
 ```nginx
 server {
     listen 80;
-    server_name yourdomain.com www.yourdomain.com;
+    server_name saasverify.com www.saasverify.com;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -207,7 +207,7 @@ sudo systemctl restart nginx
 sudo apt install certbot python3-certbot-nginx -y
 
 # Obtain SSL certificate
-sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+sudo certbot --nginx -d saasverify.com -d www.saasverify.com
 
 # Follow the prompts to complete the setup
 ```
