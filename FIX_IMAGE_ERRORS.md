@@ -267,3 +267,4 @@ If image optimization continues to fail, you can use regular HTML img tags:
 This bypasses Next.js image optimization but images will still work.
 
 
+
