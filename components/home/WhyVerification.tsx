@@ -16,7 +16,7 @@ export function WhyVerification() {
           <div className="relative" data-aos="fade-right">
             <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
               <Image
-                src="/assets/why-memberships.png"
+                src="/assets/whymemberships.png"
                 alt="Business illustration"
                 width={420}
                 height={400}

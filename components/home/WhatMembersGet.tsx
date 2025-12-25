@@ -43,7 +43,7 @@ export function WhatMembersGet() {
           <div className="relative" data-aos="fade-left" data-aos-delay="150">
             <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
               <Image
-                src="/assets/what-members-get.png"
+                src="/assets/whatmembersget.png"
                 alt="Business illustration"
                 width={420}
                 height={400}
