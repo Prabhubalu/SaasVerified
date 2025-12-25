@@ -127,7 +127,7 @@ export function BuyersHero() {
           <div className="hidden lg:block relative" data-aos="fade-left" data-aos-delay="200">
             <div className="relative w-full h-[500px]">
               <Image
-                src="/assets/image6.svg"
+                src="/assets/buyerhero.svg"
                 alt="Buyer journey and verification illustration"
                 width={640}
                 height={520}
