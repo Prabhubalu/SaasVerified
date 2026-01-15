@@ -21,7 +21,7 @@ interface VendorDetail {
   securityScore?: number;
   performanceScore?: number;
   supportScore?: number;
-  verificationTier?: "Gold" | "Silver" | "Bronze";
+  verificationTier?: "Gold" | "Silver" | "Bronze" | "Platinum";
   verifiedAreas?: string[];
   lastAuditDate?: string;
   detailedFeatures?: Array<{
@@ -79,6 +79,8 @@ function IntegrationLogo({ name, logo }: { name: string; logo: string }) {
 export function VendorDetailPage({ vendor }: VendorDetailPageProps) {
   const getTierBadgeColor = (tier?: string) => {
     switch (tier) {
+      case "Platinum":
+        return "bg-gradient-to-r from-purple-500 to-indigo-600";
       case "Gold":
         return "bg-yellow-500";
       case "Silver":
@@ -92,6 +94,8 @@ export function VendorDetailPage({ vendor }: VendorDetailPageProps) {
 
   const getTierText = (tier?: string) => {
     switch (tier) {
+      case "Platinum":
+        return "Platinum: Enterprise-grade platform with exceptional standards across all areas.";
       case "Gold":
         return "Gold: Vendor meets all critical standards for enterprise-readiness.";
       case "Silver":

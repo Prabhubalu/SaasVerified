@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { VendorDetailPage } from "@/components/marketplace/VendorDetailPage";
 import { notFound } from "next/navigation";
+import { getVendorDetailById } from "@/data/marketplace-products";
 
 // Extended vendor data with all detail page fields
 interface VendorDetail {
@@ -19,7 +20,7 @@ interface VendorDetail {
   securityScore?: number;
   performanceScore?: number;
   supportScore?: number;
-  verificationTier?: "Gold" | "Silver" | "Bronze";
+  verificationTier?: "Gold" | "Silver" | "Bronze" | "Platinum";
   verifiedAreas?: string[];
   lastAuditDate?: string;
   detailedFeatures?: Array<{
@@ -47,8 +48,8 @@ interface VendorDetail {
   website?: string;
 }
 
-// Sample vendor data - in production, this would come from an API or database
-const vendorDatabase: Record<string, VendorDetail> = {
+// Legacy vendor data - kept for fallback (can be removed once all categories have products)
+const legacyVendorDatabase: Record<string, VendorDetail> = {
   clickup: {
     id: "clickup",
     name: "ClickUp",
@@ -312,7 +313,13 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const vendor = vendorDatabase[params.id];
+  // Try to get vendor from products data first
+  let vendor = getVendorDetailById(params.id);
+  
+  // Fallback to legacy database if not found
+  if (!vendor) {
+    vendor = legacyVendorDatabase[params.id];
+  }
 
   if (!vendor) {
     return {
@@ -332,7 +339,13 @@ export async function generateMetadata({
 }
 
 export default function VendorDetail({ params }: { params: { id: string } }) {
-  const vendor = vendorDatabase[params.id];
+  // Try to get vendor from products data first
+  let vendor = getVendorDetailById(params.id);
+  
+  // Fallback to legacy database if not found
+  if (!vendor) {
+    vendor = legacyVendorDatabase[params.id];
+  }
 
   if (!vendor) {
     notFound();
