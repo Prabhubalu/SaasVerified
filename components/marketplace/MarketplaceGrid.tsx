@@ -54,20 +54,51 @@ export function MarketplaceGrid({
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("Discover");
 
+  const tabs = [
+    "Discover",
+    "HR Software",
+    "CRM Software",
+    "Billing & Accounting Software",
+    "POS Software",
+    "Email Marketing",
+    "Real Estate",
+    "Design Tools",
+    "Collaboration",
+    "Productivity",
+    "Cloud Storage",
+    "Payments",
+    "Transportation",
+    "Education",
+    "Cybersecurity",
+    "Development Tools",
+    "Hospitality",
+    "Consulting",
+    "Construction",
+    "LegalTech",
+    "Energy",
+    "IT Management",
+    "Banking",
+    "Automotive",
+    "Nonprofit",
+    "Operations",
+    "Manufacturing",
+    "Insurance",
+    "Media",
+    "Website Builders",
+    "CMS Platforms",
+    "Data Analytics",
+    "Conferencing",
+    "Marketing",
+    "Finance",
+  ];
+
   // Sync active tab with category filter
   useEffect(() => {
     if (filters?.categories && filters.categories.length > 0) {
       const category = filters.categories[0];
-      // Map categories to tab names
-      const categoryToTabMap: Record<string, string> = {
-        "CRM": "CRM",
-        "Marketing": "Marketing",
-        "Project Management": "Project management",
-        "Software Development": "Software development",
-      };
-      const tab = categoryToTabMap[category];
-      if (tab) {
-        setActiveTab(tab);
+      // If the category matches a tab name, set it as active
+      if (tabs.includes(category)) {
+        setActiveTab(category);
       }
     } else if (filters?.categories && filters.categories.length === 0) {
       setActiveTab("Discover");
@@ -98,21 +129,6 @@ export function MarketplaceGrid({
     { value: "rating", label: "Highest Rated" },
     { value: "name-asc", label: "Name (A-Z)" },
     { value: "name-desc", label: "Name (Z-A)" },
-  ];
-
-  const tabs = [
-    "Discover",
-    "Featured",
-    "Top 2025 apps",
-    "Trending",
-    "Editor's choice",
-    "New",
-    "Solutions",
-    "CRM",
-    "Integrations",
-    "Marketing",
-    "Project management",
-    "Software development",
   ];
 
   const updateScrollState = () => {
@@ -166,16 +182,6 @@ export function MarketplaceGrid({
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
     
-    // Map tab names to categories
-    const categoryMap: Record<string, string> = {
-      "CRM": "CRM",
-      "Marketing": "Marketing",
-      "Project management": "Project Management",
-      "Software development": "Software Development",
-    };
-    
-    const category = categoryMap[tab];
-    
     // Update parent filters if we have the handler
     if (onFiltersChange && filters) {
       if (tab === "Discover") {
@@ -184,15 +190,13 @@ export function MarketplaceGrid({
           ...filters,
           categories: [],
         });
-      } else if (category) {
-        // Set category filter for category tabs
+      } else {
+        // Set category filter for category tabs (tab name is the category name)
         onFiltersChange({
           ...filters,
-          categories: [category],
+          categories: [tab],
         });
       }
-      // For other tabs (Featured, Top 2025 apps, Trending, etc.), keep current filters
-      // In production, you'd have special filtering logic for these
     }
   };
 

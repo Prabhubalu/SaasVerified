@@ -5,8 +5,12 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { MarketplaceHero } from "@/components/marketplace/MarketplaceHero";
 import { MarketplaceFilters } from "@/components/marketplace/MarketplaceFilters";
 import { MarketplaceGrid } from "@/components/marketplace/MarketplaceGrid";
+import { getAllVendors } from "@/data/marketplace-products";
 
-// Sample vendor data - in production, this would come from an API or database
+// Get all vendors from products data
+const allVendors = getAllVendors();
+
+// Legacy sample vendor data - kept for fallback (can be removed once all categories have products)
 const sampleVendors = [
   {
     id: "clickup",
@@ -165,18 +169,40 @@ function MarketplaceContent() {
       const decodedCategory = decodeURIComponent(categoryParam);
       // Check if the category exists in the marketplace filter options
       const categoryOptions = [
-        "CRM",
-        "HRMS",
-        "Support",
-        "Automation",
-        "Finance",
-        "Billing",
-        "Project Management",
+        "HR Software",
+        "CRM Software",
+        "Billing & Accounting Software",
+        "POS Software",
+        "Email Marketing",
+        "Real Estate",
+        "Design Tools",
+        "Collaboration",
+        "Productivity",
+        "Cloud Storage",
+        "Payments",
+        "Transportation",
+        "Education",
+        "Cybersecurity",
+        "Development Tools",
+        "Hospitality",
+        "Consulting",
+        "Construction",
+        "LegalTech",
+        "Energy",
+        "IT Management",
+        "Banking",
+        "Automotive",
+        "Nonprofit",
+        "Operations",
+        "Manufacturing",
+        "Insurance",
+        "Media",
+        "Website Builders",
+        "CMS Platforms",
+        "Data Analytics",
+        "Conferencing",
         "Marketing",
-        "Sales",
-        "Analytics",
-        "Security",
-        "Communication",
+        "Finance",
       ];
       
       // If category matches a filter option, add it to filters
@@ -215,7 +241,8 @@ function MarketplaceContent() {
 
   // Filter and search vendors
   const filteredVendors = useMemo(() => {
-    let result = [...sampleVendors];
+    // Use products data first, fallback to sample vendors if needed
+    let result = allVendors.length > 0 ? [...allVendors] : [...sampleVendors];
 
     // Search filter
     if (searchQuery.trim()) {
@@ -296,4 +323,3 @@ export default function MarketplacePage() {
     </Suspense>
   );
 }
-

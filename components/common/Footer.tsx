@@ -129,7 +129,7 @@ export function Footer({ showCTA = false }: FooterProps) {
                   </Link>
                 </li> */}
                 <li>
-                  <Link href="/careers" className="hover:text-gray-900">
+                  <Link target="_blank" href="https://wellfound.com/company/saas-verify/jobs" className="hover:text-gray-900">
                     Careers
                   </Link>
                 </li>
@@ -198,7 +198,7 @@ export function Footer({ showCTA = false }: FooterProps) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-gray-900">
+                  <Link target="_blank" href="https://www.youtube.com/@saasverify" className="hover:text-gray-900">
                     YouTube
                   </Link>
                 </li>
