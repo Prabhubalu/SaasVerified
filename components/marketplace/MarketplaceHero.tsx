@@ -81,7 +81,7 @@ export function MarketplaceHero({}: MarketplaceHeroProps) {
 
   return (
     <section className="relative pt-40 md:pt-48 pb-4 md:pb-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         <div className="text-center mb-8" data-aos="fade-up">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
           Find Verified SaaS Tools <br/><span className="text-[#12b76a] leading-tight">You Can Trust</span>

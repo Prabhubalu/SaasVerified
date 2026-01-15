@@ -32,7 +32,7 @@ export default function PrivacyPage() {
   return (
     <>
       <div className="pt-40 pb-16 min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
           <div className="flex gap-8 lg:gap-12">
             {/* Main Content */}
             <div className="flex-1 max-w-4xl pb-32">

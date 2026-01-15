@@ -37,7 +37,7 @@ export function BuyerJourney() {
 
   return (
     <section className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-6 md:mb-8" data-aos="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
@@ -50,7 +50,7 @@ export function BuyerJourney() {
         </div>
 
         {/* Top numbered journey line */}
-        <div className="max-w-7xl mx-auto mb-10 md:mb-12" data-aos="fade-up" data-aos-delay={100}>
+        <div className="hidden md:block max-w-7xl mx-auto mb-10 md:mb-12" data-aos="fade-up" data-aos-delay={100}>
           <div className="relative">
             {/* Gradient line behind the steps */}
             <div className="absolute left-[12%] right-[12%] top-1/2 h-1 -translate-y-1/2 rounded-full bg-gradient-to-r from-emerald-300 via-sky-300 to-emerald-300" />

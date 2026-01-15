@@ -109,7 +109,7 @@ export function VendorDetailPage({ vendor }: VendorDetailPageProps) {
 
   return (
     <div className="min-h-screen pt-32 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         {/* Back Button */}
         <Link
           href="/marketplace"

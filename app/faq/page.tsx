@@ -177,7 +177,7 @@ function FAQContent() {
 
   return (
     <div className="pt-40 md:pt-48 pb-16 bg-gradient-to-b from-purple-50 via-white to-green-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="text-center mb-8" data-aos="fade-up">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -397,7 +397,7 @@ export default function FAQPage() {
   return (
     <Suspense fallback={
       <div className="pt-40 md:pt-48 pb-16 bg-gradient-to-b from-purple-50 via-white to-green-50 min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               We'll Help You Get Started

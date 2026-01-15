@@ -7,7 +7,7 @@ export function VerifyHero() {
   const { openModal: openVendorModal } = useVendorModal();
   return (
     <section className="relative flex-1 flex items-center justify-center overflow-hidden min-h-screen pt-40 md:pt-48 pb-20">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full w-full">
         <div className="text-center" data-aos="fade-up">
           <div className="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-4">
             VERIFICATION & TRUST
