@@ -40,7 +40,7 @@ export function calculateRating(scores: ProductScores): number {
 // Logo mapping for products - maps product names to their logo file paths
 const productLogoMap: Record<string, string> = {
   // HR Software
-  "Keka": "/assets/marketplace/Keka.svg",
+  "Keka": "/assets/marketplace/keka.svg",
   "Spine HR": "/assets/marketplace/spine.png",
   "WOCO": "/assets/marketplace/WocoLogo.png",
   "Saral HRMS": "/assets/marketplace/saral-hrms.svg",
