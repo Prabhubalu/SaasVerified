@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: "/assets/SaaS_ico.png",
+    shortcut: "/assets/SaaS_ico.png",
+    apple: "/assets/SaaS_ico.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -66,7 +71,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={plusJakartaSans.variable}>
       <head>
-        <link rel="icon" href="/favicon.ico" />
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"} />
         <script
           type="application/ld+json"
