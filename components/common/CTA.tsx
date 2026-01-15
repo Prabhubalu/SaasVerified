@@ -3,7 +3,7 @@ import Link from "next/link";
 export function CTA() {
   return (
     <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white" data-aos="fade-up">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="max-w-4xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-4" data-aos="fade-up">
           Ready to Grow Your Business?
         </h2>

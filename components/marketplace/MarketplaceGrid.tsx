@@ -219,15 +219,15 @@ export function MarketplaceGrid({
       <div 
         id="marketplace-search"
         ref={stickyRef}
-        className={`sticky top-28 z-40 transition-all duration-200 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 mb-6 ${
+        className={`sticky top-28 z-40 transition-all duration-200 mb-6 ${
           isSticky 
             ? "bg-white/90 backdrop-blur-xl border-b border-gray-200 shadow-sm pt-8 pb-4" 
             : "pt-6 pb-4"
         }`}
       >
-        <div className="max-w-7xl mx-auto space-y-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full space-y-4">
           {/* Search Bar */}
-          <div className="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="50">
+          <div className="max-w-3xl mx-auto w-full" data-aos="fade-up" data-aos-delay="50">
             <div
               className={`bg-white border-2 rounded-full shadow-lg flex items-center px-6 py-4 transition-all ${
                 isSearchFocused ? "border-[#12b76a]" : "border-gray-300"
@@ -320,7 +320,7 @@ export function MarketplaceGrid({
         </div>
 
         {/* Filters + Sort bar */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between relative" data-aos="fade-up" data-aos-delay="150">
+        <div className="flex flex-row items-center justify-center gap-4 md:justify-between relative" data-aos="fade-up" data-aos-delay="150">
           <div className="flex items-center">
             <span className="text-sm text-gray-600">
               Showing <span className="font-semibold text-gray-900">{sortedVendors.length}</span>{" "}
@@ -394,7 +394,7 @@ export function MarketplaceGrid({
       </div>
 
       {/* Grid Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         {/* Grid */}
         {sortedVendors.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200" style={{ position: 'relative', zIndex: 1, isolation: 'isolate' }}>

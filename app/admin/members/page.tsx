@@ -19,17 +19,38 @@ export default async function MembersAdminPage() {
   return (
     <main className="min-h-screen bg-gray-50 pt-32 lg:pt-40 pb-12 px-4 sm:px-8 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <Link
-            href="/admin/dashboard"
-            className="text-sm text-gray-600 hover:text-gray-900 mb-2 inline-block"
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <Link
+              href="/admin/dashboard"
+              className="text-sm text-gray-600 hover:text-gray-900 mb-2 inline-block"
+            >
+              ← Back to Dashboard
+            </Link>
+            <h1 className="text-3xl font-bold text-gray-900">Members</h1>
+            <p className="text-gray-600 mt-2">
+              Recently added members from the public signup flow.
+            </p>
+          </div>
+          <a
+            href="/api/admin/export/members"
+            className="px-4 py-2 bg-[#12b76a] text-white rounded-lg hover:bg-[#0ea05a] transition-colors text-sm font-medium flex items-center gap-2"
           >
-            ← Back to Dashboard
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-900">Members</h1>
-          <p className="text-gray-600 mt-2">
-            Recently added members from the public signup flow.
-          </p>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            Export Excel
+          </a>
         </div>
 
         <div className="bg-white shadow-sm border border-gray-200 rounded-2xl overflow-hidden">

@@ -69,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={plusJakartaSans.variable}>
+    <html lang="en" suppressHydrationWarning className={`${plusJakartaSans.variable} overflow-x-hidden max-w-full`}>
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"} />
         <script
@@ -91,10 +91,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={plusJakartaSans.className}>
+      <body className={`${plusJakartaSans.className} overflow-x-hidden max-w-full`}>
         <Providers>
           <ConditionalNavbar>
-            <main className="min-h-screen">{children}</main>
+            <main className="min-h-screen overflow-x-hidden max-w-full">{children}</main>
           </ConditionalNavbar>
         </Providers>
       </body>

@@ -5,7 +5,7 @@ import Link from "next/link";
 export function VendorPricingSummary() {
   return (
     <section className="py-20 bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         <div className="bg-white rounded-2xl p-12 text-center border border-gray-200" data-aos="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Vendor Pricing Summary

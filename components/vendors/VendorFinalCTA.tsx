@@ -7,7 +7,7 @@ export function VendorFinalCTA() {
 
   return (
     <section className="py-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         <div className="bg-gradient-to-r from-[#12b76a] to-green-600 rounded-2xl p-12 text-center text-white" data-aos="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to become a Verified SaaS Vendor?

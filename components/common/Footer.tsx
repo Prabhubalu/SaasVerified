@@ -40,7 +40,7 @@ export function Footer({ showCTA = false }: FooterProps) {
       {/* CTA Section - Conditionally Rendered */}
       {showCTA && (
         <div className="relative py-20 overflow-hidden rounded-tr-[120px]">
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
             <div className="max-w-4xl">
               <h2 className="text-5xl md:text-6xl font-normal text-gray-900 mb-8 leading-tight tracking-[-1px]" style={{ fontFamily: 'Literata, serif' }} data-aos="fade-up">
                 Ready to go? Join the SaaS Verify Inner Circle
@@ -64,7 +64,7 @@ export function Footer({ showCTA = false }: FooterProps) {
 
       {/* Footer Section */}
       <div className={`relative ${showCTA ? 'pt-16' : 'pt-16'} pb-0`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 pb-16">
             {/* Logo and Contact */}
             <div className="flex flex-col gap-4" data-aos="fade-up">
@@ -207,7 +207,7 @@ export function Footer({ showCTA = false }: FooterProps) {
           </div>
 
           {/* Copyright Bar - Dark Background */}
-          <div className="-mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4">
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-5 md:px-6 lg:px-8 w-full py-4">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between">
               <p className="text-base text-[#676d79] mb-4 sm:mb-0 text-center sm:text-left">
                 © 2025 SaaSVerify. All rights reserved.

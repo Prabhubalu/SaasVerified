@@ -4,7 +4,7 @@ import { ArrowLeftIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/rea
 export default function NotFound() {
   return (
     <div className="min-h-screen pt-32 pb-16 flex items-center justify-center bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         <div className="bg-white rounded-3xl p-8 md:p-12 lg:p-16 shadow-2xl border border-gray-100 relative overflow-hidden">
           {/* Decorative background elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#12b76a]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
