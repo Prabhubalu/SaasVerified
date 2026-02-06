@@ -7,6 +7,8 @@ declare module 'aos' {
     once?: boolean;
     mirror?: boolean;
     anchorPlacement?: string;
+    /** Disable AOS. Accepts 'phone' | 'tablet' | 'mobile' | boolean | function */
+    disable?: 'phone' | 'tablet' | 'mobile' | boolean | (() => boolean);
   }
 
   export function init(options?: AosOptions): void;
