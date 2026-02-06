@@ -315,16 +315,17 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   // Try to get vendor from products data first
-  let vendor = getVendorDetailById(params.id);
-  
+  let vendor: VendorDetail | { name: string; description: string; fullDescription?: string } | null =
+    getVendorDetailById(params.id);
+
   // Fallback to catalog data if not found
   if (!vendor) {
-    vendor = getCatalogVendorDetailById(params.id);
+    vendor = getCatalogVendorDetailById(params.id) ?? null;
   }
-  
+
   // Fallback to legacy database if not found
   if (!vendor) {
-    vendor = legacyVendorDatabase[params.id];
+    vendor = legacyVendorDatabase[params.id] ?? null;
   }
 
   if (!vendor) {
