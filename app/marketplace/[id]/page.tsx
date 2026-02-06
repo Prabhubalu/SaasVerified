@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { VendorDetailPage } from "@/components/marketplace/VendorDetailPage";
 import { notFound } from "next/navigation";
 import { getVendorDetailById } from "@/data/marketplace-products";
+import { getVendorDetailById as getCatalogVendorDetailById, catalogData } from "@/data/catalog";
 
 // Extended vendor data with all detail page fields
 interface VendorDetail {
@@ -316,6 +317,11 @@ export async function generateMetadata({
   // Try to get vendor from products data first
   let vendor = getVendorDetailById(params.id);
   
+  // Fallback to catalog data if not found
+  if (!vendor) {
+    vendor = getCatalogVendorDetailById(params.id);
+  }
+  
   // Fallback to legacy database if not found
   if (!vendor) {
     vendor = legacyVendorDatabase[params.id];
@@ -341,6 +347,41 @@ export async function generateMetadata({
 export default function VendorDetail({ params }: { params: { id: string } }) {
   // Try to get vendor from products data first
   let vendor = getVendorDetailById(params.id);
+  
+  // Fallback to catalog data if not found
+  if (!vendor) {
+    const catalogVendor = getCatalogVendorDetailById(params.id);
+    if (catalogVendor) {
+      // Transform catalog vendor to VendorDetail format
+      vendor = {
+        id: catalogVendor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+        name: catalogVendor.name,
+        description: catalogVendor.description,
+        category: Object.keys(catalogData).find(cat => 
+          catalogData[cat].some(v => v.name === catalogVendor.name)
+        ) || 'Other',
+        logo: `/assets/vendor_logos/${catalogVendor.name.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '').charAt(0).toUpperCase() + catalogVendor.name.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '').slice(1).toLowerCase()}.png`,
+        rating: 4.5,
+        verified: true,
+        pricing: "Contact for pricing",
+        features: ["Cloud-based", "API Access"],
+        website: catalogVendor.url,
+        fullDescription: catalogVendor.description,
+        securityScore: 85,
+        performanceScore: 90,
+        supportScore: 88,
+        verificationTier: "Gold" as const,
+        verifiedAreas: ["Security", "Performance", "Support"],
+        lastAuditDate: "2024-01-15",
+        detailedFeatures: [
+          {
+            title: "Core Functionality",
+            description: catalogVendor.description
+          }
+        ]
+      };
+    }
+  }
   
   // Fallback to legacy database if not found
   if (!vendor) {

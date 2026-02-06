@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { getCategories } from "@/data/catalog";
 
 interface MarketplaceFiltersProps {
   isOpen: boolean;
@@ -18,42 +19,7 @@ interface MarketplaceFiltersProps {
   }) => void;
 }
 
-const categoryOptions = [
-  "HR Software",
-  "CRM Software",
-  "Billing & Accounting Software",
-  "POS Software",
-  "Email Marketing",
-  "Real Estate",
-  "Design Tools",
-  "Collaboration",
-  "Productivity",
-  "Cloud Storage",
-  "Payments",
-  "Transportation",
-  "Education",
-  "Cybersecurity",
-  "Development Tools",
-  "Hospitality",
-  "Consulting",
-  "Construction",
-  "LegalTech",
-  "Energy",
-  "IT Management",
-  "Banking",
-  "Automotive",
-  "Nonprofit",
-  "Operations",
-  "Manufacturing",
-  "Insurance",
-  "Media",
-  "Website Builders",
-  "CMS Platforms",
-  "Data Analytics",
-  "Conferencing",
-  "Marketing",
-  "Finance",
-];
+const categoryOptions = getCategories();
 
 const pricingOptions = [
   "Free",

@@ -17,13 +17,13 @@ const testimonials = [
     name: "Sneha Kulkarni",
     role: "Co-founder, FinGrow Tech",
     content: "As a startup, every rupee counts. SaaS Verify gave us the confidence to invest in SaaS without worrying about broken promises. For the first time, buying software didn't feel risk-free.",
-    avatar: "/assets/testimonials/avatar3.svg",
+    avatar: "/assets/testimonials/avatar4.svg",
   },
   {
     name: "Alok Verma",
     role: "Founder, TalentBridge HR",
     content: "We wanted an HRMS, but every demo looked the same. SaaS Verify helped us cut through the noise. Their assurance made sure the product we chose had clear SLAs and implementation support. Today, our HR team of 50 users use it daily, and we didn't waste money on the wrong tool.",
-    avatar: "/assets/testimonials/avatar4.svg",
+    avatar: "/assets/testimonials/avatar3.svg",
   },
 ];
 

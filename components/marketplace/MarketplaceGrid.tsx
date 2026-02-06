@@ -1,7 +1,7 @@
 "use client";
 
 import { MarketplaceCard } from "./MarketplaceCard";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import {
   BarsArrowUpIcon,
   BarsArrowDownIcon,
@@ -11,6 +11,7 @@ import {
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { getCategories } from "@/data/catalog";
 
 interface Vendor {
   id: string;
@@ -23,6 +24,7 @@ interface Vendor {
   verified: boolean;
   pricing?: string;
   features?: string[];
+  website?: string;
 }
 
 interface MarketplaceGridProps {
@@ -41,7 +43,7 @@ interface MarketplaceGridProps {
   }) => void;
 }
 
-type SortOption = "relevance" | "rating" | "name-asc" | "name-desc";
+type SortOption = "relevance" | "name-asc" | "name-desc";
 
 export function MarketplaceGrid({ 
   vendors, 
@@ -54,43 +56,9 @@ export function MarketplaceGrid({
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("Discover");
 
-  const tabs = [
-    "Discover",
-    "HR Software",
-    "CRM Software",
-    "Billing & Accounting Software",
-    "POS Software",
-    "Email Marketing",
-    "Real Estate",
-    "Design Tools",
-    "Collaboration",
-    "Productivity",
-    "Cloud Storage",
-    "Payments",
-    "Transportation",
-    "Education",
-    "Cybersecurity",
-    "Development Tools",
-    "Hospitality",
-    "Consulting",
-    "Construction",
-    "LegalTech",
-    "Energy",
-    "IT Management",
-    "Banking",
-    "Automotive",
-    "Nonprofit",
-    "Operations",
-    "Manufacturing",
-    "Insurance",
-    "Media",
-    "Website Builders",
-    "CMS Platforms",
-    "Data Analytics",
-    "Conferencing",
-    "Marketing",
-    "Finance",
-  ];
+  // Get categories from catalog and add "Discover" as first tab
+  const catalogCategories = getCategories();
+  const tabs = ["Discover", ...catalogCategories];
 
   // Sync active tab with category filter
   useEffect(() => {
@@ -126,7 +94,6 @@ export function MarketplaceGrid({
 
   const sortOptions: { value: SortOption; label: string }[] = [
     { value: "relevance", label: "Most Relevant" },
-    { value: "rating", label: "Highest Rated" },
     { value: "name-asc", label: "Name (A-Z)" },
     { value: "name-desc", label: "Name (Z-A)" },
   ];
@@ -200,18 +167,19 @@ export function MarketplaceGrid({
     }
   };
 
-  const sortedVendors = [...vendors].sort((a, b) => {
-    switch (sortBy) {
-      case "rating":
-        return (b.rating || 0) - (a.rating || 0);
-      case "name-asc":
-        return a.name.localeCompare(b.name);
-      case "name-desc":
-        return b.name.localeCompare(a.name);
-      default:
-        return 0;
+  const sortedVendors = useMemo(() => {
+    if (sortBy === "name-asc") {
+      return [...vendors].sort((a, b) => 
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      );
+    } else if (sortBy === "name-desc") {
+      return [...vendors].sort((a, b) => 
+        b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+      );
     }
-  });
+    // "relevance" - keep original order
+    return [...vendors];
+  }, [vendors, sortBy]);
 
   return (
     <section className="pt-4 pb-8 relative">
@@ -397,9 +365,9 @@ export function MarketplaceGrid({
       <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         {/* Grid */}
         {sortedVendors.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200" style={{ position: 'relative', zIndex: 1, isolation: 'isolate' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200" style={{ position: 'relative', zIndex: 1, isolation: 'isolate' }}>
             {sortedVendors.map((vendor, index) => (
-              <MarketplaceCard key={vendor.id} vendor={vendor} index={index} />
+              <MarketplaceCard key={`${vendor.id}-${sortBy}-${index}`} vendor={vendor} index={index} />
             ))}
           </div>
         ) : (
@@ -417,4 +385,3 @@ export function MarketplaceGrid({
     </section>
   );
 }
-

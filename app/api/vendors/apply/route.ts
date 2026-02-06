@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendFormNotification } from "@/lib/email";
 
 export async function POST(req: Request) {
   try {
@@ -43,6 +44,22 @@ export async function POST(req: Request) {
       },
     });
 
+    await sendFormNotification({
+      title: "New Vendor Application",
+      subject: `Vendor Application: ${productName}`,
+      fields: [
+        { label: "Application ID", value: vendorApplication.id },
+        { label: "Product name", value: productName },
+        { label: "Website URL", value: websiteUrl },
+        { label: "Category", value: category },
+        { label: "Target audience", value: targetAudience },
+        { label: "Contact name", value: contactName },
+        { label: "Email address", value: emailAddress },
+        { label: "Phone number", value: phoneNumber },
+        { label: "Pricing model", value: pricingModel },
+      ],
+    });
+
     return NextResponse.json(
       { message: "Application submitted successfully", id: vendorApplication.id },
       { status: 200 }
@@ -55,4 +72,3 @@ export async function POST(req: Request) {
     );
   }
 }
-

@@ -2,14 +2,17 @@
 
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import { CheckIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useMembershipModal } from "@/contexts/MembershipModalContext";
+import { useSaaSRecommendationsModal } from "@/contexts/SaaSRecommendationsModalContext";
 import { useSearchParams } from "next/navigation";
 
 export function Hero() {
   const [email, setEmail] = useState("");
   const [heroEmailError, setHeroEmailError] = useState("");
   const { isOpen: showMembershipModal, openModal, closeModal } = useMembershipModal();
+  const { openModal: openSaaSModal } = useSaaSRecommendationsModal();
   const [formStep, setFormStep] = useState<"details" | "success">("details");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -126,13 +129,13 @@ export function Hero() {
       setHeroEmailError("Please enter your work email address.");
       return false;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailValue)) {
       setHeroEmailError("Please enter a valid email address.");
       return false;
     }
-    
+
     const personalDomains = [
       "gmail.com",
       "yahoo.com",
@@ -155,13 +158,13 @@ export function Hero() {
       "zoho.com",
       "rediffmail.com",
     ];
-    
+
     const domain = emailValue.split("@")[1]?.toLowerCase();
     if (personalDomains.includes(domain || "")) {
       setHeroEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
       return false;
     }
-    
+
     setHeroEmailError("");
     return true;
   };
@@ -173,6 +176,13 @@ export function Hero() {
     if (heroEmailError) {
       setHeroEmailError("");
     }
+
+    // Validate on-the-fly when the email looks complete
+    if (newEmail && newEmail.includes("@") && newEmail.includes(".")) {
+      if (!validateEmailDomain(newEmail)) {
+        setHeroEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
+      }
+    }
   };
 
   const handleHeroEmailKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -182,12 +192,12 @@ export function Hero() {
     }
   };
 
+  // Open the membership modal after validating the hero email input
   const handleOpenModal = () => {
-    // Validate email before opening modal
     if (!validateHeroEmail(email)) {
       return;
     }
-    
+
     setMemberDetails({
       fullName: "",
       company: "",
@@ -200,54 +210,12 @@ export function Hero() {
     openModal();
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setSubmitError("");
-    setEmailError("");
-    
-    // Validate email before submission
-    if (!validateEmailDomain(memberDetails.email)) {
-      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
-      return;
-    }
-    
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch("/api/members", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(memberDetails),
-      });
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || "Unable to save membership right now.");
-      }
-
-      setFormStep("success");
-      setEmail("");
-    } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Something went wrong.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleClose = () => {
-    closeModal();
-    setSubmitError("");
-    setEmailError("");
-    setIsSubmitting(false);
-    setFormStep("details");
-  };
-
-  // Validate email domain to avoid personal emails
+  // Validate email domain to avoid personal emails (used by multiple forms)
   const validateEmailDomain = (email: string): boolean => {
     if (!email) return true; // Empty is handled by required
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return true; // Invalid format is handled by type="email"
-    
+    if (!emailRegex.test(email)) return true; // Invalid format is handled elsewhere
+
     const personalDomains = [
       "gmail.com",
       "yahoo.com",
@@ -270,7 +238,7 @@ export function Hero() {
       "zoho.com",
       "rediffmail.com",
     ];
-    
+
     const domain = email.split("@")[1]?.toLowerCase();
     return !personalDomains.includes(domain || "");
   };
@@ -278,12 +246,12 @@ export function Hero() {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setMemberDetails((prev) => ({ ...prev, email: newEmail }));
-    
+
     // Clear error when user starts typing
     if (emailError) {
       setEmailError("");
     }
-    
+
     // Validate on blur or when email is complete
     if (newEmail && newEmail.includes("@") && newEmail.includes(".")) {
       if (!validateEmailDomain(newEmail)) {
@@ -335,24 +303,141 @@ export function Hero() {
     "Marketing",
   ];
 
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setSubmitError("");
+    setEmailError("");
+
+    if (!memberDetails.fullName || !memberDetails.company || !memberDetails.role || !memberDetails.email) {
+      setSubmitError("Please fill in all required fields.");
+      return;
+    }
+
+    if (!validateEmailDomain(memberDetails.email)) {
+      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/members", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: memberDetails.fullName,
+          company: memberDetails.company,
+          role: memberDetails.role,
+          email: memberDetails.email,
+          saasNeed: memberDetails.saasNeed,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "Unable to submit membership right now.");
+      }
+
+      setFormStep("success");
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Something went wrong.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  function handleClose(): void {
+    setFormStep("details");
+    setMemberDetails({
+      fullName: "",
+      company: "",
+      role: "",
+      saasNeed: "",
+      email: "",
+    });
+    setEmailError("");
+    setHeroEmailError("");
+    setRoleOpen(false);
+    setSaasNeedOpen(false);
+    closeModal();
+  }
   return (
     <section ref={heroRef} className="relative flex-1 flex items-center justify-center overflow-hidden pt-40 md:pt-48 pb-12 md:pb-16">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
-          <div className="max-w-2xl" data-aos="fade-up">
+          <div className="max-w-2xl" data-aos="fade-up" suppressHydrationWarning>
             {/* Main Heading */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Buy SaaS with High <span className="text-[#12b76a]">Confidence</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight md:max-w-lg lg:max-w-none">
+              {/* Choose the <span className="text-[#12b76a]">Right</span> software at the right price - and never make a costly SaaS mistake again. */}
+              The easiest way to find & buy the <span className="text-[#12b76a]">right software.</span>
             </h1>
-            
+
             {/* Subheading */}
-            <p className="text-lg md:text-xl text-gray-600 mb-8">
-              Join the SaaS Verify Inner Circle. Get access to verified software, vendor truth audits, and buyer protection for your future purchases.
-            </p>
+            <ul className="text-lg md:text-lg lg:text-base text-gray-600 mb-8 space-y-3 pl-1">
+              <li className="flex items-start gap-3">
+                <CheckIcon className="w-5 h-5 text-[#12b76a] mt-1" strokeWidth={3} aria-hidden="true" />
+                <span className="lg:text-xl md:text-lg text-sm">
+                  <span className="text-base md:text-lg lg:text-xl font-bold text-gray-900">Save money.</span>{" "}
+                  Stop overpaying for unused seats.
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckIcon className="w-5 h-5 text-[#12b76a] mt-1" strokeWidth={3} aria-hidden="true" />
+                <span className="lg:text-xl md:text-lg text-sm">
+                  <span className="text-base md:text-lg lg:text-xl font-bold text-gray-900">Save time.</span>{" "}
+                  Skip demos with pre-vetted shortlists.
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckIcon className="w-5 h-5 text-[#12b76a] mt-1" strokeWidth={3} aria-hidden="true" />
+                <span className="lg:text-xl md:text-lg text-sm">
+                  <span className="text-base md:text-lg lg:text-xl font-bold text-gray-900">Eliminate risk.</span>{" "}
+                  Verify security and ROI instantly.
+                </span>
+              </li>
+            </ul>
+
+
+
+            {/* Email Signup Form */}
+            <div className="space-y-4 max-w-sm">
+              {/* Email Input */}
+              {/* <div className="space-y-1">
+                <div className={`bg-white border rounded-lg px-4 py-3 ${heroEmailError ? "border-red-300" : "border-gray-300"
+                  }`}>
+                  <input
+                    type="email"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                    value={email}
+                    onChange={handleHeroEmailChange}
+                    onKeyPress={handleHeroEmailKeyPress}
+                    placeholder="Enter your work email"
+                    className="w-full outline-none text-gray-700 placeholder-gray-400 text-base"
+                  />
+                </div>
+                {heroEmailError && (
+                  <p className="text-sm text-red-600">{heroEmailError}</p>
+                )}
+              </div> */}
+
+              {/* Button and Text Row */}
+              <div className="flex flex-col md:flex-row items-start gap-4">
+                <button
+                  onClick={() => openSaaSModal()}
+                  className="bg-[#12b76a] text-white px-8 py-4 rounded-xl font-semibold text-lg md:text-xl hover:bg-green-700 transition-colors whitespace-nowrap w-full md:w-auto"
+                >
+                  Get FREE Consulting
+                </button>
+                <div className="text-sm text-gray-600 lg:pt-3 md:pt-3 pt-0">
+                  <div>Free Forever. No credit card.</div>
+                </div>
+              </div>
+            </div>
 
             {/* Category Pills - 2 rows of 3 */}
-            <div className="mb-8">
+            <div className="mb-8 mt-12 space-y-3">
+              <div className="text-sm font-medium text-gray-600 pb-2">GET A VERIFIED SHORTLIST &nbsp;• &nbsp;SELECT YOUR CATEGORY</div>
               <div className="flex flex-wrap gap-3 mb-3">
                 {categories.slice(0, 3).map((category) => (
                   <button
@@ -389,47 +474,16 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Email Signup Form */}
-            <div className="space-y-4 max-w-sm">
-              {/* Email Input */}
-              <div className="space-y-1">
-                <div className={`bg-white border rounded-lg px-4 py-3 ${
-                  heroEmailError ? "border-red-300" : "border-gray-300"
-                }`}>
-                  <input
-                    type="email"
-                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                    value={email}
-                    onChange={handleHeroEmailChange}
-                    onKeyPress={handleHeroEmailKeyPress}
-                    placeholder="Enter your work email"
-                    className="w-full outline-none text-gray-700 placeholder-gray-400 text-base"
-                  />
-                </div>
-                {heroEmailError && (
-                  <p className="text-sm text-red-600">{heroEmailError}</p>
-                )}
-              </div>
-              
-              {/* Button and Text Row */}
-              <div className="flex items-start gap-4">
-                <button
-                  onClick={handleOpenModal}
-                  className="bg-[#12b76a] text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors whitespace-nowrap"
-                >
-                  Get Membership. It's FREE!
-                </button>
-                <div className="text-sm text-gray-600 pt-1">
-                  <div>Free forever.</div>
-                  <div>No credit card.</div>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Right Content - Illustration */}
-          <div className="hidden lg:block relative" data-aos="fade-left" data-aos-delay="200">
-            <div className="relative w-full h-[500px]">
+          <div
+            className="hidden lg:block relative"
+            data-aos="fade-left"
+            data-aos-delay="200"
+            suppressHydrationWarning
+          >
+            <div className="relative w-full h-[640px]">
               <Image
                 src="/assets/hero.svg"
                 alt="Hero illustration"
@@ -444,16 +498,14 @@ export function Hero() {
       </div>
 
       {shouldRender && (
-        <div 
-          className={`fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 transition-opacity duration-300 ${
-            isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
+        <div
+          className={`fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
           onClick={handleClose}
         >
-          <div 
-            className={`bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-visible transition-all duration-300 relative ${
-              isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
-            }`}
+          <div
+            className={`bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-visible transition-all duration-300 relative ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Confetti Container */}
@@ -467,7 +519,7 @@ export function Hero() {
                   const duration = 2.5 + Math.random() * 1.5;
                   const size = 10 + Math.random() * 10;
                   const initialRotation = Math.random() * 360;
-                  
+
                   return (
                     <div
                       key={`confetti-${i}-${formStep}`}
@@ -540,7 +592,7 @@ export function Hero() {
                     <button
                       type="button"
                       onClick={() => setRoleOpen((prev) => !prev)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-left focus:border-[#12b76a] focus:ring-2 focus:ring-[#12b76a]/20 outline-none bg-white flex items-center justify-between"
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-left focus:border-[#12b76a] focus:ring-2 focus:ring-[#12b76a]/20 outline-none bg-white flex items-center justify-between"
                     >
                       <span className={memberDetails.role ? "text-gray-800" : "text-gray-400"}>
                         {memberDetails.role ? memberDetails.role : "Select a role"}
@@ -563,9 +615,8 @@ export function Hero() {
                                   setMemberDetails((prev) => ({ ...prev, role }));
                                   setRoleOpen(false);
                                 }}
-                                className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-50 ${
-                                  memberDetails.role === role ? "bg-gray-50 text-gray-900" : "text-gray-800"
-                                }`}
+                                className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-50 ${memberDetails.role === role ? "bg-gray-50 text-gray-900" : "text-gray-800"
+                                  }`}
                               >
                                 {role}
                               </button>
@@ -608,9 +659,8 @@ export function Hero() {
                                   setMemberDetails((prev) => ({ ...prev, saasNeed: need }));
                                   setSaasNeedOpen(false);
                                 }}
-                                className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-50 ${
-                                  memberDetails.saasNeed === need ? "bg-gray-50 text-gray-900" : "text-gray-800"
-                                }`}
+                                className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-50 ${memberDetails.saasNeed === need ? "bg-gray-50 text-gray-900" : "text-gray-800"
+                                  }`}
                               >
                                 {need}
                               </button>
@@ -632,11 +682,10 @@ export function Hero() {
                     onChange={handleEmailChange}
                     onBlur={handleEmailBlur}
                     placeholder="you@company.com"
-                    className={`w-full rounded-lg border px-3 py-2 text-gray-800 placeholder-gray-400 focus:ring-2 outline-none ${
-                      emailError
+                    className={`w-full rounded-lg border px-3 py-2 text-gray-800 placeholder-gray-400 focus:ring-2 outline-none ${emailError
                         ? "border-red-300 focus:border-red-500 focus:ring-red-500/20"
                         : "border-gray-300 focus:border-[#12b76a] focus:ring-[#12b76a]/20"
-                    }`}
+                      }`}
                   />
                   {emailError && (
                     <p className="text-sm text-red-600 mt-1">{emailError}</p>

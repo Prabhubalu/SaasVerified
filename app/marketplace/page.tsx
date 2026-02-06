@@ -5,151 +5,33 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { MarketplaceHero } from "@/components/marketplace/MarketplaceHero";
 import { MarketplaceFilters } from "@/components/marketplace/MarketplaceFilters";
 import { MarketplaceGrid } from "@/components/marketplace/MarketplaceGrid";
-import { getAllVendors } from "@/data/marketplace-products";
+import { getAllVendorsWithCategory, getCategories, catalogData } from "@/data/catalog";
 
-// Get all vendors from products data
-const allVendors = getAllVendors();
+// Helper function to get vendor logo filename (capitalize first letter, remove spaces)
+const getVendorLogoFilename = (name: string): string => {
+  const cleanName = name.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '');
+  return cleanName.charAt(0).toUpperCase() + cleanName.slice(1).toLowerCase();
+};
 
-// Legacy sample vendor data - kept for fallback (can be removed once all categories have products)
-const sampleVendors = [
-  {
-    id: "clickup",
-    name: "ClickUp",
-    description: "All-in-one productivity platform that combines project management, docs, goals, and time tracking in one unified workspace.",
-    category: "Project Management",
-    logo: "/assets/marketplace/clickup.png",
-    rating: 4.7,
-    verified: true,
-    pricing: "Free plan available, paid from $7/user/month",
-    features: ["Mobile App", "API Access", "Custom Integrations", "Multi-user"],
-  },
-  {
-    id: "monday",
-    name: "Monday.com",
-    description: "Work operating system that powers teams to run projects and workflows with confidence. Visual and intuitive project management.",
-    category: "Project Management",
-    logo: "/assets/marketplace/Monday.com.svg",
-    rating: 4.6,
-    verified: true,
-    pricing: "Starting at $8/user/month",
-    features: ["Cloud-based", "Mobile App", "24/7 Support", "White-label"],
-  },
-  {
-    id: "asana",
-    name: "Asana",
-    description: "Work management platform that helps teams orchestrate their work, from daily tasks to strategic initiatives.",
-    category: "Project Management",
-    logo: "/assets/marketplace/Asana.svg",
-    rating: 4.4,
-    verified: true,
-    pricing: "Free plan available, paid from $10.99/user/month",
-    features: ["Cloud-based", "Mobile App", "Custom Integrations", "Multi-user"],
-  },
-  {
-    id: "salesforce",
-    name: "Salesforce",
-    description: "World's #1 CRM platform. Transform your business with AI-powered sales, service, and marketing solutions.",
-    category: "CRM",
-    logo: "/assets/marketplace/Salesforce.svg",
-    rating: 4.5,
-    verified: true,
-    pricing: "Starting at $25/user/month",
-    features: ["Cloud-based", "Mobile App", "API Access", "24/7 Support"],
-  },
-  {
-    id: "jira",
-    name: "Jira",
-    description: "Plan, track, and release world-class software with the #1 software development tool used by agile teams.",
-    category: "Software Development",
-    logo: "/assets/marketplace/Jira.svg",
-    rating: 4.3,
-    verified: true,
-    pricing: "Starting at $7.75/user/month",
-    features: ["Cloud-based", "API Access", "Custom Integrations", "Multi-user"],
-  },
-  {
-    id: "trello",
-    name: "Trello",
-    description: "Organize anything with anyone, anywhere. Trello helps teams move work forward with boards, lists, and cards.",
-    category: "Project Management",
-    logo: "/assets/marketplace/Trello.svg",
-    rating: 4.5,
-    verified: true,
-    pricing: "Free plan available, paid from $5/user/month",
-    features: ["Cloud-based", "Mobile App", "Custom Integrations", "Multi-user"],
-  },
-  {
-    id: "slack",
-    name: "Slack",
-    description: "Where work happens. Connect the right people, find information, and automate your workflows.",
-    category: "Communication",
-    logo: "/assets/marketplace/Discord.svg",
-    rating: 4.5,
-    verified: true,
-    pricing: "Free plan available, paid from $7.25/user/month",
-    features: ["Cloud-based", "Mobile App", "API Access", "24/7 Support"],
-  },
-  {
-    id: "zendesk",
-    name: "Zendesk",
-    description: "Build better customer relationships with the Zendesk customer service platform. Support, sales, and customer engagement software.",
-    category: "Support",
-    logo: "/assets/marketplace/Zendesk.svg",
-    rating: 4.4,
-    verified: true,
-    pricing: "Starting at $55/agent/month",
-    features: ["Cloud-based", "Mobile App", "API Access", "24/7 Support"],
-  },
-  {
-    id: "airtable",
-    name: "Airtable",
-    description: "Part spreadsheet, part database, and entirely flexible. Organize anything with Airtable's powerful platform.",
-    category: "Productivity",
-    logo: "/assets/marketplace/AirTable.svg",
-    rating: 4.6,
-    verified: true,
-    pricing: "Free plan available, paid from $12/user/month",
-    features: ["Cloud-based", "Mobile App", "API Access", "Custom Integrations"],
-  },
-  {
-    id: "miro",
-    name: "Miro",
-    description: "The online collaborative whiteboard platform to bring teams together, anytime, anywhere.",
-    category: "Collaboration",
-    logo: "/assets/marketplace/Miro.svg",
-    rating: 4.7,
-    verified: true,
-    pricing: "Free plan available, paid from $8/user/month",
-    features: ["Cloud-based", "Real-time Collaboration", "Custom Integrations", "Multi-user"],
-  },
-  {
-    id: "calendly",
-    name: "Calendly",
-    description: "Schedule meetings without the back-and-forth emails. The automated scheduling platform that works for you.",
-    category: "Productivity",
-    logo: "/assets/marketplace/Calendly.svg",
-    rating: 4.6,
-    verified: true,
-    pricing: "Free plan available, paid from $8/user/month",
-    features: ["Cloud-based", "Calendar Integration", "Custom Integrations", "Multi-user"],
-  },
-  {
-    id: "intercom",
-    name: "Intercom",
-    description: "The complete customer engagement platform. Connect with customers through messaging, email, and more.",
-    category: "Support",
-    logo: "/assets/marketplace/Intercom.svg",
-    rating: 4.5,
-    verified: true,
-    pricing: "Starting at $74/month",
-    features: ["Cloud-based", "Mobile App", "API Access", "24/7 Support"],
-  },
-];
+// Transform catalog vendors to match MarketplaceCard format
+const allVendors = getAllVendorsWithCategory().map((vendor, index) => ({
+  id: vendor.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+  name: vendor.name,
+  description: vendor.description,
+  category: vendor.category,
+  logo: `/assets/vendor_logos/${getVendorLogoFilename(vendor.name)}.png`,
+  rating: 4.5 + Math.random() * 0.5, // Random rating between 4.5-5.0
+  verified: true,
+  pricing: "Contact for pricing",
+  features: ["Cloud-based", "API Access"],
+  website: vendor.url
+}));
 
 function MarketplaceContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState({
     categories: [] as string[],
@@ -157,6 +39,15 @@ function MarketplaceContent() {
     features: [] as string[],
   });
   const hasInitializedFromUrl = useRef(false);
+
+  // Debounce search query for better performance
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 150); // 150ms debounce
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Read category from URL query params and apply it (only once on initial load)
   useEffect(() => {
@@ -168,42 +59,7 @@ function MarketplaceContent() {
       hasInitializedFromUrl.current = true;
       const decodedCategory = decodeURIComponent(categoryParam);
       // Check if the category exists in the marketplace filter options
-      const categoryOptions = [
-        "HR Software",
-        "CRM Software",
-        "Billing & Accounting Software",
-        "POS Software",
-        "Email Marketing",
-        "Real Estate",
-        "Design Tools",
-        "Collaboration",
-        "Productivity",
-        "Cloud Storage",
-        "Payments",
-        "Transportation",
-        "Education",
-        "Cybersecurity",
-        "Development Tools",
-        "Hospitality",
-        "Consulting",
-        "Construction",
-        "LegalTech",
-        "Energy",
-        "IT Management",
-        "Banking",
-        "Automotive",
-        "Nonprofit",
-        "Operations",
-        "Manufacturing",
-        "Insurance",
-        "Media",
-        "Website Builders",
-        "CMS Platforms",
-        "Data Analytics",
-        "Conferencing",
-        "Marketing",
-        "Finance",
-      ];
+      const categoryOptions = getCategories();
       
       // If category matches a filter option, add it to filters
       if (categoryOptions.includes(decodedCategory)) {
@@ -241,12 +97,12 @@ function MarketplaceContent() {
 
   // Filter and search vendors
   const filteredVendors = useMemo(() => {
-    // Use products data first, fallback to sample vendors if needed
-    let result = allVendors.length > 0 ? [...allVendors] : [...sampleVendors];
+    // Use vendors from catalog
+    let result = [...allVendors];
 
     // Search filter
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
+    if (debouncedSearchQuery.trim()) {
+      const query = debouncedSearchQuery.toLowerCase();
       result = result.filter(
         (vendor) =>
           vendor.name.toLowerCase().includes(query) ||
@@ -286,7 +142,7 @@ function MarketplaceContent() {
     }
 
     return result;
-  }, [searchQuery, filters]);
+  }, [debouncedSearchQuery, filters]);
 
   return (
     <>
