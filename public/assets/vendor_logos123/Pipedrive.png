@@ -1,0 +1,1834 @@
+
+
+
+<!doctype html>
+<html lang="en-US">
+<head>
+        <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-language="en" type="0b798370963feb6d274de404-text/javascript" charset="UTF-8" data-domain-script="cd7e9c5d-1e9f-4aa8-8be3-5a31b1494624"></script>
+    <script type="0b798370963feb6d274de404-text/javascript" async two-no-delay>
+        !function(){"use strict";!function(e,t){var r=e.amplitude||{_q:[],_iq:[]};if(r.invoked)e.console&&console.error&&console.error("Amplitude snippet has been loaded.");else{var n=function(e,t){e.prototype[t]=function(){return this._q.push({name:t,args:Array.prototype.slice.call(arguments,0)}),this}},s=function(e,t,r){return function(n){e._q.push({name:t,args:Array.prototype.slice.call(r,0),resolve:n})}},o=function(e,t,r){e[t]=function(){if(r)return{promise:new Promise(s(e,t,Array.prototype.slice.call(arguments)))}}},i=function(e){for(var t=0;t<m.length;t++)o(e,m[t],!1);for(var r=0;r<y.length;r++)o(e,y[r],!0)};r.invoked=!0;var a=t.createElement("script");a.type="text/javascript",a.integrity="sha384-PPfHw98myKtJkA9OdPBMQ6n8yvUaYk0EyUQccFSIQGmB05K6aAMZwvv8z50a5hT2",a.crossOrigin="anonymous",a.async=!0,a.src="https://cdn.amplitude.com/libs/marketing-analytics-browser-0.3.2-min.js.gz",a.onload=function(){e.amplitude.runQueuedFunctions||console.log("[Amplitude] Error: could not load SDK")};var c=t.getElementsByTagName("script")[0];c.parentNode.insertBefore(a,c);for(var u=function(){return this._q=[],this},p=["add","append","clearAll","prepend","set","setOnce","unset","preInsert","postInsert","remove","getUserProperties"],l=0;l<p.length;l++)n(u,p[l]);r.Identify=u;for(var d=function(){return this._q=[],this},v=["getEventProperties","setProductId","setQuantity","setPrice","setRevenue","setRevenueType","setEventProperties"],f=0;f<v.length;f++)n(d,v[f]);r.Revenue=d;var m=["getDeviceId","setDeviceId","getSessionId","setSessionId","getUserId","setUserId","setOptOut","setTransport","reset"],y=["init","add","remove","track","logEvent","identify","groupIdentify","setGroup","revenue","flush"];i(r),r.createInstance=function(){var e=r._iq.push({_q:[]})-1;return i(r._iq[e]),r._iq[e]},e.amplitude=r}}(window,document)}();
+    </script>
+    <script two-no-delay type="0b798370963feb6d274de404-text/javascript">
+        const theme_url = 'https://krisp.ai/wp-content/themes/krisp-v4';
+        const baseUrl = 'https://krisp.ai';
+        function whenAvailable(name, callback) {
+            let interval = 10;
+            window.setTimeout(() => {
+                if (window[name]) {
+                    callback(window[name]);
+                } else {
+                    whenAvailable(name, callback);
+                }
+            }, interval); 
+        }
+        const serverUrl = 'https://api.krisp.ai/web-analytics-2';
+    </script>
+    <script type="text/plain" class="optanon-category-C0002">
+        const domain = window.location.hostname;
+        const API_KEY = 'krisp.ai' ===  domain ? "01b641bf88b394e1f502ca56d9f6d0a1" : "6d5fd31691509c665fc2c20a8b8c8612";
+        const options = {
+                minIdLength: 1,
+                serverUrl: serverUrl,
+        };
+        amplitude.init(API_KEY, undefined, options).promise.then(function() {
+            const ampDeviceId = amplitude.getDeviceId();
+        });
+    </script> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:title" content="Krisp x Pipedrive Integration">
+    <meta property="og:url" content="https://www.krisp.ai/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Krisp x Pipedrive Integration" />
+    <meta name="twitter:site" content="@krispHQ" />
+    <meta name="twitter:creator" content="@krispHQ" />
+    <meta name="google-site-verification" content="xn0TxVMludcOTlM3o5LcqVBQ5jVEvtLVHUndiG8NAlE" />
+            <meta name="apple-itunes-app" content="app-id=6740535865">
+        
+    <link rel="preload" as="font" href="https://krisp.ai/wp-content/themes/krisp-v4/fonts/Jakarta/PlusJakartaSans-ExtraBold.woff2" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" as="font" href="https://krisp.ai/wp-content/themes/krisp-v4/fonts/Jakarta/PlusJakartaSans-Bold.woff2" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" as="font" href="https://krisp.ai/wp-content/themes/krisp-v4/fonts/Jakarta/PlusJakartaSans-SemiBold.woff2" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" as="font" href="https://krisp.ai/wp-content/themes/krisp-v4/fonts/Jakarta/PlusJakartaSans-Regular.woff2" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" as="font" href="https://krisp.ai/wp-content/themes/krisp-v4/fonts/Jakarta/PlusJakartaSans-Medium.woff2" type="font/woff2" crossorigin="anonymous">
+    <script type="0b798370963feb6d274de404-text/javascript">
+    const gtmId = 'GTM-K8NQ2MS';
+    (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', gtmId);
+    </script>
+    <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+	<!-- This site is optimized with the Yoast SEO Premium plugin v26.8 (Yoast SEO v26.8) - https://yoast.com/product/yoast-seo-premium-wordpress/ -->
+	<title>Krisp x Pipedrive Integration</title>
+	<link rel="canonical" href="https://krisp.ai/integrations/ai-meeting-assistant/pipedrive/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Pipedrive" />
+	<meta property="og:url" content="https://krisp.ai/integrations/ai-meeting-assistant/pipedrive/" />
+	<meta property="og:site_name" content="Krisp" />
+	<meta property="article:publisher" content="https://www.facebook.com/krispHQ/" />
+	<meta property="article:modified_time" content="2025-09-02T07:32:46+00:00" />
+	<meta property="og:image" content="https://krisp.ai/wp-content/uploads/2025/09/Pipedrive-Logo.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="675" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@krispHQ" />
+	<!-- / Yoast SEO Premium plugin. -->
+
+
+<!-- CRITICAL CSS -->
+<style id='obs-critical-components'>
+/* base */
+@import '../../fonts/Jakarta/stylesheet.css'; .wpml-ls-statics-footer { display: none; } html.freeze, body.freeze { overflow: hidden; } .tablet, .mobile { display: none !important; } body { overflow-x: hidden; padding-top: 73px; margin: 0; } body .overlay_blur { display: block; width: 100vw; height: calc(100vh - 73px); position: fixed; top: 73px; background-color: rgba(255, 255, 255, 0.1); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); opacity: 0; z-index: -1; visibility: hidden; transition: opacity 0.3s ease; } body .overlay_blur.show { opacity: 1; z-index: 90; visibility: visible; } body.has-bf-banner #mob_menu { top: 120px; } body.has-bf-banner #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper { top: 114px; } body.has-bf-banner #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_inner { padding-bottom: 64px; } body.mobile-banner { overflow-x: hidden; } body.mobile-banner #mob_menu { top: 120px; } body.mobile-banner #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper { top: 114px; } body.mobile-banner header.new { top: 61px; } body .modal { width: 100%; min-height: 100vh; max-height: 100vh; overflow-y: scroll; position: fixed; left: 0; top: -1080px; z-index: 9999; background-color: rgba(59, 61, 80, 0.5); opacity: 0; visibility: hidden; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; } body .modal.show { opacity: 1; visibility: visible; top: 0; } body .grecaptcha-badge { display: none; opacity: 0; visibility: hidden; } body .overlay { width: 100%; height: 100vh; background: rgba(19, 16, 50, 0.4); position: absolute; left: 0; top: 73px; z-index: 30; display: none; } body .overlay.show { display: block; } body.freeze { overflow: hidden; } body * { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; font-family: "Plus Jakarta Sans" !important; font-optical-sizing: auto; font-weight: 400; color: #131032; box-sizing: border-box; } body strong { font-weight: 600; } body a { text-decoration: none; } body header.new { position: fixed; top: 0; width: 100%; left: 0; background-color: rgba(255, 255, 255, 0.8); padding: 14px 0; z-index: 9998; -webkit-backdrop-filter: blur(45px); backdrop-filter: blur(45px); border-bottom: 1px solid #f4f4f5; height: 73px; display: flex; align-items: center; } body header.new.has_banner { top: 48px !important; } body header.new .navigation_wrapper { width: calc(100% - 48px); margin: 0 auto; } body header.new .header_inner { display: flex; align-items: center; justify-content: flex-start; gap: 40px; } body header.new .header_inner .burger { flex-direction: column; gap: 6px; } body header.new .header_inner .burger span { width: 28px; height: 2px; background-color: #131032; display: block; transition: all 0.3s ease; border-radius: 9999px; } body header.new .header_inner .burger.open span:nth-child(1) { transform: rotateZ(-45deg) translateX(-7px) translateY(8px); } body header.new .header_inner .burger.open span:nth-child(2) { opacity: 0; transform: rotateZ(-90deg); } body header.new .header_inner .burger.open span:nth-child(3) { transform: rotateZ(45deg) translateX(-3px) translateY(-5px); } body header.new .header_inner .logo_holder a { display: flex; align-items: center; } body header.new .header_inner .nav_holder > ul { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; } body header.new .header_inner .nav_holder > ul li { padding: 0 8px; border-radius: 8px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu > a span { width: 12px; height: 12px; display: flex; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper { pointer-events: none; opacity: 0; visibility: hidden; width: 100%; height: calc(100vh - 73px); position: fixed; top: 73px; left: 0; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner { pointer-events: auto; margin-top: 8px; padding: 24px; background-color: #fff; border-radius: 20px; position: relative; max-height: 0; width: auto; max-width: -moz-fit-content; max-width: fit-content; opacity: 0; display: flex; align-items: stretch; gap: 16px; margin-left: 120px; box-shadow: 0 16px 32px 2px rgba(27, 30, 33, 0.15); z-index: 99; transform-origin: left bottom; transform: scaleX(0.99); transition: max-height 0.6s cubic-bezier(0.15, 0.85, 0.25, 1), opacity 0.2s ease, transform 0.3s ease-in; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_title_holder { background-size: cover; background-position: center; display: flex; justify-content: space-between; padding: 20px; flex-direction: column; width: 320px; flex: 0 0 320px; border-radius: 12px; background-color: #f7f7f8; opacity: 0; transition: opacity 0.2s ease; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_title_holder .button { width: -moz-max-content; width: max-content; margin-top: 24px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_title_holder .button a { font-size: 14px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_title { display: flex; gap: 8px; align-items: center; font-size: 24px; line-height: 36px; color: #1a1a22; font-weight: 700; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_desc { color: #757585; font-size: 14px; line-height: 20px; font-weight: 500; margin-top: 6px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 16px; opacity: 0; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .submenu_group { flex: 1 1 0; min-width: 248px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .submenu_group .sub_item_wrapper + .group_title { margin-top: 16px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .submenu_group .group_title { padding-left: 16px; color: #757585; font-size: 12px; line-height: 16px; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .submenu_group .group_title:last-of-type { margin-top: 16px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a { border-radius: 12px; display: block; padding: 16px 16px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a:hover { background-color: #f4f4f5; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a img { filter: brightness(0) saturate(100%) invert(9%) sepia(7%) saturate(1653%) hue-rotate(201deg) brightness(94%) contrast(95%); } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a.without_desc { max-width: 100%; width: auto; white-space: nowrap; padding: 24px 16px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a .sub_item { display: flex; align-items: center; gap: 16px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a .sub_item .sub_item_title strong { font-size: 16px; font-weight: 700; line-height: 22px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a .sub_item strong { font-weight: 700; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner .sub_menu_items .sub_item_wrapper a .sub_item .sub_item_desc { color: #1a1a22; margin-top: 2px; font-size: 12px; font-weight: 400; line-height: 16px; } body header.new .header_inner .nav_holder > ul li.has_sub_menu .sub_menu_wrapper .sub_menu_inner::before { position: absolute; content: ""; width: 100%; height: 30px; top: -30px; z-index: 999; } body header.new .header_inner .nav_holder > ul li:hover > a { background-color: #f4f4f5; } body header.new .header_inner .nav_holder > ul li:hover > a .sub_menu_opener { transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(180deg) skew(0deg, 0deg); transform-style: preserve-3d; } body header.new .header_inner .nav_holder > ul li:hover .sub_menu_wrapper { opacity: 1 !important; visibility: visible !important; max-height: unset !important; } body header.new .header_inner .nav_holder > ul li:hover .sub_menu_wrapper .sub_menu_inner { max-height: 1000px !important; opacity: 1 !important; width: 100%; transform: scaleX(1); transition: max-height 1s ease-out, opacity 0.6s ease, transform 0.5s ease-out; } body header.new .header_inner .nav_holder > ul li:hover .sub_menu_wrapper .sub_menu_inner .sub_menu_title_holder { opacity: 1; transition: opacity 0.8s ease-out; } body header.new .header_inner .nav_holder > ul li:hover .sub_menu_wrapper .sub_menu_inner .sub_menu_items { opacity: 1 !important; transition: opacity 0.8s ease-out; } body header.new .header_inner .nav_holder > ul li.active > a { font-weight: 700; } body header.new .header_inner .nav_holder > ul li > a .sub_menu_opener { transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0) skew(0deg, 0deg); transition: transform 0.3s ease; } body header.new .header_inner .nav_holder > ul li > a { border-radius: 8px; display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 14px; line-height: 20px; font-weight: 500; color: #1a1a22; } body header.new .actions { margin-left: auto; display: flex; align-items: center; gap: 16px; } body header.new .actions .button a { font-size: 14px; font-weight: 600; line-height: 20px; } body header.new .actions .separator { width: 1px; height: 26px; background-color: #e7e7ea; } body header.new .actions a.nav_action_link { font-size: 14px; font-weight: 600; line-height: 20px; color: #1a1a22; text-decoration: none; cursor: pointer; } body header.new .actions a.nav_action_link:hover { text-decoration: underline; } body footer.new { padding: 100px 0; background-color: #f4f4f5; } body footer.new .footer_info { display: flex; justify-content: space-between; margin-top: 32px; padding-top: 32px; border-top: 1px solid #e7e7ea; } body footer.new .footer_info .footer_actions { display: flex; align-items: center; gap: 16px; } body footer.new .footer_info p { font-size: 14px; line-height: 26px; font-weight: 400; } body footer.new .footer_flex_container { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 30px; } body footer.new .footer_flex_container .footer_col { min-width: 186px; } body footer.new .footer_flex_container .footer_col .nav_title { font-size: 16px; font-weight: 700; line-height: 28px; margin-bottom: 20px; } body footer.new .footer_flex_container .footer_col .nav_title a { font-size: 16px; font-weight: 700; display: inline-block; margin-bottom: 0; } body footer.new .footer_flex_container .footer_col a { font-size: 14px; font-weight: 400; line-height: 26px; margin-bottom: 6px; display: inline-block; } body footer.new .footer_flex_container .footer_col a:hover { text-decoration: underline; } body footer.new .social { margin-top: 32px; display: flex; align-items: center; gap: 14px; } body footer.new .social.social_mobile { display: none; } #mob_menu { width: 100%; height: calc(100vh - 63px); overflow-y: auto; background-color: #fff; position: fixed; right: -600px; top: 63px; z-index: -1; opacity: 0; visibility: hidden; transition: all 0.3s ease; padding-top: 32px; } #mob_menu.open { right: 0; z-index: 999; opacity: 1; visibility: visible; } #mob_menu .mob_menu_inner .mob_menu_actions { position: fixed; bottom: 32px; padding: 32px 0; background-color: #fff; width: 100%; left: 50%; transform: translateX(-50%); z-index: 998; display: flex; flex-direction: column; align-items: center; justify-content: center; } #mob_menu .mob_menu_inner .mob_menu_actions .links { display: flex; gap: 16px; justify-content: center; margin-top: 10px; } #mob_menu .mob_menu_inner .mob_menu_actions .links a { color: #614efa; text-decoration: underline; font-size: 16px; line-height: 26px; font-weight: 500; } #mob_menu .mob_menu_inner .mob_menu_actions .btn_holder { margin: 24px auto 0 auto; width: 100%; max-width: 425px; } #mob_menu .mob_menu_inner .mob_menu_actions .btn_holder .button { width: 100%; } #mob_menu .mob_menu_inner .nav_holder ul { list-style: none; padding: 0; width: 100%; } #mob_menu .mob_menu_inner .nav_holder ul li { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper.open { right: 0; opacity: 1; visibility: visible; } #mob_menu .mob_menu_inner .nav_holder ul li.has_sub_menu .sub_menu_opener { transform: rotate(-90deg); padding: 5px; width: 30px; height: 30px; display: flex !important; align-items: center; justify-content: center; } #mob_menu .mob_menu_inner .nav_holder ul li.has_sub_menu .sub_menu_opener img { width: 16px; height: 16px; } #mob_menu .mob_menu_inner .nav_holder ul li.has_sub_menu a::before, #mob_menu .mob_menu_inner .nav_holder ul li.has_sub_menu a::after { content: unset !important; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper { padding: 32px 24px; opacity: 0; visibility: hidden; position: fixed; right: -700px; transition: all 0.3s ease; z-index: -1; top: 62px; height: calc(100vh - 63px); overflow-y: auto; width: 100%; background-color: #fff; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_title_holder { padding: 20px; background-color: #f7f7f8; border-radius: 12px; margin-bottom: 16px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_title_holder .button { margin-top: 24px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_title_holder .button a { font-weight: 700; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_title_holder .icon_wrapper { margin-bottom: 16px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_title_holder .sub_menu_title { font-size: 24px; line-height: 36px; margin-bottom: 2px; font-weight: 700; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_title_holder .sub_menu_desc { font-size: 14px; line-height: 20px; font-weight: 500; color: #757585; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .group_title { padding-left: 16px; color: #757585; font-size: 12px; line-height: 16px; margin-bottom: 8px; margin-top: 16px; font-weight: 600; text-transform: uppercase; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_item_wrapper a { border-radius: 12px; display: block; padding: 16px 16px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_item_wrapper a img { filter: brightness(0) saturate(100%) invert(9%) sepia(7%) saturate(1653%) hue-rotate(201deg) brightness(94%) contrast(95%); } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_item_wrapper a .sub_item { display: flex; align-items: center; gap: 16px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_item_wrapper a .sub_item .sub_item_title strong { font-size: 16px; font-weight: 700; line-height: 22px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_item_wrapper a .sub_item strong { font-weight: 700; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_item_wrapper a .sub_item .sub_item_desc { color: #1a1a22; margin-top: 2px; font-size: 12px; font-weight: 400; line-height: 16px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .back { margin-bottom: 24px; display: flex; align-items: center; gap: 4px; font-size: 14px; align-items: center; font-weight: 500; color: #525069; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .back img { transform: rotate(90deg) translateX(1px); } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_item_desc { display: none; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .title { background: linear-gradient(90deg, #614efa 0%, #59c1ff 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 14px; line-height: 26px; font-weight: 500; margin-bottom: 20px; font-weight: 700; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_item { padding-left: 20px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_item a { font-size: 16px; font-weight: 700; line-height: 28px; margin-bottom: 20px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_item a .label { font-weight: 700; font-size: 16px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_col { border-bottom: 1px solid #e7e7ea; margin-bottom: 20px; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper .sub_menu_col:last-child { border-bottom: unset; margin-bottom: 0; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper a::after { content: unset !important; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper.open { right: 0; visibility: visible; opacity: 1; z-index: 999; } #mob_menu .mob_menu_inner .nav_holder ul li .sub_menu_wrapper.open .desc { display: none; } #mob_menu .mob_menu_inner .nav_holder ul li.has_sub_menu a { display: flex; align-items: center; justify-content: space-between; } #mob_menu .mob_menu_inner .nav_holder ul li.has_sub_menu a span.arrow { width: 16px; height: 16px; transform: rotate(-90deg); } #mob_menu .mob_menu_inner .nav_holder ul li a { font-weight: 500; color: #525069; font-size: 18px; line-height: 32px; } .container { width: 100%; max-width: 1280px; margin: 0 auto; } .container.full { max-width: unset !important; } h1, h2, h3, h4, h5, h6, p { margin: 0; } h1, h2, h3, h4, h5, h6 { font-weight: 600; } h1 strong, h2 strong, h3 strong, h4 strong, h5 strong, h6 strong { font-weight: 600; } .text_center { text-align: center; } .section_title { font-size: 48px; line-height: 60px; font-weight: 700; } .section_desc { font-size: 20px; line-height: 36px; font-weight: 400; } .visible_md, .visible_sm { display: none; } .cta_link { display: inline-block; } .cta_link a { display: flex; gap: 8px; align-items: center; justify-content: center; font-size: 16px; line-height: 20px; font-weight: 700; color: #23232e; } .button { display: inline-block; border-radius: 8px; overflow: hidden; position: relative; z-index: 10; } .button.block { display: block; } .button.btn--dropdown { position: relative; } .button.btn--dropdown a { border-radius: 8px; } .button.btn--dropdown .dropdown { position: absolute; top: 100%; padding-top: 8px; right: 0; width: 288px; opacity: 0; visibility: hidden; z-index: -1; } .button.btn--dropdown .dropdown .dropdown_inner { border-radius: 12px; border: 1px solid #e7e7ea; background: #fff; box-shadow: 0 16px 32px 2px rgba(27, 30, 33, 0.16); padding: 8px; width: 100%; } .button.btn--dropdown .dropdown .dropdown_inner .item { padding: 8px 16px; display: flex; align-items: center; justify-content: flex-start; gap: 16px; background-color: #fff; text-align: left; } .button.btn--dropdown .dropdown .dropdown_inner .item:hover { background-color: #f4f4f5; } .button.btn--dropdown .dropdown .dropdown_inner .item img { filter: unset; } .button.btn--dropdown .dropdown .dropdown_inner .item h6 { color: #1a1a22; font-size: 16px; line-height: 24px; font-weight: 700; margin-bottom: 2px; } .button.btn--dropdown .dropdown .dropdown_inner .item .desc { font-size: 12px; line-height: 16px; font-weight: 400; } .button.btn--dropdown:hover { overflow: visible; } .button.btn--dropdown:hover .dropdown { opacity: 1; visibility: visible; z-index: 999; } .button.centered { margin-left: auto; margin-right: auto; display: table; } .button.btn--sm a { padding: 8px 16px; font-size: 14px; line-height: 24px; } .button.btn--primary a { color: #fff !important; background-color: #614efa; } .button.btn--primary a img { filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(22%) hue-rotate(6deg) brightness(104%) contrast(107%); } .button.btn--primary a:hover { background-color: #4a3bbe; } .button.btn--secondary a { color: #fff; background-color: #fe6257; } .button.btn--secondary a:hover { background-color: #f75246; } .button.btn--white { background-color: #fff; } .button.btn--white a { color: #1a1a22; } .button.btn--outline { border: 2px solid #614efa; } .button.btn--outline a { padding: 6px 20px; } .button.btn--outline.outline--white { border-color: #fff; } .button.btn--outline.outline--white a { color: #fff; } .button.btn--outline.outline--white a img { filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(22%) hue-rotate(6deg) brightness(104%) contrast(107%); } .button.btn--outline.outline--white:hover a { background-color: #fff; color: #131032; } .button.btn--outline.outline--white:hover a img { filter: unset; } .button.btn--outline.outline--dark { border-color: #131032; } .button.btn--outline.outline--dark:hover a { background-color: #131032; color: #fff; } .button.btn--outline.outline--dark a { color: #131032; } .button.btn--outline a { color: #614efa; } .button.btn--outline a:hover { background-color: #614efa; color: #fff; } .button.btn--outline a:hover img { filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7488%) hue-rotate(28deg) brightness(99%) contrast(104%); } .button.btn--icon a { display: flex; gap: 8px; align-items: center; justify-content: center; } .button.btn--icon.space--between a { justify-content: space-between; } .button.btn--icon.block { width: 100% !important; max-width: unset; } .button.btn--dark a { background-color: #131032; color: #fff !important; } .button.btn--dark a:hover { background-color: #232040; } .button.btn--disabled a { color: #c8c7d0; background-color: #f2f3f4; pointer-events: none; } .button a { display: block; padding: 8px 20px; color: #fff; font-size: 16px; font-weight: 600; line-height: 28px; text-decoration: none !important; text-align: center; } .text_gradient { -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent; } .text_gradient.gradient_orange { background: linear-gradient(90deg, #fe6257 0%, #614efa 87.17%); } .text_gradient.gradient_purple { background: linear-gradient(90deg, #9487fb 0, #16a9ff 58.73%); } .text_gradient.gradient_blue { background: linear-gradient(270deg, #be73fa 77.36%, #16a9ff 100%); } br.desktop { display: inline-block; } br.tablet { display: none; } br.mobile { display: none; } @media screen and (max-width: 1281px) { .overlay_blur { display: none !important; } br.desktop { display: none; } br.tablet { display: inline-block; } #b2bNav { margin-top: 0 !important; } .section_title { font-size: 48px; line-height: 60px; font-weight: 700; } .section_title.text_center { text-align: left; } .section_desc br { display: none; } .container { width: 100%; max-width: 728px; padding-left: 16px; padding-right: 16px; } .desktop { display: none !important; } .tablet { display: block !important; } body .overlay.show { display: none !important; } body footer { padding: 60px 0; } body footer .logo_col { display: none; } body footer .footer_info { flex-direction: column-reverse; } body footer .footer_info p { font-size: 12px; line-height: 22px; } body footer .footer_info .footer_actions { margin-bottom: 32px; } body footer .footer_flex_container { gap: 20px; } body footer .footer_flex_container .footer_col { min-width: unset; flex: 0 0 calc(33.3% - 16px); max-width: 33.3%; } body footer .footer_flex_container .footer_col a { font-size: 12px; line-height: 22px; } body footer .footer_flex_container .footer_col .nav_title { font-size: 14px; line-height: 24px; margin-bottom: 16px; } body footer .footer_flex_container .footer_col .nav_title a { font-size: 14px; line-height: 24px; margin-bottom: 16px; } body footer .social { display: none; } body footer .social.social_mobile { display: flex; flex: 0 0 100%; } body #b2b_banner { display: none; } body header { padding: 16px 0; } body header.new.has_banner { top: 0 !important; } body header.new.has_banner.show_tablet { top: 43px !important; } body header .header_inner { gap: 32px; } body header .header_inner .logo_holder a img { width: 68px; } body header .header_inner .burger { display: flex !important; } .contact_sales_modal .modal_inner { max-width: 541px; } #salesForm .step { padding: 24px; } #salesForm .radio_buttons_flex { flex-wrap: wrap; max-width: 490px; } } @media screen and (max-width: 767px) { br.desktop { display: none; } br.tablet { display: none; } br.mobile { display: inline-block; } .desktop, .tablet { display: none !important; } .mobile { display: block !important; } .container { width: 100%; max-width: 375px; } .container.full { width: 100%; } .button { width: 100%; display: block; text-align: center; max-width: 375px; margin: 0 auto; } .button a { width: 100%; text-align: center; } body { padding-top: 63px; } body.has-bf-banner { padding-top: 120px; } body header.new { height: 63px; } body header.new.has_banner { top: 0 !important; } body header.new.has_banner.show_tablet { top: 62px !important; } body header.new .navigation_wrapper { width: calc(100% - 24px); } body footer.new .footer_flex_container .footer_col { flex: 0 0 calc(50% - 16px); max-width: 50%; } body footer.new .footer_info { flex-direction: column-reverse; } body footer.new .footer_info p { font-size: 12px; line-height: 22px; } body footer.new .footer_info .footer_actions { flex-direction: column; margin-bottom: 32px; } body #b2bNav.has_banner { margin-top: 0 !important; } body header.new.has_banner { top: 0 !important; } body header.new .header_inner { justify-content: space-between; } body header.new .header_inner .actions { display: none; } .section_title { font-size: 28px; line-height: 36px; font-weight: 700; } .section_desc { font-size: 16px; line-height: 24px; } }
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='base-css' href='https://krisp.ai/wp-content/themes/krisp-v4/css/base.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<link rel='stylesheet' id='shared-css' href='https://krisp.ai/wp-content/themes/krisp-v4/css/shared.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<link rel='stylesheet' id='base-new-css' href='https://krisp.ai/wp-content/themes/krisp-v4/css/scss/base_new.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<link rel='stylesheet' id='demo-css' href='https://krisp.ai/wp-content/themes/krisp-v4/css/demo.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<link rel='stylesheet' id='owl-css' href='https://krisp.ai/wp-content/themes/krisp-v4/css/owl.carousel.min.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<link rel='stylesheet' id='shared-landing-css' href='https://krisp.ai/wp-content/themes/krisp-v4/css/shared-landing.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<script type="0b798370963feb6d274de404-text/javascript" id="wpml-cookie-js-extra">
+/* <![CDATA[ */
+var wpml_cookies = {"wp-wpml_current_language":{"value":"en","expires":1,"path":"\/"}};
+var wpml_cookies = {"wp-wpml_current_language":{"value":"en","expires":1,"path":"\/"}};
+/* ]]> */
+</script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/plugins/sitepress-multilingual-cms/res/js/cookies/language-cookie.js?ver=486900" id="wpml-cookie-js" defer="defer" data-wp-strategy="defer"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/amp-experiment.js?ver=673ca1e1924f9b1bf2bf300ee923e4ec" id="amp-experiment-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/jquery.js?ver=673ca1e1924f9b1bf2bf300ee923e4ec" id="jquery-3.5.1-js"></script>
+<link rel="https://api.w.org/" href="https://krisp.ai/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://krisp.ai/wp-json/wp/v2/integrations/13359" /><link rel='shortlink' href='https://krisp.ai/?p=13359' />
+<meta name="generator" content="WPML ver:4.8.6 stt:1,4,3,27,28,41,2;" />
+<script type="0b798370963feb6d274de404-text/javascript">
+(function(url){
+	if(/(?:Chrome\/26\.0\.1410\.63 Safari\/537\.31|WordfenceTestMonBot)/.test(navigator.userAgent)){ return; }
+	var addEvent = function(evt, handler) {
+		if (window.addEventListener) {
+			document.addEventListener(evt, handler, false);
+		} else if (window.attachEvent) {
+			document.attachEvent('on' + evt, handler);
+		}
+	};
+	var removeEvent = function(evt, handler) {
+		if (window.removeEventListener) {
+			document.removeEventListener(evt, handler, false);
+		} else if (window.detachEvent) {
+			document.detachEvent('on' + evt, handler);
+		}
+	};
+	var evts = 'contextmenu dblclick drag dragend dragenter dragleave dragover dragstart drop keydown keypress keyup mousedown mousemove mouseout mouseover mouseup mousewheel scroll'.split(' ');
+	var logHuman = function() {
+		if (window.wfLogHumanRan) { return; }
+		window.wfLogHumanRan = true;
+		var wfscr = document.createElement('script');
+		wfscr.type = 'text/javascript';
+		wfscr.async = true;
+		wfscr.src = url + '&r=' + Math.random();
+		(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(wfscr);
+		for (var i = 0; i < evts.length; i++) {
+			removeEvent(evts[i], logHuman);
+		}
+	};
+	for (var i = 0; i < evts.length; i++) {
+		addEvent(evts[i], logHuman);
+	}
+})('//krisp.ai/?wordfence_lh=1&hid=6B2C4A4F949CDA24BF038138C5F27ADE');
+</script><link rel="icon" href="https://krisp.ai/wp-content/uploads/2023/12/cropped-favicon-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://krisp.ai/wp-content/uploads/2023/12/cropped-favicon-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://krisp.ai/wp-content/uploads/2023/12/cropped-favicon-1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://krisp.ai/wp-content/uploads/2023/12/cropped-favicon-1-270x270.png" />
+    <script type="0b798370963feb6d274de404-text/javascript">
+        $ = jQuery.noConflict();
+    </script>
+    
+
+
+     <script type="0b798370963feb6d274de404-text/javascript">
+        const APP_STORE_URL = 'https://apps.apple.com/us/app/krisp-ai-meeting-note-taker/id6740535865?mt=8';
+        const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=ai.krisp.krispMobile';
+    </script>
+</head>
+
+<body class="wp-singular integrations-template-default single single-integrations postid-13359 wp-theme-krisp-v4 pipedrive integrations no-js">
+<div class="mobile_banner_outer" style="display: none;">
+    <div class="moble_banner_container">
+        <div class="banner_close">
+            <img width="12" height="12" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_close_xsm.svg"  alt="Icon for closing mobile download banner"/>
+        </div>
+        <div class="logo_holder">
+            <img width="44" height="44" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_k_logo.svg"  alt="Krisp Mobile Application logo"/>
+        </div>
+        <div class="content">
+            <div class="title">Krisp AI Meeting Note Taker</div>
+            <div class="sub_title">Voice Notes and Memo Recorder</div>
+        </div>
+        <div class="banner_download main_app_btn">
+            <a href="javascript:void(0)">
+                <img width="25" height="25" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_mobile_download.svg"  alt="Download icon for Krisp mobile app"/>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="overlay_blur"></div>
+<header class="new">
+    <div class="navigation_wrapper">
+        <div class="header_inner">
+            <div class="logo_holder">
+                <a href="https://krisp.ai">
+                    <img width="72" height="34" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_logo_main.svg" alt="Krisp logo"/>
+                </a>
+            </div>
+                            <div class="main_menu desktop">
+                    <div class="nav_holder">
+    <ul>
+                <li class="navigation_item has_sub_menu">
+            <a href="javascript:void(0)" data-url="https://krisp.ai/ai-meeting-assistant/">AI Meeting Assistant                                    <span class="sub_menu_opener">
+                        <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                    </span>
+                            </a>
+                            <div class="sub_menu_wrapper">
+                        <span class="back mobile tablet">
+                            <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                            Back
+                        </span>
+                        <div class="sub_menu_inner">
+                            <div class="sub_menu_title_holder">
+                                <div class="icon_wrapper">
+                                    <img width="32" height="32" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_nav_ma.svg" />
+                                </div>
+                                <div>
+                                <div class="sub_menu_title ai-meeting-assistant">
+                                    AI Meeting Assistant                                </div>
+                                <div class="sub_menu_desc">
+                                    with #1 Noise Cancellation                                </div>
+                                                                    <div class="button btn--outline outline--dark btn--icon block space--between">
+                                        <a href="https://krisp.ai/ai-meeting-assistant/">
+                                            Explore AI Meeting Assistant <img width="24" height="24" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_cta_pointer.svg" />
+                                        </a>
+                                    </div>
+                                  
+                                </div>  
+                            </div>
+                            <div class="sub_menu_items">
+                                                    <div class="submenu_group">
+                                                    <div class="group_title">AI Notetaker</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-note-taker/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_note_taker.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>AI Note Taker</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/meeting-transcription/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_transcription.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Meeting Transcription</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/meeting-recording/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_meeting_recording.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Meeting Recording</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-meeting-summary/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_meeting_summary.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Meeting Summary</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                                    <div class="submenu_group">
+                                                    <div class="group_title">Real Time Voice AI</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/noise-cancellation/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_noise_cancellation.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Noise Cancellation</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-accent-conversion/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_accent_conversion.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Accent Conversion</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                                    <div class="submenu_group">
+                                                    <div class="group_title">Use cases</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-meeting-assistant/consulting/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>IT Consulting</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-meeting-assistant/msp/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>MSP</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                        </div>
+                    </div>
+                </div>
+                    </li>
+                <li class="navigation_item has_sub_menu">
+            <a href="javascript:void(0)" data-url="https://krisp.ai/contact-center/">Call Center AI                                    <span class="sub_menu_opener">
+                        <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                    </span>
+                            </a>
+                            <div class="sub_menu_wrapper">
+                        <span class="back mobile tablet">
+                            <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                            Back
+                        </span>
+                        <div class="sub_menu_inner">
+                            <div class="sub_menu_title_holder">
+                                <div class="icon_wrapper">
+                                    <img width="32" height="32" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_nav_cc.svg" />
+                                </div>
+                                <div>
+                                <div class="sub_menu_title ai-call-center">
+                                    Call Center AI                                </div>
+                                <div class="sub_menu_desc">
+                                    AI that boosts call center productivity                                </div>
+                                                                    <div class="button btn--outline outline--dark btn--icon block space--between">
+                                        <a href="https://krisp.ai/contact-center/">
+                                            Explore platform <img width="24" height="24" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_cta_pointer.svg" />
+                                        </a>
+                                    </div>
+                                  
+                                </div>  
+                            </div>
+                            <div class="sub_menu_items">
+                                                    <div class="submenu_group">
+                                                    <div class="group_title">Speech Assist</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/contact-center/accent-conversion/" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_accent_conversion.svg"
+                                                alt="icon for Call Center AI"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Accent Conversion</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Real-time accent conversion for call center agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-voice-translation/" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_interpreter.svg"
+                                                alt="icon for Call Center AI"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Voice Translation</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Real-time AI voice translation for call center agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/contact-center/noise-cancellation/" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_noise_cancellation.svg"
+                                                alt="icon for Call Center AI"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Noise Cancellation</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Remove background noises, voices & echoes.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                                    <div class="submenu_group">
+                                                                                    <div class="group_title">Agent Assist</div>
+                            
+                                                            <div class="sub_item_wrapper">
+                                    <a href="https://krisp.ai/contact-center/ai-agent-assist/" >
+                                        <div class="sub_item">
+                                                                                            <img width="24" height="24"
+                                                    src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_agent_assist.svg"
+                                                    alt="icon for Call Center AI"/>
+                                                                                        <div>
+                                                <div class="sub_item_title">
+                                                    <strong>Agent Assist</strong>
+                                                </div>
+                                                                                                    <div class="sub_item_desc">
+                                                        Real-time AI assistant for call center agents.                                                    </div>
+                                                                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                                                                                <div class="group_title">Speech Analytics</div>
+                            
+                                                            <div class="sub_item_wrapper">
+                                    <a href="https://krisp.ai/contact-center/" >
+                                        <div class="sub_item">
+                                                                                            <img width="24" height="24"
+                                                    src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_speech_analytics.svg"
+                                                    alt="icon for Call Center AI"/>
+                                                                                        <div>
+                                                <div class="sub_item_title">
+                                                    <strong>Speech Analytics</strong>
+                                                </div>
+                                                                                                    <div class="sub_item_desc">
+                                                        Call scoring, Compliance monitoring and more.                                                    </div>
+                                                                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                                        </div>
+                                                            </div>
+                    </div>
+                </div>
+                    </li>
+                <li class="navigation_item has_sub_menu">
+            <a href="javascript:void(0)" data-url="https://krisp.ai/developers">AI Voice SDK                                    <span class="sub_menu_opener">
+                        <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                    </span>
+                            </a>
+                            <div class="sub_menu_wrapper">
+                        <span class="back mobile tablet">
+                            <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                            Back
+                        </span>
+                        <div class="sub_menu_inner">
+                            <div class="sub_menu_title_holder">
+                                <div class="icon_wrapper">
+                                    <img width="32" height="32" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_nav_sdk.svg" />
+                                </div>
+                                <div>
+                                <div class="sub_menu_title ai-voice-sdk">
+                                    AI Voice SDK                                </div>
+                                <div class="sub_menu_desc">
+                                    with #1 AI Voice Models                                </div>
+                                                                    <div class="button btn--outline outline--dark btn--icon block space--between">
+                                        <a href="https://krisp.ai/developers/">
+                                            Explore SDK <img width="24" height="24" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_cta_pointer.svg" />
+                                        </a>
+                                    </div>
+                                  
+                                </div>  
+                            </div>
+                            <div class="sub_menu_items">
+                                                    <div class="submenu_group">
+                                                    <div class="group_title">Features</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#voice-isolation" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_meeting_recording.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Voice Isolation for Voice AI Agents</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Server side Voice isolation SDK for improving “turn-taking” in voice Agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#accent-conversion" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_accent_conversion.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Accent Conversion for Calls</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Client and server SDK for accent conversion in calls.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#turn-taking" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_echo_nav.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Turn-Taking for Voice AI Agents</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    A dedicated model for improving “turn-taking” in Voice AI Agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#noise-cancellation" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_noise_cancellation.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Noise & Voice Cancellation for Calls</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Client and server SDKs for noise removal in human and AI calls.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                        </div>
+                    </div>
+                </div>
+                    </li>
+                <li class="navigation_item ">
+            <a href="https://krisp.ai/customers/" data-url="https://krisp.ai/customers/">Customers                            </a>
+                    </li>
+                <li class="navigation_item ">
+            <a href="https://krisp.ai/pricing/" data-url="https://krisp.ai/pricing/">Pricing                            </a>
+                    </li>
+            </ul>
+</div>
+
+                </div>
+                        <div class="actions">
+                                    <a href="https://app.krisp.ai/login" class="nav_action_link">
+                        Sign in
+                    </a>
+                                <div class="separator"></div>
+                                    <div class="button btn--dark">
+                        <a href="javascript:void(0)" class="contact_sales" >
+                            Book a demo
+                        </a>
+                    </div> 
+                                                    <div class="button btn--primary main_app_btn">
+                        <a href="https://app.krisp.ai/sign-up">
+                            Get Krisp for free
+                        </a>
+                    </div>
+                                            </div>
+            <div class="burger tablet mobile">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="mob_menu">
+    <div class="mob_menu_inner">
+        <div class="container">
+            <div class="nav_holder">
+    <ul>
+                <li class="navigation_item has_sub_menu">
+            <a href="javascript:void(0)" data-url="https://krisp.ai/ai-meeting-assistant/">AI Meeting Assistant                                    <span class="sub_menu_opener">
+                        <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                    </span>
+                            </a>
+                            <div class="sub_menu_wrapper">
+                        <span class="back mobile tablet">
+                            <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                            Back
+                        </span>
+                        <div class="sub_menu_inner">
+                            <div class="sub_menu_title_holder">
+                                <div class="icon_wrapper">
+                                    <img width="32" height="32" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_nav_ma.svg" />
+                                </div>
+                                <div>
+                                <div class="sub_menu_title ai-meeting-assistant">
+                                    AI Meeting Assistant                                </div>
+                                <div class="sub_menu_desc">
+                                    with #1 Noise Cancellation                                </div>
+                                                                    <div class="button btn--outline outline--dark btn--icon block space--between">
+                                        <a href="https://krisp.ai/ai-meeting-assistant/">
+                                            Explore AI Meeting Assistant <img width="24" height="24" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_cta_pointer.svg" />
+                                        </a>
+                                    </div>
+                                  
+                                </div>  
+                            </div>
+                            <div class="sub_menu_items">
+                                                    <div class="submenu_group">
+                                                    <div class="group_title">AI Notetaker</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-note-taker/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_note_taker.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>AI Note Taker</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/meeting-transcription/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_transcription.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Meeting Transcription</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/meeting-recording/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_meeting_recording.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Meeting Recording</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-meeting-summary/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_meeting_summary.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Meeting Summary</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                                    <div class="submenu_group">
+                                                    <div class="group_title">Real Time Voice AI</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/noise-cancellation/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_noise_cancellation.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Noise Cancellation</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-accent-conversion/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_accent_conversion.svg"
+                                                alt="icon for AI Meeting Assistant"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Accent Conversion</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                                    <div class="submenu_group">
+                                                    <div class="group_title">Use cases</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-meeting-assistant/consulting/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>IT Consulting</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-meeting-assistant/msp/" class="without_desc">
+                                    <div class="sub_item">
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>MSP</strong>
+                                            </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                        </div>
+                    </div>
+                </div>
+                    </li>
+                <li class="navigation_item has_sub_menu">
+            <a href="javascript:void(0)" data-url="https://krisp.ai/contact-center/">Call Center AI                                    <span class="sub_menu_opener">
+                        <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                    </span>
+                            </a>
+                            <div class="sub_menu_wrapper">
+                        <span class="back mobile tablet">
+                            <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                            Back
+                        </span>
+                        <div class="sub_menu_inner">
+                            <div class="sub_menu_title_holder">
+                                <div class="icon_wrapper">
+                                    <img width="32" height="32" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_nav_cc.svg" />
+                                </div>
+                                <div>
+                                <div class="sub_menu_title ai-call-center">
+                                    Call Center AI                                </div>
+                                <div class="sub_menu_desc">
+                                    AI that boosts call center productivity                                </div>
+                                                                    <div class="button btn--outline outline--dark btn--icon block space--between">
+                                        <a href="https://krisp.ai/contact-center/">
+                                            Explore platform <img width="24" height="24" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_cta_pointer.svg" />
+                                        </a>
+                                    </div>
+                                  
+                                </div>  
+                            </div>
+                            <div class="sub_menu_items">
+                                                    <div class="submenu_group">
+                                                    <div class="group_title">Speech Assist</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/contact-center/accent-conversion/" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_accent_conversion.svg"
+                                                alt="icon for Call Center AI"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Accent Conversion</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Real-time accent conversion for call center agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/ai-voice-translation/" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_interpreter.svg"
+                                                alt="icon for Call Center AI"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Voice Translation</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Real-time AI voice translation for call center agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/contact-center/noise-cancellation/" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_noise_cancellation.svg"
+                                                alt="icon for Call Center AI"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Noise Cancellation</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Remove background noises, voices & echoes.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                                    <div class="submenu_group">
+                                                                                    <div class="group_title">Agent Assist</div>
+                            
+                                                            <div class="sub_item_wrapper">
+                                    <a href="https://krisp.ai/contact-center/ai-agent-assist/" >
+                                        <div class="sub_item">
+                                                                                            <img width="24" height="24"
+                                                    src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_agent_assist.svg"
+                                                    alt="icon for Call Center AI"/>
+                                                                                        <div>
+                                                <div class="sub_item_title">
+                                                    <strong>Agent Assist</strong>
+                                                </div>
+                                                                                                    <div class="sub_item_desc">
+                                                        Real-time AI assistant for call center agents.                                                    </div>
+                                                                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                                                                                <div class="group_title">Speech Analytics</div>
+                            
+                                                            <div class="sub_item_wrapper">
+                                    <a href="https://krisp.ai/contact-center/" >
+                                        <div class="sub_item">
+                                                                                            <img width="24" height="24"
+                                                    src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_speech_analytics.svg"
+                                                    alt="icon for Call Center AI"/>
+                                                                                        <div>
+                                                <div class="sub_item_title">
+                                                    <strong>Speech Analytics</strong>
+                                                </div>
+                                                                                                    <div class="sub_item_desc">
+                                                        Call scoring, Compliance monitoring and more.                                                    </div>
+                                                                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                                                        </div>
+                                                            </div>
+                    </div>
+                </div>
+                    </li>
+                <li class="navigation_item has_sub_menu">
+            <a href="javascript:void(0)" data-url="https://krisp.ai/developers">AI Voice SDK                                    <span class="sub_menu_opener">
+                        <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                    </span>
+                            </a>
+                            <div class="sub_menu_wrapper">
+                        <span class="back mobile tablet">
+                            <img src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//home/icon_arrow.svg" alt="Icon for opening sub menu"/>
+                            Back
+                        </span>
+                        <div class="sub_menu_inner">
+                            <div class="sub_menu_title_holder">
+                                <div class="icon_wrapper">
+                                    <img width="32" height="32" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_nav_sdk.svg" />
+                                </div>
+                                <div>
+                                <div class="sub_menu_title ai-voice-sdk">
+                                    AI Voice SDK                                </div>
+                                <div class="sub_menu_desc">
+                                    with #1 AI Voice Models                                </div>
+                                                                    <div class="button btn--outline outline--dark btn--icon block space--between">
+                                        <a href="https://krisp.ai/developers/">
+                                            Explore SDK <img width="24" height="24" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_cta_pointer.svg" />
+                                        </a>
+                                    </div>
+                                  
+                                </div>  
+                            </div>
+                            <div class="sub_menu_items">
+                                                    <div class="submenu_group">
+                                                    <div class="group_title">Features</div>
+                                                                            <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#voice-isolation" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_meeting_recording.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Voice Isolation for Voice AI Agents</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Server side Voice isolation SDK for improving “turn-taking” in voice Agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#accent-conversion" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_accent_conversion.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Accent Conversion for Calls</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Client and server SDK for accent conversion in calls.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#turn-taking" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_echo_nav.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Turn-Taking for Voice AI Agents</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    A dedicated model for improving “turn-taking” in Voice AI Agents.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                                    <div class="sub_item_wrapper">
+                                <a href="https://krisp.ai/developers/#noise-cancellation" >
+                                    <div class="sub_item">
+                                                                                    <img width="24" height="24"
+                                                src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_noise_cancellation.svg"
+                                                alt="icon for AI Voice SDK"/>
+                                                                                <div>
+                                            <div class="sub_item_title">
+                                                <strong>Noise & Voice Cancellation for Calls</strong>
+                                            </div>
+                                                                                            <div class="sub_item_desc">
+                                                    Client and server SDKs for noise removal in human and AI calls.                                                </div>
+                                                                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                                            </div>
+                                                        </div>
+                    </div>
+                </div>
+                    </li>
+                <li class="navigation_item ">
+            <a href="https://krisp.ai/customers/" data-url="https://krisp.ai/customers/">Customers                            </a>
+                    </li>
+                <li class="navigation_item ">
+            <a href="https://krisp.ai/pricing/" data-url="https://krisp.ai/pricing/">Pricing                            </a>
+                    </li>
+            </ul>
+</div>
+
+            <div class="mob_menu_actions container">
+                <div class="button btn--dark">
+                    <a href="javascript:void(0)" class="contact_sales">Book a demo</a>
+                </div>
+                <div class="links">
+                    <a href="https://apps.apple.com/us/app/krisp-ai-meeting-note-taker/id6740535865?mt=8">
+                        <img width="170" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_app_store.svg" alt="AppStore Logo"/>
+                    </a>
+                    <a href="https://apps.apple.com/us/app/krisp-ai-meeting-note-taker/id6740535865?mt=8">
+                        <img width="170" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs//icon_google_play.svg" alt="PlayStore Logo"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container full pt_80 pb_136" id="hero">
+    <div class="container hero_flex home_hero_flex">
+        <div class="intro_content" > 
+            <h1 class="mb_40">
+                Skip the admin. <br> Let <span class="text--bold text--purple">Krisp</span> keep <span class="text--bold text--purple">Pipedrive</span> up to date            </h1>
+            <p class="text--default text_body--md">
+                AI-driven notes, to-dos, and new contacts land in the right deal seconds after every call.            </p>
+                                        <div class="intro_btn_set mt_40">
+                    <div>
+                        <div class="btn btn--primary cta_primary">
+                            <a href="https://app.krisp.ai/sign-up" id="main_cta_hero">
+                                Get Krisp for Free
+                            </a>
+                        </div>
+                        <div class="intro_info mt_16">
+                            <span class="text_body--xs">
+                                <img width="12" height="9" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="Green check mark" />
+                                For individuals and teams
+                            </span>
+                            <span class="text_body--xs">
+                                <img width="12" height="9" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="Green check mark" />
+                                No credit card required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="btn_set_visible_md">
+                        <div class="btn btn--dark contact_sales">
+                            <a href="javascript:void(0)">
+                                Book a demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+        <div class="intro_image">
+            <img src="https://krisp.ai/wp-content/uploads/2025/08/pipedrive.png" width="1200" alt="AI Meeting Assistant" />
+        </div>
+    </div>
+</section>
+<section class="container full bg_purple--20 py_80 notes_features">
+    <div class="container">
+        <h2 class="text_center mb_48">
+            Why and how to connect Krisp with <span class="text--bold text--purple">Pipedrive</span>        </h2>
+        <div class="benefits">
+                        <div class="benefit_item_row reverse">
+                <div class="benefit_content">
+                    <h4>Sync Krisp Meeting Notes with <span class="text--bold text--purple">Pipedrive</span></h4>
+                    <p class="text_body--md mt_24 mb_16">Automatically link Krisp to Pipedrive in a few clicks and keep every record fresh.</p>
+                    <div class="feature_items">
+                                                                                    <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Log in to your Krisp dashboard and open Integrations                                    </div>
+                                </div>
+                                                            <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Click Connect on the Pipedrive                                    </div>
+                                </div>
+                                                            <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Authorize Krisp to access your Pipedrive workspace                                    </div>
+                                </div>
+                                
+                                            </div>
+                </div>
+                <div class="feature_video">
+                                            <video width="518" controls="false" autoplay loop muted playsinline autobuffer>
+                            <source src="https://krisp.ai/wp-content/uploads/2025/09/Pipedrive-4.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                                    </div>
+            </div>
+                        <div class="benefit_item_row">
+                <div class="benefit_content">
+                    <h4>Tailor what gets shared</h4>
+                    <p class="text_body--md mt_24 mb_16">Control exactly which insights flow into your CRM.</p>
+                    <div class="feature_items">
+                                                                                    <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        In the Pipedrive integration, hit Configure                                    </div>
+                                </div>
+                                                            <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Toggle Auto-share Meeting Notes to push every call                                    </div>
+                                </div>
+                                                            <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Or choose specific meetings to sync on demand                                    </div>
+                                </div>
+                                
+                                            </div>
+                </div>
+                <div class="feature_video">
+                                            <video width="518" controls="false" autoplay loop muted playsinline autobuffer>
+                            <source src="https://krisp.ai/wp-content/uploads/2025/09/Pipedrive-3-2.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                                    </div>
+            </div>
+                        <div class="benefit_item_row reverse">
+                <div class="benefit_content">
+                    <h4>Share Meeting Notes with your team</h4>
+                    <p class="text_body--md mt_24 mb_16">Make sure reps never scramble for context.</p>
+                    <div class="feature_items">
+                                                                                    <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Open a meeting in Krisp and click Share                                    </div>
+                                </div>
+                                                            <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Select a Pipedrive Contact, Organization, or Deal                                    </div>
+                                </div>
+                                                            <div class="feature_item_flex mb_16">
+                                    <img width="12" height="20" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_check_green_sm.svg" alt="checkbox" />
+                                    <div class="text_body--md">
+                                        Tap Send—notes, action items, and participants appear instantly                                    </div>
+                                </div>
+                                
+                                            </div>
+                </div>
+                <div class="feature_video">
+                                            <video width="518" controls="false" autoplay loop muted playsinline autobuffer>
+                            <source src="https://krisp.ai/wp-content/uploads/2025/09/Pipedrive-3-3.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                                    </div>
+            </div>
+                                </div>
+                    <div class="btn_set mt_48">
+                <div>
+                    <div class="btn btn--primary cta_primary">
+                        <a href="https://app.krisp.ai/sign-up">
+                            Try now!
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+</section>
+<section class="contaienr full bg_aqua--20 py_80" id="benefits">
+    <div class="container"> 
+        <h2 class="text_center mb_48">
+            Why teams choose Krisp        </h2>
+        <div class="benefits">
+                            <div class="benefit_item_row">
+                    <div class="benefit_content">
+                        <h3>
+                            Focus on what really matters                        </h3>
+                        <p class="mt_16 text--secondary text_body--md">
+                            Automate the meeting note-taking and sharing to focus on what really matters, making important business decisions.                        </p>
+                    </div>
+                    <div class="img_wrapper">
+                        <img width="431" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_benefit_gist.png"/>
+                    </div>
+                </div>
+                            <div class="benefit_item_row reverse">
+                    <div class="benefit_content">
+                        <h3>
+                            Capture every important detail                        </h3>
+                        <p class="mt_16 text--secondary text_body--md">
+                            In a world of information overload and distractions, Krisp ensures that you’ll always capture all the essential details.                        </p>
+                    </div>
+                    <div class="img_wrapper">
+                        <img width="431" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_benefit_decisions.png"/>
+                    </div>
+                </div>
+                            <div class="benefit_item_row">
+                    <div class="benefit_content">
+                        <h3>
+                            Enhanced team collaboration                        </h3>
+                        <p class="mt_16 text--secondary text_body--md">
+                            Empower everyone to stay informed and accountable by easily capturing and sharing all the discussion and action items.                        </p>
+                    </div>
+                    <div class="img_wrapper">
+                        <img width="431" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_benefit_collaboration.png"/>
+                    </div>
+                </div>
+                    </div>
+    </div>
+</section>
+
+<section class="container full px_sm_20  pt_136 pb_136" id="awards">
+    <div class="container">
+        <h2 class="text_center mb_40 heading--sm">World-class recognition and awards</h2>
+        <div class="awards_items">
+            <div class="awards_item bg_white">
+                <img width="80" height="80" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_gartner_new.svg"
+                    alt="gartner cool vendor" />
+                <strong class="mt_16 text_center text_body--xs text--semi-bold">Cool Vendor in Digital Workplace
+                    Programs
+                    and Applications</strong>
+            </div>
+            <div class="awards_item bg_white">
+                <img width="80" height="80" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_forbesai_new.svg"
+                    alt="forbes most promising award" />
+                <strong class="mt_16 text_center text_body--xs text--semi-bold">America’s Most Promising AI
+                    Companies</strong>
+            </div>
+            <div class="awards_item bg_white">
+                <img width="80" height="80" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_webby_new.svg"
+                    alt="Webby award winner" />
+                <strong class="mt_16 text_center text_body--xs text--semi-bold">People's Voice Winner in Productivity &
+                    Collaboration</strong>
+            </div>
+            <div class="awards_item bg_white">
+                <img width="80" height="80" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/img_g2_new.svg"
+                    alt="G2 Leader in noise cancellation" />
+                <strong class="mt_16 text_center text_body--xs text--semi-bold">Leader in Noise Cancellation and Voice
+                    Recognition</strong>
+            </div>
+        </div>
+    </div>
+</section><section class="container full bg_purple--60 py_80" id="last">
+    <div class="container">
+        <h2 class="text_center">
+            Make every meeting clearer, smarter, and more productive        </h2>
+        <div class="text_center mt_40">
+            <div class="btn btn--primary">
+                <a href="https://app.krisp.ai/sign-up" id="main_cta_last">
+                    Get Krisp for free
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="new">
+        <div class="container">
+        <div class="footer_flex_container">
+            <div class="footer_col logo_col">
+                <div>
+                    <a href="https://krisp.ai/">
+                        <img width="168" height="78" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/img_logo_footer.svg" alt="Krisp logo"/>
+                    </a>
+                </div>
+                <div class="social">
+                    <a href="https://www.facebook.com/krispHQ/">
+                        <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_facebook.svg" alt="Facebook logo"/>
+                    </a>
+                    <a href="https://www.linkedin.com/company/krisphq/">
+                        <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_linkedin.svg" alt="Linkedin logo"/>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCAMZinJdR9P33fZUNpuxXtg">
+                        <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_youtube.svg" alt="Youtube logo"/>
+                    </a>
+                    <a href="https://x.com/krispHQ">
+                        <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_x.svg" alt="X logo"/>
+                    </a>
+                </div>
+            </div>
+                            <div class="footer_col">
+                    <div class="nav_title">
+                        <a href="https://krisp.ai/ai-meeting-assistant/">AI Meeting Assistant</a>                    </div>
+                                            <div>
+                            <a href="https://krisp.ai/noise-cancellation/">Noise Cancellation</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/ai-accent-conversion/">Accent Conversion</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/meeting-transcription/">Meeting Transcription</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/ai-note-taker/">Meeting Note Taker</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/meeting-recording/">Meeting Recording</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/ai-meeting-minutes/">Meeting Minutes</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/video-and-audio-to-text-transcription/">Audio/Video to Text Convertor</a>
+                        </div>
+                        
+                </div>
+                            <div class="footer_col">
+                    <div class="nav_title">
+                        <a href="https://krisp.ai/call-center/">Call Center AI</a>                    </div>
+                                            <div>
+                            <a href="https://krisp.ai/contact-center/noise-cancellation/">Noise Cancellation</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/contact-center/accent-conversion/">Accent Conversion</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/ai-voice-translation/">Voice Translation</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/contact-center/ai-agent-assist/">Agent Assist</a>
+                        </div>
+                        
+                </div>
+                            <div class="footer_col">
+                    <div class="nav_title">
+                        <a href="https://krisp.ai/developers/">AI Voice SDK</a>                    </div>
+                                            <div>
+                            <a href="https://krisp.ai/developers/#technologies">Voice Isolation SDK</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/developers/#technologies">Noise Cancellation SDK</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/developers/#technologies">Accent Conversion SDK</a>
+                        </div>
+                        
+                </div>
+                            <div class="footer_col">
+                    <div class="nav_title">
+                        Company                    </div>
+                                            <div>
+                            <a href="https://krisp.ai/about-us/">About us</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/careers/">Careers</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/blog/">Blog</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/krisp-demo-all-products/">Live demo</a>
+                        </div>
+                                            <div>
+                            <a href="https://help.krisp.ai">Help center</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/affiliate-program/">Affiliate Program</a>
+                        </div>
+                        
+                </div>
+                            <div class="footer_col">
+                    <div class="nav_title">
+                        Trust                    </div>
+                                            <div>
+                            <a href="https://krisp.ai/security/">Security</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/terms-of-use/">Terms of use</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/privacy-policy/">Privacy policy</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/privacy-for-humans/">Privacy for humans</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/accessibility-commitment/">Accessibility</a>
+                        </div>
+                                            <div>
+                            <a href="https://krisp.ai/cookie-policy/">Cookie policy</a>
+                        </div>
+                        
+                </div>
+                
+            <div class="social social_mobile">
+                <a href="https://www.facebook.com/krispHQ/">
+                    <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_facebook.svg" alt="Facebook logo"/>
+                </a>
+                <a href="https://www.linkedin.com/company/krisphq/">
+                    <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_linkedin.svg" alt="Linkedin logo"/>
+                </a>
+                <a href="https://www.youtube.com/channel/UCAMZinJdR9P33fZUNpuxXtg">
+                    <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_youtube.svg" alt="Youtube logo"/>
+                </a>
+                <a href="https://x.com/krispHQ">
+                    <img width="18" height="18" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/home/logo_x.svg" alt="X logo"/>
+                </a>
+            </div>
+        </div>
+        <div class="footer_info">
+            <p>
+                © 2026 Krisp Technologies, Inc. All rights reserved.<br>
+                2150 Shattuck Ave, Penthouse 1300, Berkeley, California 94704, United States.
+            </p>
+            <div class="footer_actions">
+                <div class="button btn--primary">
+                    <a href="javascript:void(0)" class="contact_sales">
+                        Book a demo
+                    </a>
+                </div>
+                <div class="button btn--dark main_app_btn">
+                    <a href="https://app.krisp.ai/sign-up">
+                        Get Krisp for free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="modal contact_sales_modal" data-modal="contact_sales">
+    <div class="modal_inner mx_auto bg_white">
+        <div class="form_close form_close_x">
+            <img width="24" height="24" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_close_dark.svg"
+                alt="Close modal" />
+        </div>
+        <form id="salesForm" autocomplete="off">
+            <input type="hidden" name="lead_source" value="pipedrive">
+            <div class="step in" data-step="1">
+                <div class="step_inner">
+                    <div class="form_title">
+                        Book a demo
+                    </div>
+                    <div class="form_subtitle">
+                        Meet with one of our expert to customize Krisp for your needs.
+                    </div>
+                    <div class="form_inputs_container">
+                        <div class="input_wrapper has_icon icon_email">
+                            <label for="work_email" class="placeholder">
+                                Work Email *
+                            </label>
+                            <input id="work_email" name="work_email" type="email" />
+                        </div>
+                        <div class="input_wrapper has_icon icon_user">
+                            <label for="full_name" class="placeholder">
+                                Your name *
+                            </label>
+                            <input id="full_name" name="full_name" type="text" />
+                        </div>
+                        <div class="input_wrapper has_icon icon_products">
+                            <select id="product" name="product" title="product" required>
+                                <option value selected>Please select</option>
+                                <option value="ai-meeting-assistant">AI Meeting Assistant</option>
+                                <option value="krisp-for-cx">Krisp for Call Centers</option>
+                            </select>
+                            <label for="product" class="placeholder">
+                                Select Product*
+                            </label>
+                        </div>
+                        <div class="input_wrapper has_icon icon_seats input_hidden seats_input_wrapper">
+                            <select id="seats_count" name="seats_count" title="Seats Count" required>
+                                <option value selected>Please select</option>
+                                <option value="50-100">50-100</option>
+                                <option value="100-200">101-200</option>
+                                <option value="200+">200+</option>
+                            </select>
+                            <label for="company_size" class="placeholder">
+                                Number of seats*
+                            </label>
+                        </div>
+                    </div>
+                    <div id="recaptcha" class="mt_8 mb_8 mx_auto text_center"></div>
+                    <div class="privacy_text">
+                        By contacting our account team, you agree to the
+                        <a tabindex="-1" href="https://krisp.ai/terms-of-use/">Terms
+                            of Use</a> and
+                        <a tabindex="-1" href="https://krisp.ai/privacy-policy/">Privacy Policy</a>.
+                    </div>
+                    <div class="privacy_text">
+                        This form is protected by reCAPTCHA and the Google
+                        <a tabindex="-1" href="https://policies.google.com/privacy">Privacy Policy</a> and
+                        <a tabindex="-1" href="https://policies.google.com/terms">Terms of Service</a> apply.
+                    </div>
+                    <div class="form_btn_holder next mt_48">
+                        <div class="btn disabled">
+                            <a href="javascript:void(0)" class="mail_validate">Next</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="2">
+                <div class="step_inner">
+                    <div class="form_title">
+                        Book a demo
+                    </div>
+                    <div class="progress_bar">
+                        <span class="progress" style="width:30%;"></span>
+                    </div>
+                    <p class="form_subtitle">
+                        Which of the following scenarios best describes how you plan to use Krisp?
+                    </p>
+                    <div class="radio_buttons">
+                        <div class="radio_holder">
+                            <input type="radio" name="industry" id="bpo_call_center" value="BPO Call Center" />
+                            <label class="label_button" for="bpo_call_center">BPO Call Center</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="industry" id="enterprise_call_center"
+                                value="Enterprise Call Center" />
+                            <label class="label_button" for="enterprise_call_center">Enterprise Call Center</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="industry" id="other" value="Other" />
+                            <label class="label_button" for="other">Other</label>
+                        </div>
+                    </div>
+                    <div class="btns_holder">
+                        <div class="form_btn_holder prev">
+                            <div class="btn btn_outline">
+                                <a href="javascript:void(0)" class="form_prev">Prev</a>
+                            </div>
+                        </div>
+                        <div class="form_btn_holder next">
+                            <div class="btn disabled">
+                                <a href="javascript:void(0)" class="form_next">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="3">
+                <div class="step_inner">
+                    <div class="form_title">
+                        Book a demo
+                    </div>
+                    <div class="progress_bar">
+                        <span class="progress" style="width:50%;"></span>
+                    </div>
+                    <p class="form_subtitle">
+                        Which of the following Krisp products are you interested in?
+                    </p>
+                    <div class="radio_buttons product_checkboxes">
+                        <div class="radio_holder">
+                            <input type="checkbox" name="kr_products" id="noise_cancellation" value="AI Noise Cancellation" />
+                            <label class="label_button" for="noise_cancellation">AI Noise Cancellation</label>
+                        </div>
+                    </div>
+                    <div class="radio_buttons product_checkboxes">
+                        <div class="radio_holder">
+                            <input type="checkbox" name="kr_products" id="accent_localization" value="AI Accent Conversion" />
+                            <label class="label_button" for="accent_localization">AI Accent Conversion</label>
+                        </div>
+                    </div>
+                    <div class="radio_buttons product_checkboxes">
+                        <div class="radio_holder">
+                            <input type="checkbox" name="kr_products" id="interpreter" value="AI Voice Translation" />
+                            <label class="label_button" for="interpreter">AI Voice Translation</label>
+                        </div>
+                    </div>
+                    <div class="radio_buttons product_checkboxes">
+                        <div class="radio_holder">
+                            <input type="checkbox" name="kr_products" id="copilot" value="AI Agent Copilot" />
+                            <label class="label_button" for="copilot">AI Agent Assist</label>
+                        </div>
+                    </div>
+                    <div class="btns_holder">
+                        <div class="form_btn_holder prev">
+                            <div class="btn btn_outline">
+                                <a href="javascript:void(0)" class="form_prev">Prev</a>
+                            </div>
+                        </div>
+                        <div class="form_btn_holder next">
+                            <div class="btn disabled">
+                                <a href="javascript:void(0)" class="form_next">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="4">
+                <div class="step_inner">
+                    <div class="form_title">
+                        Book a demo
+                    </div>
+                    <div class="progress_bar">
+                        <span class="progress" style="width:60%;"></span>
+                    </div>
+                    <p class="form_subtitle">
+                        What's the number of Voice Agents in your company
+                    </p>
+                    <div class="radio_buttons radio_buttons_flex orgsize_radio_buttons">
+                        <div class="radio_holder">
+                            <input type="radio" name="org_size" id="xsmall" value="1-200" />
+                            <label class="label_button" for="xsmall">1 - 200</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="org_size" id="small" value="201-1,000" />
+                            <label class="label_button" for="small">201 - 1,000</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="org_size" id="medium" value="1,001-10,000" />
+                            <label class="label_button" for="medium">1,001 - 10,000</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="org_size" id="large" value="10,000+" />
+                            <label class="label_button" for="large">Over 10,000</label>
+                        </div>
+                    </div>
+                    <div class="btns_holder">
+                        <div class="form_btn_holder prev">
+                            <div class="btn btn_outline">
+                                <a href="javascript:void(0)" class="form_prev">Prev</a>
+                            </div>
+                        </div>
+                        <div class="form_btn_holder next">
+                            <div class="btn disabled">
+                                <a href="javascript:void(0)" class="form_next">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="5">
+                <div class="step_inner">
+                    <div class="form_title">
+                        Book a demo
+                    </div>
+                    <div class="progress_bar">
+                        <span class="progress" style="width:80%;"></span>
+                    </div>
+                    <p class="form_subtitle">
+                        How many seats are you evaluating for purchase?
+                    </p>
+                    <div class="radio_buttons radio_buttons_flex ">
+                        <div class="radio_holder">
+                            <input type="radio" name="seat_count" id="seats_small" value=">39" />
+                            <label class="label_button" for="seats_small">Under 40</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="seat_count" id="seats_medium" value="40-99" />
+                            <label class="label_button" for="seats_medium">40 - 99</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="seat_count" id="seats_large" value="100-499" />
+                            <label class="label_button" for="seats_large">100 - 500</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="seat_count" id="seats_xlarge" value="500+" />
+                            <label class="label_button" for="seats_xlarge">Over 500</label>
+                        </div>
+                    </div>
+                    <div class="btns_holder">
+                        <div class="form_btn_holder prev">
+                            <div class="btn btn_outline">
+                                <a href="javascript:void(0)" class="form_prev">Prev</a>
+                            </div>
+                        </div>
+                        <div class="form_btn_holder next">
+                            <div class="btn disabled">
+                                <a href="javascript:void(0)" class="form_next">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="6">
+                <div class="step_inner">
+                    <div class="form_title">
+                        Book a demo
+                    </div>
+                    <div class="progress_bar">
+                        <span class="progress" style="width:95%;"></span>
+                    </div>
+                    <p class="form_subtitle">
+                        How did you find us? (optional)
+                    </p>
+                    <div class="radio_buttons radio_buttons_flex">
+                        <div class="radio_holder">
+                            <input type="radio" name="how_did_you_find_us" id="linkedin" value="LinkedIn" />
+                            <label class="label_button" for="linkedin">LinkedIn</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="how_did_you_find_us" id="trade_show" value="Events" />
+                            <label class="label_button" for="trade_show">Events</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="how_did_you_find_us" id="referral" value="Referral" />
+                            <label class="label_button" for="referral">Referral</label>
+                        </div>
+                        <div class="radio_holder">
+                            <input type="radio" name="how_did_you_find_us" id="find_other" value="Other" />
+                            <label class="label_button" for="find_other">Other</label>
+                        </div>
+                    </div>
+                    <div class="btns_holder">
+                        <div class="form_btn_holder prev">
+                            <div class="btn btn_outline">
+                                <a href="javascript:void(0)" class="form_prev">Prev</a>
+                            </div>
+                        </div>
+                        <div class="form_btn_holder submit">
+                            <div class="btn">
+                                <a href="javascript:void(0)" class="form_submit">Submit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="contact-success">
+                <div class="step_inner">
+                    <div class="step_img_wrapper">
+                        <img width="130" height="107" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_sent.svg"
+                            alt="Successfully sent" />
+                    </div>
+                    <div class="step_text_content">
+                        <p class="form_subtitle">
+                            <strong>Thank you, </strong>
+                            <strong class="user_name"></strong>!<br>
+                            Your contact request has been <span class="text_success success">successfully sent.</span>
+                        </p>
+                        <p class="form_subtitle calendar_title hidden">
+                            <strong>Feel free to schedule a meeting that fits your calendar or <br> explore Krisp Trial.</strong>
+                        </p>
+                        <p class="form_subtitle small_segment hidden">
+                            <strong>Our sales team will be in touch soon.</strong>
+                        </p>
+                    </div>
+                    <div class="success_btns_holder">
+                        <div class="form_btn_holder">
+                            <div class="btn btn_outline">
+                                <a class="pro_trial_link"
+                                    href="https://account.krisp.ai/trial/signup?source=website_contact_sales | Website Sign Up">
+                                    Start a 14-day trial
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form_btn_holder">
+                            <div class="btn calendar_btn" id="demo_booking_btn">
+                                <a href="https://calendly.com/d/cw3b-4kg-ysw" target="_blank">Schedule a meeting</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="ma-success">
+                <div class="step_inner">
+                    <div class="step_img_wrapper">
+                        <img width="130" height="107" src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_sent.svg"
+                            alt="Successfully sent" />
+                    </div>
+                    <div class="step_text_content">
+                        <p class="form_subtitle">
+                            <strong>Thank you,</strong><strong class="user_name"></strong>!<br>
+                            Your contact request has been <span class="text_success success">successfully sent.</span>
+                        </p>
+                        <p class="form_subtitle">
+                            <strong>Our team will be in touch soon!</strong>
+                        </p>
+                    </div>
+                    <div class="success_btns_holder">
+                        <div class="form_btn_holder">
+                            <div class="btn btn_outline">
+                                <a class="form_close" href="javascritp:void(0)">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step out" data-step="trial">
+                <div class="step_inner">
+                    <div class="form_title">
+                        Book a demo
+                    </div>
+                    <div class="trial_content">
+                        <div class="form_subtitle_lg">
+                            Scheduling a demo is only possible with work email. 
+                        </div>
+                        <p>
+                            You can start exploring Krisp on your own with 14-day trial
+                        </p>
+                        <div class="form_inputs_container">
+                            <div class="input_wrapper has_icon icon_email">
+                                <label for="work_email_2" class="placeholder">
+                                    Work Email *
+                                </label>
+                                <input id="work_email_2" name="work_email" type="email" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="success_btns_holder">
+                        <div class="form_btn_holder">
+                            <div class="btn btn_outline">
+                                <a class="pro_trial_link"
+                                    href="https://account.krisp.ai/trial/signup?source=website_contact_sales | Website Sign Up">
+                                    Start a 14-day trial
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form_btn_holder next">
+                            <div class="btn disabled">
+                                <a href="javascript:void(0)" class="mail_validate">Next</a>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div class="step out" data-step="error-step">
+                <div class="step_inner text_center">
+                    <div class="step_img_wrapper">
+                        <img width="107" height="107"
+                            src="https://krisp.ai/wp-content/themes/krisp-v4/imgs/icon_child_error.svg" alt="Gift Icon" />
+                    </div>
+                    <div class="step_text_content">
+                        <p class="form_subtitle"><strong>Something went wrong!</strong></p>
+                        <p class="form_subtitle">
+                            An error has occurred while processing <br> your request. Please try again later.
+                        </p>
+                    </div>
+                    <div class="form_btn_holder submit">
+                        <div class="btn">
+                            <a href="javascript:void(0)" class="try_again">Try Again</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div><script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/krisp-v4\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<link rel='stylesheet' id='mobile-download-banner-css' href='https://krisp.ai/wp-content/themes/krisp-v4/partials/templates//sections/mobile-download-banner/css/mobile-download-banner.css?ver=28.15.15.46' type='text/css' media='all' />
+<link rel='stylesheet' id='inputs-css' href='https://krisp.ai/wp-content/themes/krisp-v4/css/scss/inputs.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-sales-css' href='https://krisp.ai/wp-content/themes/krisp-v4/partials/shared/contact-sales/css/contact-sales.css?ver=673ca1e1924f9b1bf2bf300ee923e4ec' type='text/css' media='all' />
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/app-helpers.js?ver=28.15.15.46" id="app-helpers-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/cookie-helpers.js?ver=28.15.15.46" id="cookie-helper-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/cta-helper.js?ver=28.15.15.46" id="cta-helper-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/demo-deps.js?ver=28.15.15.46" id="demo-deps-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/demo.js?ver=28.15.15.46" id="demo-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/lottie.js?ver=673ca1e1924f9b1bf2bf300ee923e4ec" id="lottie-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/recaptcha-helper.js?ver=673ca1e1924f9b1bf2bf300ee923e4ec" id="recaptcha-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/main.js?ver=28.15.15.46" id="main-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/js/owl.carousel.min.js?ver=673ca1e1924f9b1bf2bf300ee923e4ec" id="owl-carousel-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/partials/templates//sections/mobile-download-banner/js/mobile-download-banner.js?ver=28.15.15.46" id="mobile-download-banner-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/partials/templates//sections/main-menu/main-menu.js?ver=28.15.15.46" id="main-menu-js"></script>
+<script type="0b798370963feb6d274de404-text/javascript" src="https://krisp.ai/wp-content/themes/krisp-v4/partials/shared/contact-sales/script/contact-sales.js?ver=673ca1e1924f9b1bf2bf300ee923e4ec" id="contact-sales-js"></script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="0b798370963feb6d274de404-|49" defer></script></body>
+</html>

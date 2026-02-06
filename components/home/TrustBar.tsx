@@ -4,12 +4,15 @@ import Image from "next/image";
 
 export function TrustBar() {
   const companies = [
-    { name: "Booking.com", logo: "/assets/trustbar-logos/booking.svg" },
-    { name: "IBM", logo: "/assets/trustbar-logos/ibm.svg" },
-    { name: "Logitech", logo: "/assets/trustbar-logos/logitech.svg" },
-    { name: "Fortinet", logo: "/assets/trustbar-logos/fortinet.svg" },
-    { name: "TIBCO", logo: "/assets/trustbar-logos/tibco.svg" },
-    { name: "Spotify", logo: "/assets/trustbar-logos/spotify.svg" },
+    { name: "Zoho", logo: "/assets/trustbar-logos/zoho.svg" },
+    { name: "Vtiger", logo: "/assets/trustbar-logos/vtiger.svg" },
+    { name: "Clickup", logo: "/assets/trustbar-logos/clickup.svg" },
+    { name: "Keka", logo: "/assets/trustbar-logos/keka.svg" },
+    { name: "Swipe", logo: "/assets/trustbar-logos/swipe.svg" },
+    { name: "SAP", logo: "/assets/trustbar-logos/sap.svg" },
+    // { name: "Xero", logo: "/assets/trustbar-logos/xero.svg" },
+    { name: "Freshbooks", logo: "/assets/trustbar-logos/freshbooks.svg" },
+    { name: "Hubspot", logo: "/assets/trustbar-logos/hubspot.svg" },
   ];
 
   // Duplicate the array to create seamless infinite scroll

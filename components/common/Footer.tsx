@@ -76,6 +76,7 @@ export function Footer({ showCTA = false }: FooterProps) {
                     width={144}
                     height={56}
                     className="w-full h-full object-contain"
+                    priority
                   />
                 </div>
               </Link>
@@ -178,27 +179,52 @@ export function Footer({ showCTA = false }: FooterProps) {
               <h4 className="text-sm font-semibold text-black">Social</h4>
               <ul className="space-y-3 text-sm text-[#333333]">
                 <li>
-                  <Link href="#" className="hover:text-gray-900">
+                  <Link
+                    href="https://www.instagram.com/saas_verify/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-gray-900"
+                  >
                     Instagram
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-gray-900">
+                  <Link
+                    href="https://www.facebook.com/profile.php?id=61584069910004"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-gray-900"
+                  >
                     Facebook
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-gray-900">
+                  <Link
+                    href="https://www.linkedin.com/company/saasverify"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-gray-900"
+                  >
                     X (Twitter)
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-gray-900">
+                  <Link
+                    href="https://www.linkedin.com/company/saasverify"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-gray-900"
+                  >
                     LinkedIn
                   </Link>
                 </li>
                 <li>
-                  <Link target="_blank" href="https://www.youtube.com/@saasverify" className="hover:text-gray-900">
+                  <Link
+                    href="https://www.youtube.com/@saasverify"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-gray-900"
+                  >
                     YouTube
                   </Link>
                 </li>

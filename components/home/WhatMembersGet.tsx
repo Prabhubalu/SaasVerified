@@ -16,7 +16,7 @@ export function WhatMembersGet() {
       <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            What Members Get?
+            Why Buyers Choose Us
           </h2>
           <div className="w-48 h-1 mx-auto bg-gradient-to-r from-pink-400 via-orange-400 via-yellow-400 to-green-400 rounded-full"></div>
         </div>
@@ -25,7 +25,7 @@ export function WhatMembersGet() {
           {/* Left Side - Content */}
           <div data-aos="fade-right">
             <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Your Free Membership Unlocks Real Protection
+              Built-In Protection for Every Software Purchase.
             </h3>
             <ul className="space-y-4">
               {benefits.map((benefit, index) => (
@@ -45,9 +45,9 @@ export function WhatMembersGet() {
               <Image
                 src="/assets/whatmembersget.png"
                 alt="Business illustration"
-                width={420}
-                height={400}
-                className="w-full h-full object-contain"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-contain"
               />
             </div>
           </div>
@@ -56,4 +56,3 @@ export function WhatMembersGet() {
     </section>
   );
 }
-
