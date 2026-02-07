@@ -9,6 +9,8 @@ declare module 'aos' {
     anchorPlacement?: string;
     /** Disable AOS. Accepts 'phone' | 'tablet' | 'mobile' | boolean | function */
     disable?: 'phone' | 'tablet' | 'mobile' | boolean | (() => boolean);
+    /** Event name that triggers AOS initialization. Default: 'DOMContentLoaded' */
+    startEvent?: string;
   }
 
   export function init(options?: AosOptions): void;
