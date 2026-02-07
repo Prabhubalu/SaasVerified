@@ -164,28 +164,34 @@ export function TopCategories() {
         </div>
 
         {/* Grid Layout - Simple 10x5 grid */}
-        <div className="relative w-full flex justify-center">
-          <div className="relative max-w-fit">
-            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white relative">
-              {/* Fade effects on left and right edges - positioned at borders to hide content */}
-              <div 
-                className="absolute left-0 top-0 bottom-0 z-20 pointer-events-none"
-                // style={{
-                //   background: 'linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.2) 80%, transparent 100%)',
-                //   filter: 'blur(27px)',
-                //   width: '206px'
-                // }}
-              ></div>
-              <div 
-                className="absolute right-0 top-0 bottom-0 z-20 pointer-events-none"
-                // style={{
-                //   background: 'linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 20%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.2) 80%, transparent 100%)',
-                //   filter: 'blur(27px)',
-                //   width: '212px'
-                // }}
-              ></div>
+        <div className="relative w-full">
+          <div className="relative w-full">
+            <div 
+              className="rounded-lg overflow-visible bg-transparent relative"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)',
+                maskComposite: 'intersect',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)',
+                WebkitMaskComposite: 'source-in',
+              }}
+            >
               
-              <div className={`relative z-10 ${searchQuery.trim() ? 'flex flex-wrap justify-center gap-0' : 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10 gap-0'}`}>
+              <div className={`relative z-10 ${searchQuery.trim() ? 'flex flex-wrap justify-center gap-0' : 'grid grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-10 gap-0'}`}>
+              {/* Top dummy row for fade effect */}
+              {!searchQuery.trim() && Array.from({ length: 10 }).map((_, i) => (
+                <div 
+                  key={`top-dummy-${i}`}
+                  className={`w-full h-[45px] sm:h-[50px] md:h-[55px] lg:h-[64px] border-r border-b border-[#e4e7ec] bg-transparent
+                    ${i >= 4 ? 'hidden md:block' : ''}
+                    ${i >= 5 ? 'md:hidden lg:block' : ''}
+                    ${i >= 6 ? 'lg:hidden xl:block' : ''}
+                    ${i === 9 ? 'border-r-0' : ''}
+                    ${i === 3 ? 'border-r-0 md:border-r' : ''}
+                    ${i === 4 ? 'md:border-r-0 lg:border-r' : ''}
+                    ${i === 5 ? 'lg:border-r-0 xl:border-r' : ''}
+                  `}
+                />
+              ))}
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((category, index) => {
                   const IconComponent = category.icon;
@@ -211,21 +217,20 @@ export function TopCategories() {
                     }}
                     className={`
                       ${widthClass}
-                      h-[128px]
+                      h-[90px] sm:h-[100px] md:h-[110px] lg:h-[128px]
                       ${isSearching ? 'border-r border-b border-[#e4e7ec]' : 'border-r border-b border-[#e4e7ec]'}
-                      bg-white hover:bg-gray-50 
+                      bg-transparent hover:bg-white/50 
                       transition-colors 
-                      px-3 py-8 
-                      flex flex-col items-center justify-center gap-2
+                      px-2 sm:px-3 py-4 sm:py-6 md:py-8 
+                      flex flex-col items-center justify-center gap-1 sm:gap-2
                       group
                       ${!isSearching && isLastInRow ? 'border-r-0' : ''}
-                      ${isLastRow ? 'border-b-0' : ''}
                     `}
                     data-aos={!isSearching ? "zoom-in" : undefined}
                     data-aos-delay={!isSearching ? 40 * (index % 10) : undefined}
                   >
-                    <IconComponent className="w-8 h-8 text-gray-400 group-hover:scale-110 transition-transform" />
-                    <span className="text-xs text-gray-400 text-center font-normal leading-5">
+                    <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-gray-400 group-hover:scale-110 transition-transform" />
+                    <span className="text-[10px] sm:text-[11px] md:text-xs text-gray-400 text-center font-normal leading-4 sm:leading-5">
                       {category.name}
                     </span>
                   </button>
@@ -261,6 +266,21 @@ export function TopCategories() {
                   </div>
                 </div>
               )}
+              {/* Bottom dummy row for fade effect */}
+              {!searchQuery.trim() && Array.from({ length: 10 }).map((_, i) => (
+                <div 
+                  key={`bottom-dummy-${i}`}
+                  className={`w-full h-[45px] sm:h-[50px] md:h-[55px] lg:h-[64px] border-r border-[#e4e7ec] bg-transparent
+                    ${i >= 4 ? 'hidden md:block' : ''}
+                    ${i >= 5 ? 'md:hidden lg:block' : ''}
+                    ${i >= 6 ? 'lg:hidden xl:block' : ''}
+                    ${i === 9 ? 'border-r-0' : ''}
+                    ${i === 3 ? 'border-r-0 md:border-r' : ''}
+                    ${i === 4 ? 'md:border-r-0 lg:border-r' : ''}
+                    ${i === 5 ? 'lg:border-r-0 xl:border-r' : ''}
+                  `}
+                />
+              ))}
               </div>
             </div>
           </div>

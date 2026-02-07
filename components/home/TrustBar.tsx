@@ -21,9 +21,14 @@ export function TrustBar() {
   return (
     <section className="py-6 overflow-hidden" data-aos="fade-up">
       <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
+        {/* Mobile: Text centered above logos */}
+        <div className="md:hidden text-center text-gray-800 font-medium text-sm mb-4">
+          Trusted by the best
+        </div>
+        
         <div className="flex items-center gap-8">
-          {/* "Trusted by the best" text on the left */}
-          <div className="text-gray-800 font-medium whitespace-nowrap flex-shrink-0">
+          {/* Desktop: Text on the left */}
+          <div className="hidden md:block text-gray-800 font-medium whitespace-nowrap flex-shrink-0">
             Trusted by the best
           </div>
           

@@ -78,12 +78,11 @@ function MarketplaceContent() {
       router.replace(url.pathname + url.search, { scroll: false });
 
       // Scroll to search section after a short delay to ensure DOM is ready
-      // Scroll just enough so the search section becomes sticky (at top-28 = 112px)
       setTimeout(() => {
         const searchElement = document.getElementById("marketplace-search");
         if (searchElement) {
           const elementTop = searchElement.getBoundingClientRect().top + window.pageYOffset;
-          const stickyOffset = 112; // top-28 = 7rem = 112px
+          const stickyOffset = window.innerHeight * 0.05 + 56; // 5vh + 56px
           const scrollPosition = elementTop - stickyOffset;
           
           window.scrollTo({
@@ -145,10 +144,8 @@ function MarketplaceContent() {
   }, [debouncedSearchQuery, filters]);
 
   return (
-    <>
-      <div className="flex flex-col">
-        <MarketplaceHero />
-      </div>
+    <div className="min-h-screen">
+      <MarketplaceHero />
 
       <MarketplaceFilters
         isOpen={filtersOpen}
@@ -164,7 +161,7 @@ function MarketplaceContent() {
         filters={filters}
         onFiltersChange={setFilters}
       />
-    </>
+    </div>
   );
 }
 

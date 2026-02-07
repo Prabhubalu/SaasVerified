@@ -4,6 +4,16 @@
 
 @import 'aos/dist/aos.css';
 
+/* Ensure AOS elements are visible before JS loads and during navigation */
+[data-aos] {
+  visibility: visible !important;
+}
+
+/* Only apply AOS initial hidden state after body has aos-initialized class */
+body.aos-initialized [data-aos] {
+  visibility: visible;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -215,4 +225,10 @@ body::before {
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* Marketplace sticky search */
+#marketplace-search {
+  position: -webkit-sticky !important;
+  position: sticky !important;
 }

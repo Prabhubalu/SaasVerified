@@ -48,6 +48,12 @@ export function Navbar() {
     };
   }, [isMoreOpen]);
 
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+    setIsMoreOpen(false);
+  }, [pathname]);
+
   const handleLogout = async () => {
     try {
       await fetch("/api/admin/logout", { method: "POST" });
@@ -214,35 +220,30 @@ export function Navbar() {
             <Link 
               href="/buyers" 
               className="block py-2 text-gray-700 hover:text-gray-900"
-              onClick={() => setIsOpen(false)}
             >
               Buyers
             </Link>
             <Link 
               href="/vendors" 
               className="block py-2 text-gray-700 hover:text-gray-900"
-              onClick={() => setIsOpen(false)}
             >
               Vendors
             </Link>
             <Link 
               href="/marketplace" 
               className="block py-2 text-gray-700 hover:text-gray-900"
-              onClick={() => setIsOpen(false)}
             >
               Marketplace
             </Link>
             <Link 
               href="/verify" 
               className="block py-2 text-gray-700 hover:text-gray-900"
-              onClick={() => setIsOpen(false)}
             >
               Verification
             </Link>
             <Link 
               href="/about" 
               className="block py-2 text-gray-700 hover:text-gray-900"
-              onClick={() => setIsOpen(false)}
             >
               About Us
             </Link>
@@ -252,7 +253,6 @@ export function Navbar() {
             <Link 
               href="/contact" 
               className="block py-2 text-gray-700 hover:text-gray-900"
-              onClick={() => setIsOpen(false)}
             >
               Contact
             </Link>
@@ -284,7 +284,6 @@ export function Navbar() {
                   <Link 
                     href="/marketplace" 
                     className="w-full bg-[#12b76a] text-white px-4 py-3 rounded-full text-sm font-normal flex items-center justify-center gap-1.5 shadow-lg hover:bg-green-700 transition-colors"
-                    onClick={() => setIsOpen(false)}
                   >
                     <span>Find Your SaaS</span>
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
