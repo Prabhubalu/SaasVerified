@@ -5,10 +5,7 @@ import Image from "next/image";
 export function SectionDivider() {
   return (
     <div className="relative h-6 mb-10">
-      <div
-        className="relative left-1/2 -translate-x-1/2 bottom-0 w-screen -ml-[calc((100vw-100%)/2)] pointer-events-none"
-        
-      >
+      <div className="relative left-0 right-0 bottom-0 w-full overflow-hidden pointer-events-none">
         <Image
           src="/assets/divider.svg"
           alt="Section divider"

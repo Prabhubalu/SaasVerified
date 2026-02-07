@@ -65,8 +65,8 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-[5%] left-2 right-2 sm:left-4 sm:right-4 md:left-8 md:right-8 lg:left-1/2 lg:right-auto lg:transform lg:-translate-x-1/2 w-auto lg:w-full xl:w-[90%] max-w-7xl z-50">
-      <div className="bg-white/30 backdrop-blur-xl border border-white/20 rounded-full shadow-[0px_10px_40px_0px_rgba(0,0,0,0.1)] overflow-visible">
+    <nav className="fixed top-[5%] left-0 right-0 lg:left-1/2 lg:right-auto lg:-translate-x-1/2 w-full lg:w-full xl:w-[90%] max-w-7xl z-50 px-4 sm:px-6 md:px-8 lg:px-0">
+      <div className="bg-white/30 backdrop-blur-xl border border-white/20 rounded-full shadow-[0px_10px_40px_0px_rgba(0,0,0,0.1)] overflow-x-hidden">
         <div className="max-w-full mx-auto px-1 sm:px-2 md:px-3 lg:px-4 xl:px-6 py-2">
           <div className="flex justify-between items-center gap-1 sm:gap-2 lg:gap-4 min-w-0">
             {/* Logo and Navigation Items */}
