@@ -130,13 +130,14 @@ export function MarketplaceGrid({
     };
   }, []);
 
-  // Detect when sticky section becomes sticky (at top-40 = 160px)
+  // Detect when sticky section becomes sticky
   useEffect(() => {
     const handleScroll = () => {
       if (stickyRef.current) {
         const rect = stickyRef.current.getBoundingClientRect();
-        // Check if element is at or near the sticky position (top-40 = 160px)
-        setIsSticky(rect.top <= 160);
+        // Check if element is at or near the sticky position (5vh + 56px)
+        const stickyTop = window.innerHeight * 0.05 + 56;
+        setIsSticky(rect.top <= stickyTop + 5);
       }
     };
 
@@ -182,34 +183,35 @@ export function MarketplaceGrid({
   }, [vendors, sortBy]);
 
   return (
-    <section className="pt-4 pb-8 relative">
+    <div>
       {/* Sticky Search and Filters Section */}
       <div 
         id="marketplace-search"
         ref={stickyRef}
-        className={`sticky top-28 z-40 transition-all duration-200 mb-6 ${
+        style={{ position: 'sticky', top: 'calc(5vh + 56px)' }}
+        className={`z-40 transition-all duration-200 ${
           isSticky 
-            ? "bg-white/90 backdrop-blur-xl border-b border-gray-200 shadow-sm pt-8 pb-4" 
-            : "pt-6 pb-4"
+            ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md py-2 md:py-4" 
+            : "py-2 md:py-4"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full space-y-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-5 md:px-6 lg:px-8 w-full space-y-2 md:space-y-4">
           {/* Search Bar */}
           <div className="max-w-3xl mx-auto w-full" data-aos="fade-up" data-aos-delay="50">
             <div
-              className={`bg-white border-2 rounded-full shadow-lg flex items-center px-6 py-4 transition-all ${
+              className={`bg-white border-2 rounded-full shadow-lg flex items-center px-4 py-2.5 md:px-6 md:py-4 transition-all ${
                 isSearchFocused ? "border-[#12b76a]" : "border-gray-300"
               }`}
             >
-              <MagnifyingGlassIcon className="w-6 h-6 text-gray-400 mr-4 flex-shrink-0" />
+              <MagnifyingGlassIcon className="w-5 h-5 md:w-6 md:h-6 text-gray-400 mr-3 md:mr-4 flex-shrink-0" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => setIsSearchFocused(false)}
-                placeholder="Search for software, vendors, or categories..."
-                className="flex-1 outline-none text-gray-700 placeholder-gray-500 text-base md:text-lg"
+                placeholder="Search software..."
+                className="flex-1 outline-none text-gray-700 placeholder-gray-500 text-sm md:text-lg"
               />
               {searchQuery.trim() && (
                 <button
@@ -275,7 +277,7 @@ export function MarketplaceGrid({
               <button
                 key={tab}
                 onClick={() => handleTabClick(tab)}
-                className={`px-3 py-2 rounded-lg text-sm whitespace-nowrap border transition-colors bg-white ${
+                className={`px-2.5 py-1.5 md:px-3 md:py-2 rounded-lg text-xs md:text-sm whitespace-nowrap border transition-colors bg-white ${
                   activeTab === tab
                     ? "border-[#12b76a] text-[#12b76a]"
                     : "border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50"
@@ -288,10 +290,10 @@ export function MarketplaceGrid({
         </div>
 
         {/* Filters + Sort bar */}
-        <div className="flex flex-row items-center justify-center gap-4 md:justify-between relative" data-aos="fade-up" data-aos-delay="150">
+        <div className="flex flex-row items-center justify-between gap-2 md:gap-4 relative" data-aos="fade-up" data-aos-delay="150">
           <div className="flex items-center">
-            <span className="text-sm text-gray-600">
-              Showing <span className="font-semibold text-gray-900">{sortedVendors.length}</span>{" "}
+            <span className="text-xs md:text-sm text-gray-600">
+              <span className="font-semibold text-gray-900">{sortedVendors.length}</span>{" "}
               {sortedVendors.length === 1 ? "result" : "results"}
             </span>
           </div>
@@ -301,9 +303,9 @@ export function MarketplaceGrid({
               onClick={() => {
                 setShowSortMenu(!showSortMenu);
               }}
-              className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors relative"
+              className="flex items-center gap-1.5 md:gap-2 bg-white border border-gray-300 rounded-lg px-2.5 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors relative"
             >
-              <span>Sort: {sortOptions.find((opt) => opt.value === sortBy)?.label}</span>
+              <span className="hidden md:inline">Sort: </span><span>{sortOptions.find((opt) => opt.value === sortBy)?.label}</span>
               {sortBy === "name-asc" ? (
                 <BarsArrowUpIcon className="w-4 h-4" />
               ) : sortBy === "name-desc" ? (
@@ -362,26 +364,28 @@ export function MarketplaceGrid({
       </div>
 
       {/* Grid Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
-        {/* Grid */}
-        {sortedVendors.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200" style={{ position: 'relative', zIndex: 1, isolation: 'isolate' }}>
-            {sortedVendors.map((vendor, index) => (
-              <MarketplaceCard key={`${vendor.id}-${sortBy}-${index}`} vendor={vendor} index={index} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16" data-aos="fade-up" data-aos-delay="200">
-            <div className="text-gray-400 text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No results found
-            </h3>
-            <p className="text-gray-600">
-              Try adjusting your search or filters to find what you're looking for.
-            </p>
-          </div>
-        )}
-      </div>
-    </section>
+      <section className="pt-6 pb-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 w-full">
+          {/* Grid */}
+          {sortedVendors.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200" style={{ position: 'relative', zIndex: 1, isolation: 'isolate' }}>
+              {sortedVendors.map((vendor, index) => (
+                <MarketplaceCard key={`${vendor.id}-${sortBy}-${index}`} vendor={vendor} index={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16" data-aos="fade-up" data-aos-delay="200">
+              <div className="text-gray-400 text-6xl mb-4">🔍</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No results found
+              </h3>
+              <p className="text-gray-600">
+                Try adjusting your search or filters to find what you're looking for.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

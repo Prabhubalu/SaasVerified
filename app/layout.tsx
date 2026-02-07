@@ -77,7 +77,7 @@ export default function RootLayout({
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"} />
       </head>
-      <body className={`${plusJakartaSans.className} overflow-y-auto max-w-full`}>
+      <body className={`${plusJakartaSans.className} max-w-full`}>
         <Providers>
           <ConditionalNavbar>
             <main className="min-h-screen max-w-full">{children}</main>
