@@ -92,6 +92,13 @@ model BuyerRequest {
   decisionTimeline String?
   phoneNumber      String?
   cityState        String?
+  stateName        String?
+  cityName         String?
+  leadSource       String?
+  utmSource        String?
+  utmMedium        String?
+  utmCampaign      String?
+  referrer         String?
   status           String   @default("pending") // pending, contacted, completed
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt

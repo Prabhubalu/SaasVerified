@@ -30,6 +30,7 @@ export async function GET() {
       "Decision Timeline",
       "Phone Number",
       "City/State",
+      "Lead source",
       "Status",
       "Submitted Date",
     ];
@@ -42,7 +43,10 @@ export async function GET() {
       buyer.companySize || "",
       buyer.decisionTimeline || "",
       buyer.phoneNumber || "",
-      buyer.cityState || "",
+      buyer.cityName && buyer.stateName
+        ? `${buyer.cityName}, ${buyer.stateName}`
+        : buyer.cityState || "",
+      buyer.leadSource || "",
       buyer.status,
       new Date(buyer.createdAt).toLocaleString(),
     ]);

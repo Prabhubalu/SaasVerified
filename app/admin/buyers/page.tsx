@@ -140,9 +140,13 @@ export default async function BuyersAdminPage() {
                         {buyer.phoneNumber && (
                           <div className="text-xs text-gray-500">{buyer.phoneNumber}</div>
                         )}
-                        {buyer.cityState && (
-                          <div className="text-xs text-gray-500">{buyer.cityState}</div>
-                        )}
+                        {(buyer.cityName && buyer.stateName) || buyer.cityState ? (
+                          <div className="text-xs text-gray-500">
+                            {buyer.cityName && buyer.stateName
+                              ? `${buyer.cityName}, ${buyer.stateName}`
+                              : buyer.cityState}
+                          </div>
+                        ) : null}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={getStatusBadge(buyer.status)}>
