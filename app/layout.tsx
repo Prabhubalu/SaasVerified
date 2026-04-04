@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Analytics } from "@/components/Analytics";
 import { ConditionalNavbar } from "@/components/ui/ConditionalNavbar";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
@@ -60,7 +61,9 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: process.env.GOOGLE_VERIFICATION,
+    google:
+      process.env.GOOGLE_VERIFICATION ||
+      "9MT_xvCVykH6Dh1sk9te_jrxJrDCGBr4lGI3N6pvvrs",
   },
   other: {
     "scroll-restoration": "manual",
@@ -75,9 +78,30 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${plusJakartaSans.variable} max-w-full`}>
       <head>
+        <Script
+          id="google-tag-manager"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2FR6R59');`,
+          }}
+        />
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"} />
       </head>
       <body className={`${plusJakartaSans.className} max-w-full`}>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-W2FR6R59"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
+        <Analytics />
         <Providers>
           <ConditionalNavbar>
             <main className="min-h-screen max-w-full">{children}</main>

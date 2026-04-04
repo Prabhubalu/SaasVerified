@@ -2,8 +2,13 @@
 
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { useSaaSRecommendationsModal } from "@/contexts/SaaSRecommendationsModalContext";
+import { INDIAN_STATES, getCitiesForState } from "@/lib/india-locations";
+import { isValidIndiaPhone } from "@/lib/phone-in";
+
+const STORAGE_KEY = "sv_lead_attribution";
 
 const categories = [
   "CRM",
@@ -38,101 +43,96 @@ const roles = [
   "Other",
 ];
 
+function fireLeadConversionEvent() {
+  if (typeof window === "undefined") return;
+  const w = window as Window & { gtag?: (...args: unknown[]) => void };
+  if (typeof w.gtag === "function") {
+    w.gtag("event", "generate_lead", {
+      form_name: "buyer_saas_recommendations",
+    });
+  }
+}
+
+/** Reasonable “looks like an email” check (aligned with typical HTML email + server zod). */
+function isValidEmailFormat(email: string): boolean {
+  const t = email.trim();
+  if (!t) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t);
+}
+
+/** Actionable hint when the value is non-empty but invalid. */
+function getEmailGuidance(raw: string): string {
+  const t = raw.trim();
+  if (!t) return "Enter your email address so we can reach you.";
+  if (/\s/.test(t)) {
+    return "Emails can’t include spaces. Try you@company.com (one continuous address).";
+  }
+  if (!t.includes("@")) {
+    return "Use an @ between your name and domain — for example you@gmail.com or you@company.com.";
+  }
+  const segments = t.split("@");
+  if (segments.length > 2) {
+    return "Use a single @ only. Example: name@company.com.";
+  }
+  const local = segments[0] ?? "";
+  const domain = segments[1] ?? "";
+  if (!local) {
+    return "Add the part before @ (your name or inbox), e.g. priya@company.com.";
+  }
+  if (!domain) {
+    return "Add the domain after @, such as gmail.com or yourcompany.in.";
+  }
+  if (!domain.includes(".")) {
+    return "The domain after @ should include a dot, like .com, .in, or .org.";
+  }
+  const afterLastDot = domain.slice(domain.lastIndexOf(".") + 1);
+  if (afterLastDot.length < 2) {
+    return "Finish the domain with at least two letters after the last dot (e.g. .com).";
+  }
+  return "Double-check the spelling — use a format like name@domain.com.";
+}
+
 export function SaaSRecommendationsModal() {
+  const router = useRouter();
   const { isOpen, closeModal } = useSaaSRecommendationsModal();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
   const [companySizeOpen, setCompanySizeOpen] = useState(false);
   const [roleOpen, setRoleOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
-    workEmail: "",
+    email: "",
     companyName: "",
     lookingFor: "",
     companySize: "",
     decisionTimeline: "",
     role: "",
     phoneNumber: "",
-    cityState: "",
+    stateName: "",
+    cityName: "",
   });
 
-  // Validate email domain to avoid personal emails
-  const validateEmailDomain = (email: string): boolean => {
-    if (!email) return true; // Empty is handled by required
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return true; // Invalid format is handled by type="email"
-    
-    const personalDomains = [
-      "gmail.com",
-      "yahoo.com",
-      "yahoo.co.uk",
-      "yahoo.co.in",
-      "hotmail.com",
-      "hotmail.co.uk",
-      "outlook.com",
-      "live.com",
-      "msn.com",
-      "aol.com",
-      "icloud.com",
-      "me.com",
-      "mac.com",
-      "protonmail.com",
-      "proton.me",
-      "yandex.com",
-      "mail.com",
-      "gmx.com",
-      "zoho.com",
-      "rediffmail.com",
-    ];
-    
-    const domain = email.split("@")[1]?.toLowerCase();
-    return !personalDomains.includes(domain || "");
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
-    setFormData((prev) => ({ ...prev, workEmail: newEmail }));
-    
-    if (emailError) {
-      setEmailError("");
-    }
-    
-    if (newEmail && newEmail.includes("@") && newEmail.includes(".")) {
-      if (!validateEmailDomain(newEmail)) {
-        setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
-      }
-    }
-  };
-
-  const handleEmailBlur = () => {
-    if (formData.workEmail && !validateEmailDomain(formData.workEmail)) {
-      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
-    } else {
-      setEmailError("");
-    }
-  };
-
   const handleNext = (e?: React.MouseEvent) => {
-    // Prevent form submission
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
 
-    // Validate current step before proceeding
     if (currentStep === 1) {
-      if (!formData.fullName || !formData.workEmail || !formData.companyName) {
+      if (!formData.fullName || !formData.email || !formData.companyName) {
         setSubmitError("Please fill in all required fields.");
+        setEmailError("");
         return;
       }
-      if (!validateEmailDomain(formData.workEmail)) {
-        setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
+      if (!isValidEmailFormat(formData.email)) {
+        setEmailError(getEmailGuidance(formData.email));
+        setSubmitError("");
         return;
       }
+      setEmailError("");
       setSubmitError("");
     } else if (currentStep === 2) {
       if (!formData.lookingFor || !formData.companySize) {
@@ -157,28 +157,61 @@ export function SaaSRecommendationsModal() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitError("");
-    setEmailError("");
-    
-    if (!validateEmailDomain(formData.workEmail)) {
-      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
+
+    if (!isValidEmailFormat(formData.email)) {
+      setEmailError(getEmailGuidance(formData.email));
+      setCurrentStep(1);
       return;
     }
-    
+    setEmailError("");
+
+    if (!formData.role) {
+      setSubmitError("Please select your role.");
+      return;
+    }
+    if (!formData.phoneNumber.trim()) {
+      setSubmitError("Phone number is required.");
+      return;
+    }
+    if (!isValidIndiaPhone(formData.phoneNumber)) {
+      setSubmitError("Enter a valid Indian mobile number (10 digits, starting with 6–9).");
+      return;
+    }
+    if (!formData.stateName || !formData.cityName) {
+      setSubmitError("Please select your state and city.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // Map form data to API expected format
+      let attribution: Record<string, string | undefined> = {};
+      try {
+        attribution = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}") as Record<
+          string,
+          string | undefined
+        >;
+      } catch {
+        attribution = {};
+      }
+
+      const params = new URLSearchParams(window.location.search);
+
       const apiData = {
         fullName: formData.fullName,
-        email: formData.workEmail,
+        email: formData.email,
         company: formData.companyName,
-        role: formData.role || "Other",
-        // Additional fields for future use
+        role: formData.role,
         lookingFor: formData.lookingFor,
         companySize: formData.companySize,
         decisionTimeline: formData.decisionTimeline,
-        phoneNumber: formData.phoneNumber,
-        cityState: formData.cityState,
+        phoneNumber: formData.phoneNumber.trim(),
+        stateName: formData.stateName,
+        cityName: formData.cityName,
+        utmSource: params.get("utm_source") || attribution.utm_source,
+        utmMedium: params.get("utm_medium") || attribution.utm_medium,
+        utmCampaign: params.get("utm_campaign") || attribution.utm_campaign,
+        referrer: attribution.referrer || (document.referrer || undefined),
       };
 
       const response = await fetch("/api/buyers/request", {
@@ -192,11 +225,12 @@ export function SaaSRecommendationsModal() {
         throw new Error(data.error || "Unable to submit request right now.");
       }
 
-      // Success - show success screen
-      setShowSuccess(true);
-      setIsSubmitting(false);
+      fireLeadConversionEvent();
+      handleClose();
+      router.push("/marketplace");
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Something went wrong.");
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -206,18 +240,18 @@ export function SaaSRecommendationsModal() {
     setSubmitError("");
     setEmailError("");
     setIsSubmitting(false);
-    setShowSuccess(false);
     setCurrentStep(1);
     setFormData({
       fullName: "",
-      workEmail: "",
+      email: "",
       companyName: "",
       lookingFor: "",
       companySize: "",
       decisionTimeline: "",
       role: "",
       phoneNumber: "",
-      cityState: "",
+      stateName: "",
+      cityName: "",
     });
   };
 
@@ -248,18 +282,38 @@ export function SaaSRecommendationsModal() {
     }
   }, [isOpen, mounted]);
 
-  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (!isOpen || !mounted) return;
+    try {
+      if (!sessionStorage.getItem(STORAGE_KEY)) {
+        const params = new URLSearchParams(window.location.search);
+        sessionStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            utm_source: params.get("utm_source") || undefined,
+            utm_medium: params.get("utm_medium") || undefined,
+            utm_campaign: params.get("utm_campaign") || undefined,
+            utm_content: params.get("utm_content") || undefined,
+            utm_term: params.get("utm_term") || undefined,
+            referrer: document.referrer || undefined,
+            landingPath: window.location.pathname + window.location.search,
+          })
+        );
+      }
+    } catch {
+      // private mode / blocked storage
+    }
+  }, [isOpen, mounted]);
+
   useEffect(() => {
     if (isOpen && mounted) {
       document.body.style.overflow = "hidden";
-      // Restore scrolling on cleanup
       return () => {
         document.body.style.overflow = "";
       };
     }
   }, [isOpen, mounted]);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (companySizeDropdownRef.current && !companySizeDropdownRef.current.contains(event.target as Node)) {
@@ -281,103 +335,57 @@ export function SaaSRecommendationsModal() {
 
   if (!mounted || !shouldRender) return null;
 
-  // Calculate progress: step 1 = 5%, step 2 = 52.5%, step 3 = 100%
-  // Start at 5% to motivate users, then progress smoothly
   const progressPercentage = 5 + ((currentStep - 1) / 2) * 95;
+  const cityOptions = formData.stateName ? getCitiesForState(formData.stateName) : [];
 
   const modalContent = (
-    <div 
+    <div
       className={`fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 transition-opacity duration-300 ${
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
       onClick={handleClose}
     >
-      <div 
+      <div
         className={`bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] overflow-y-auto transition-all duration-300 ${
           isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Success Screen */}
-        {showSuccess ? (
-          <div className="px-6 py-12 text-center">
-            <div className="flex flex-col items-center justify-center">
-              {/* Animated Checkmark Circle */}
-              <div className="relative mb-6">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#12b76a] to-[#10a85c] flex items-center justify-center shadow-2xl transform transition-all duration-500 scale-100">
-                  <svg
-                    className="w-10 h-10 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth={3}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                {/* Success rings animation */}
-                <div className="absolute inset-0 rounded-full border-4 border-[#12b76a]/30 animate-ping" />
-                <div className="absolute inset-0 rounded-full border-2 border-[#12b76a]/20 animate-ping" style={{ animationDelay: '0.3s', animationDuration: '2s' }} />
-              </div>
-
-              <h3 className="text-3xl font-bold text-gray-900 mb-3">
-                Request Submitted Successfully!
-              </h3>
-              <p className="text-lg text-gray-600 mb-2 max-w-md mx-auto">
-                Thank you for your interest! We've received your request.
+        <div className="px-6 py-5 border-b border-gray-200">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900">Get Verified SaaS Guidance</h3>
+              <p className="text-gray-600 mt-2">
+                Tell us a little about your needs. We&apos;ll help you choose the right SaaS — without sales
+                pressure.
               </p>
-              <p className="text-sm text-gray-500 mb-8 max-w-md mx-auto">
-                Our team will review your requirements and get back to you with personalized SaaS recommendations within 24-48 hours.
-              </p>
+            </div>
+            <button
+              onClick={handleClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none"
+              aria-label="Close form"
+            >
+              ✕
+            </button>
+          </div>
 
-              <button
-                onClick={handleClose}
-                className="bg-[#12b76a] text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-              >
-                Close
-              </button>
+          <div className="mt-4">
+            <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+              <span>
+                Step {currentStep} of 3
+              </span>
+              <span>{Math.round(progressPercentage)}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className="bg-[#12b76a] h-2 rounded-full transition-all duration-300"
+                style={{ width: `${progressPercentage}%` }}
+              />
             </div>
           </div>
-        ) : (
-          <>
-            {/* Header */}
-            <div className="px-6 py-5 border-b border-gray-200">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900">Get Verified SaaS Guidance</h3>
-                  <p className="text-gray-600 mt-2">
-                    Tell us a little about your needs. We'll help you choose the right SaaS — without sales pressure.
-                  </p>
-                </div>
-                <button
-                  onClick={handleClose}
-                  className="text-gray-400 hover:text-gray-600 transition-colors text-2xl leading-none"
-                  aria-label="Close form"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              {/* Progress Bar */}
-              <div className="mt-4">
-                <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
-                  <span>Step {currentStep} of 3</span>
-                  <span>{Math.round(progressPercentage)}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-[#12b76a] h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${progressPercentage}%` }}
-                  />
-                </div>
-              </div>
-            </div>
+        </div>
 
-            <form 
+        <form
           onSubmit={(e) => {
             if (currentStep < 3) {
               e.preventDefault();
@@ -385,10 +393,9 @@ export function SaaSRecommendationsModal() {
             } else {
               handleSubmit(e);
             }
-          }} 
+          }}
           className="px-6 py-5"
         >
-          {/* Step 1: Essentials */}
           {currentStep === 1 && (
             <div className="space-y-5">
               <div className="space-y-1">
@@ -403,25 +410,39 @@ export function SaaSRecommendationsModal() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Work Email</label>
+                <label className="text-sm font-medium text-gray-700">Email</label>
                 <input
                   required
                   type="email"
-                  value={formData.workEmail}
-                  onChange={handleEmailChange}
-                  onBlur={handleEmailBlur}
-                  placeholder="name@company.com"
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={(e) => {
+                    setFormData((prev) => ({ ...prev, email: e.target.value }));
+                    if (emailError) setEmailError("");
+                  }}
+                  onBlur={(e) => {
+                    const v = e.target.value;
+                    if (v.trim() && !isValidEmailFormat(v)) {
+                      setEmailError(getEmailGuidance(v));
+                    }
+                  }}
+                  placeholder="you@example.com"
                   className={`w-full rounded-lg border px-3 py-2.5 text-gray-800 placeholder-gray-400 focus:ring-2 outline-none ${
                     emailError
                       ? "border-red-300 focus:border-red-500 focus:ring-red-500/20"
                       : "border-gray-300 focus:border-[#12b76a] focus:ring-[#12b76a]/20"
                   }`}
+                  aria-invalid={emailError ? "true" : "false"}
+                  aria-describedby={emailError ? "buyer-email-error" : "buyer-email-hint"}
                 />
-                <p className="text-xs text-gray-500 mt-1">
-                  We prioritize requests from verified company domains
-                </p>
-                {emailError && (
-                  <p className="text-sm text-red-600 mt-1">{emailError}</p>
+                {emailError ? (
+                  <p id="buyer-email-error" className="text-sm text-red-600 mt-1" role="alert">
+                    {emailError}
+                  </p>
+                ) : (
+                  <p id="buyer-email-hint" className="text-xs text-gray-500 mt-1">
+                    Use a standard address with @ and a domain (e.g. name@company.com).
+                  </p>
                 )}
               </div>
 
@@ -438,7 +459,6 @@ export function SaaSRecommendationsModal() {
             </div>
           )}
 
-          {/* Step 2: Context */}
           {currentStep === 2 && (
             <div className="space-y-5">
               <div className="space-y-2">
@@ -510,7 +530,6 @@ export function SaaSRecommendationsModal() {
             </div>
           )}
 
-          {/* Step 3: Qualification */}
           {currentStep === 3 && (
             <div className="space-y-5">
               <div className="space-y-2">
@@ -540,7 +559,9 @@ export function SaaSRecommendationsModal() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Role / Designation</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Role / Designation <span className="text-red-500">*</span>
+                </label>
                 <div className="relative" ref={roleDropdownRef}>
                   <button
                     type="button"
@@ -583,25 +604,65 @@ export function SaaSRecommendationsModal() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">Phone Number <span className="text-gray-500 font-normal">(Optional)</span></label>
+                <label className="text-sm font-medium text-gray-700">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
                 <input
+                  required
                   type="tel"
+                  autoComplete="tel"
+                  inputMode="numeric"
                   value={formData.phoneNumber}
                   onChange={(e) => setFormData((prev) => ({ ...prev, phoneNumber: e.target.value }))}
-                  placeholder="+1 (234) 567-8900"
+                  placeholder="10-digit mobile (e.g. 9876543210)"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-800 placeholder-gray-400 focus:border-[#12b76a] focus:ring-2 focus:ring-[#12b76a]/20 outline-none"
                 />
-                <p className="text-xs text-gray-500 mt-1">Only if you'd like a call</p>
+                <p className="text-xs text-gray-500 mt-1">Indian mobile numbers only (6–9 as first digit).</p>
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-700">City & State <span className="text-gray-500 font-normal">(Optional)</span></label>
-                <input
-                  value={formData.cityState}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, cityState: e.target.value }))}
-                  placeholder="City, State"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-800 placeholder-gray-400 focus:border-[#12b76a] focus:ring-2 focus:ring-[#12b76a]/20 outline-none"
-                />
+                <label className="text-sm font-medium text-gray-700">
+                  State <span className="text-red-500">*</span>
+                </label>
+                <select
+                  required
+                  value={formData.stateName}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      stateName: e.target.value,
+                      cityName: "",
+                    }))
+                  }
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-800 bg-white focus:border-[#12b76a] focus:ring-2 focus:ring-[#12b76a]/20 outline-none"
+                >
+                  <option value="">Select state</option>
+                  {INDIAN_STATES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-700">
+                  City <span className="text-red-500">*</span>
+                </label>
+                <select
+                  required
+                  disabled={!formData.stateName}
+                  value={formData.cityName}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, cityName: e.target.value }))}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-gray-800 bg-white focus:border-[#12b76a] focus:ring-2 focus:ring-[#12b76a]/20 outline-none disabled:bg-gray-50 disabled:text-gray-400"
+                >
+                  <option value="">{formData.stateName ? "Select city" : "Select state first"}</option>
+                  {cityOptions.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           )}
@@ -612,7 +673,6 @@ export function SaaSRecommendationsModal() {
             </div>
           )}
 
-          {/* Navigation Buttons */}
           <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
             <button
               type="button"
@@ -646,19 +706,15 @@ export function SaaSRecommendationsModal() {
             )}
           </div>
 
-          {/* Trust Text */}
           {currentStep === 3 && (
             <p className="text-xs text-gray-500 text-center mt-4">
-              🔒 We don't spam. Your details are used only to guide your SaaS decision.
+              🔒 We don&apos;t spam. Your details are used only to guide your SaaS decision.
             </p>
           )}
         </form>
-          </>
-        )}
       </div>
     </div>
   );
 
   return createPortal(modalContent, document.body);
 }
-
