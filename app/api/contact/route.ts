@@ -24,8 +24,14 @@ function contactLeadSource(): string {
 }
 
 /**
- * Free-text message only (enquiry type is on `mx_Enquiry_Type`). Default `Notes` is the usual Lead text field.
- * Do not use `mx_Enquiry_Note` unless that field is text in your tenant — it may be Boolean.
+ * Picklist for “How can we help?” / Request in CRM. Must match Lead Fields schema name (e.g. `mx_Enquiry_Type`).
+ */
+function contactEnquiryTypeAttribute(): string {
+  return process.env.LEADSQUARED_CONTACT_ENQUIRY_TYPE_ATTRIBUTE?.trim() || "mx_Enquiry_Type";
+}
+
+/**
+ * Free-text message (Notes in UI). Must match Lead Fields schema name (often `Notes`; use env if your tenant differs).
  */
 function contactMessageAttribute(): string {
   return process.env.LEADSQUARED_CONTACT_MESSAGE_ATTRIBUTE?.trim() || "Notes";
@@ -37,6 +43,21 @@ function phoneForLeadSquared(phone: string): string {
     return digitsOnlyPhoneLast10(phone);
   }
   return digits.slice(0, 20);
+}
+
+/**
+ * Lead.Capture uses `SearchBy` so existing leads match Phone or Email and are **updated** instead of
+ * failing with "A Lead with same Phone Number already exists." See Lead.Capture docs (SearchBy).
+ */
+function applyContactSearchBy(attrs: LeadSquaredAttribute[]): LeadSquaredAttribute[] {
+  if (attrs.some((a) => a.Attribute === "SearchBy")) {
+    return attrs;
+  }
+  const hasPhone = attrs.some((a) => a.Attribute === "Phone");
+  if (hasPhone) {
+    return [...attrs, { Attribute: "SearchBy", Value: "Phone" }];
+  }
+  return [...attrs, { Attribute: "SearchBy", Value: "EmailAddress" }];
 }
 
 export async function POST(req: Request) {
@@ -71,6 +92,8 @@ export async function POST(req: Request) {
 
     if (isLeadSquaredConfigured()) {
       const { firstName, lastName } = splitFullName(data.name);
+      const enquiryAttr = contactEnquiryTypeAttribute();
+      const messageAttr = contactMessageAttribute();
 
       const fullAttributes: LeadSquaredAttribute[] = [
         { Attribute: "FirstName", Value: firstName },
@@ -79,67 +102,56 @@ export async function POST(req: Request) {
         ...(phoneTrimmed
           ? [{ Attribute: "Phone", Value: phoneForLeadSquared(phoneTrimmed) }]
           : []),
-        { Attribute: "mx_Enquiry_Type", Value: data.enquiryType },
-        { Attribute: contactMessageAttribute(), Value: data.message },
+        { Attribute: enquiryAttr, Value: data.enquiryType },
+        { Attribute: messageAttr, Value: data.message },
         { Attribute: "Source", Value: leadSource },
       ];
 
-      const skipCustom = process.env.LEADSQUARED_SKIP_CUSTOM_FIELDS === "true";
+      /**
+       * Contact form always sends full field set when possible.
+       * We intentionally do NOT honor `LEADSQUARED_SKIP_CUSTOM_FIELDS` here — that flag is for buyer/vendor
+       * testing and would strip Source + all `mx_*`, which is why production looked “empty” for Source / Request / Notes.
+       */
+      const withoutSource = fullAttributes.filter((a) => a.Attribute !== "Source");
+      const withoutEnquiryType = fullAttributes.filter((a) => a.Attribute !== enquiryAttr);
+      const withoutEnquiryAndSource = fullAttributes.filter(
+        (a) => a.Attribute !== enquiryAttr && a.Attribute !== "Source"
+      );
+      const minimal: LeadSquaredAttribute[] = [
+        { Attribute: "FirstName", Value: firstName },
+        { Attribute: "LastName", Value: lastName },
+        { Attribute: "EmailAddress", Value: data.email },
+        ...(phoneTrimmed
+          ? [{ Attribute: "Phone", Value: phoneForLeadSquared(phoneTrimmed) }]
+          : []),
+      ];
 
-      const attempts: LeadSquaredAttribute[][] = [];
+      const attempts: LeadSquaredAttribute[][] = [
+        fullAttributes,
+        /** If Lead Source picklist rejects `Contact Website`, still capture enquiry + message. */
+        withoutSource,
+        /** If enquiry picklist value mismatches, still capture Source + message. */
+        withoutEnquiryType,
+        withoutEnquiryAndSource,
+        minimal,
+      ];
 
-      if (skipCustom) {
-        attempts.push(
-          fullAttributes.filter(
-            (a) => !a.Attribute.startsWith("mx_") && a.Attribute !== "Source"
-          )
-        );
-      } else {
-        /** Drop only enquiry picklist; keep `Notes` / message field (may be `mx_*` text in some tenants). */
-        const withoutEnquiryType = fullAttributes.filter((a) => a.Attribute !== "mx_Enquiry_Type");
-        const withoutEnquiryTypeOrSource = fullAttributes.filter(
-          (a) => a.Attribute !== "mx_Enquiry_Type" && a.Attribute !== "Source"
-        );
-        const minimal: LeadSquaredAttribute[] = [
-          { Attribute: "FirstName", Value: firstName },
-          { Attribute: "LastName", Value: lastName },
-          { Attribute: "EmailAddress", Value: data.email },
-          ...(phoneTrimmed
-            ? [{ Attribute: "Phone", Value: phoneForLeadSquared(phoneTrimmed) }]
-            : []),
-        ];
-
-        const emailOnly: LeadSquaredAttribute[] = [
-          { Attribute: "FirstName", Value: firstName },
-          { Attribute: "LastName", Value: lastName },
-          { Attribute: "EmailAddress", Value: data.email },
-        ];
-
-        attempts.push(fullAttributes);
-        attempts.push(withoutEnquiryType);
-        attempts.push(withoutEnquiryTypeOrSource);
-        attempts.push(minimal);
-        if (phoneTrimmed) {
-          attempts.push(emailOnly);
-        }
-
-        const seen = new Set<string>();
-        const deduped = attempts.filter((attrs) => {
-          const key = JSON.stringify(attrs);
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
-        attempts.length = 0;
-        attempts.push(...deduped);
-      }
+      const seen = new Set<string>();
+      const deduped = attempts.filter((attrs) => {
+        const key = JSON.stringify(attrs);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      attempts.length = 0;
+      attempts.push(...deduped);
 
       let lastMessage = "";
       let captureOk = false;
       let capturedLeadId: string | undefined;
 
       for (let i = 0; i < attempts.length; i++) {
-        const lsq = await captureLeadSquaredLead(attempts[i]);
+        const lsq = await captureLeadSquaredLead(applyContactSearchBy(attempts[i]));
         lastMessage = lsq.ok ? "" : lsq.message;
         if (lsq.ok) {
           captureOk = true;
