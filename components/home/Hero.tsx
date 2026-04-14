@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useMembershipModal } from "@/contexts/MembershipModalContext";
 import { useSaaSRecommendationsModal } from "@/contexts/SaaSRecommendationsModalContext";
 import { useSearchParams } from "next/navigation";
+import { getEmailGuidance, isValidEmailFormat } from "@/lib/email-format";
 
 export function Hero() {
   const [email, setEmail] = useState("");
@@ -247,25 +248,38 @@ export function Hero() {
     const newEmail = e.target.value;
     setMemberDetails((prev) => ({ ...prev, email: newEmail }));
 
-    // Clear error when user starts typing
     if (emailError) {
       setEmailError("");
     }
 
-    // Validate on blur or when email is complete
     if (newEmail && newEmail.includes("@") && newEmail.includes(".")) {
-      if (!validateEmailDomain(newEmail)) {
-        setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
+      if (!isValidEmailFormat(newEmail)) {
+        setEmailError(getEmailGuidance(newEmail));
+      } else if (!validateEmailDomain(newEmail)) {
+        setEmailError(
+          "Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted."
+        );
       }
     }
   };
 
-  const handleEmailBlur = () => {
-    if (memberDetails.email && !validateEmailDomain(memberDetails.email)) {
-      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
-    } else {
+  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const v = e.target.value;
+    if (!v.trim()) {
       setEmailError("");
+      return;
     }
+    if (!isValidEmailFormat(v)) {
+      setEmailError(getEmailGuidance(v));
+      return;
+    }
+    if (!validateEmailDomain(v)) {
+      setEmailError(
+        "Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted."
+      );
+      return;
+    }
+    setEmailError("");
   };
 
   const categories = [
@@ -313,8 +327,18 @@ export function Hero() {
       return;
     }
 
+    if (!memberDetails.email.trim()) {
+      setEmailError(getEmailGuidance(memberDetails.email));
+      return;
+    }
+    if (!isValidEmailFormat(memberDetails.email)) {
+      setEmailError(getEmailGuidance(memberDetails.email));
+      return;
+    }
     if (!validateEmailDomain(memberDetails.email)) {
-      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
+      setEmailError(
+        "Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted."
+      );
       return;
     }
 
@@ -673,22 +697,38 @@ export function Hero() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-sm font-medium text-gray-700">Work email</label>
+                  <label htmlFor="membership-email" className="text-sm font-medium text-gray-700">
+                    Work email
+                  </label>
                   <input
                     required
+                    id="membership-email"
+                    name="email"
                     type="email"
-                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                    autoComplete="email"
                     value={memberDetails.email}
                     onChange={handleEmailChange}
                     onBlur={handleEmailBlur}
-                    placeholder="you@company.com"
-                    className={`w-full rounded-lg border px-3 py-2 text-gray-800 placeholder-gray-400 focus:ring-2 outline-none ${emailError
+                    placeholder="you@example.com"
+                    className={`w-full rounded-lg border px-3 py-2.5 text-gray-800 placeholder-gray-400 focus:ring-2 outline-none ${
+                      emailError
                         ? "border-red-300 focus:border-red-500 focus:ring-red-500/20"
                         : "border-gray-300 focus:border-[#12b76a] focus:ring-[#12b76a]/20"
-                      }`}
+                    }`}
+                    aria-invalid={emailError ? "true" : "false"}
+                    aria-describedby={
+                      emailError ? "membership-email-error" : "membership-email-hint"
+                    }
                   />
-                  {emailError && (
-                    <p className="text-sm text-red-600 mt-1">{emailError}</p>
+                  {emailError ? (
+                    <p id="membership-email-error" className="text-sm text-red-600 mt-1" role="alert">
+                      {emailError}
+                    </p>
+                  ) : (
+                    <p id="membership-email-hint" className="text-xs text-gray-500 mt-1">
+                      Use a standard address with @ and a domain (e.g. name@company.com). Personal
+                      inboxes (Gmail, Yahoo, etc.) aren&apos;t accepted — use your work email.
+                    </p>
                   )}
                 </div>
 

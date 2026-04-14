@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { useVendorModal } from "@/contexts/VendorModalContext";
+import { getEmailGuidance, isValidEmailFormat } from "@/lib/email-format";
 
 const categories = [
   "CRM",
@@ -53,79 +54,19 @@ export function VendorModal() {
     pricingModel: "",
   });
 
-  // Validate email domain to avoid personal emails
-  const validateEmailDomain = (email: string): boolean => {
-    if (!email) return true; // Empty is handled by required
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return true; // Invalid format is handled by type="email"
-    
-    const personalDomains = [
-      "gmail.com",
-      "yahoo.com",
-      "yahoo.co.uk",
-      "yahoo.co.in",
-      "hotmail.com",
-      "hotmail.co.uk",
-      "outlook.com",
-      "live.com",
-      "msn.com",
-      "aol.com",
-      "icloud.com",
-      "me.com",
-      "mac.com",
-      "protonmail.com",
-      "proton.me",
-      "yandex.com",
-      "mail.com",
-      "gmx.com",
-      "zoho.com",
-      "rediffmail.com",
-    ];
-    
-    const domain = email.split("@")[1]?.toLowerCase();
-    return !personalDomains.includes(domain || "");
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
-    setVendorDetails((prev) => ({ ...prev, emailAddress: newEmail }));
-    
-    // Clear error when user starts typing
-    if (emailError) {
-      setEmailError("");
-    }
-    
-    // Validate on blur or when email is complete
-    if (newEmail && newEmail.includes("@") && newEmail.includes(".")) {
-      if (!validateEmailDomain(newEmail)) {
-        setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
-      }
-    }
-  };
-
-  const handleEmailBlur = () => {
-    if (vendorDetails.emailAddress && !validateEmailDomain(vendorDetails.emailAddress)) {
-      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
-    } else {
-      setEmailError("");
-    }
-  };
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitError("");
     setEmailError("");
-    
-    // Validate email before submission
-    if (!validateEmailDomain(vendorDetails.emailAddress)) {
-      setEmailError("Please use your work email address. Personal email addresses (Gmail, Yahoo, etc.) are not accepted.");
+
+    if (!isValidEmailFormat(vendorDetails.emailAddress)) {
+      setEmailError(getEmailGuidance(vendorDetails.emailAddress));
       return;
     }
-    
+
     setIsSubmitting(true);
 
     try {
-      // TODO: Replace with actual API endpoint
       const response = await fetch("/api/vendors/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -418,19 +359,35 @@ export function VendorModal() {
                 <input
                   required
                   type="email"
-                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                  autoComplete="email"
                   value={vendorDetails.emailAddress}
-                  onChange={handleEmailChange}
-                  onBlur={handleEmailBlur}
-                  placeholder="contact@yourproduct.com"
+                  onChange={(e) => {
+                    setVendorDetails((prev) => ({ ...prev, emailAddress: e.target.value }));
+                    if (emailError) setEmailError("");
+                  }}
+                  onBlur={(e) => {
+                    const v = e.target.value;
+                    if (v.trim() && !isValidEmailFormat(v)) {
+                      setEmailError(getEmailGuidance(v));
+                    }
+                  }}
+                  placeholder="you@example.com"
                   className={`w-full rounded-lg border px-3 py-2 text-gray-800 placeholder-gray-400 focus:ring-2 outline-none ${
                     emailError
                       ? "border-red-300 focus:border-red-500 focus:ring-red-500/20"
                       : "border-gray-300 focus:border-[#12b76a] focus:ring-[#12b76a]/20"
                   }`}
+                  aria-invalid={emailError ? "true" : "false"}
+                  aria-describedby={emailError ? "vendor-email-error" : "vendor-email-hint"}
                 />
-                {emailError && (
-                  <p className="text-sm text-red-600 mt-1">{emailError}</p>
+                {emailError ? (
+                  <p id="vendor-email-error" className="text-sm text-red-600 mt-1" role="alert">
+                    {emailError}
+                  </p>
+                ) : (
+                  <p id="vendor-email-hint" className="text-xs text-gray-500 mt-1">
+                    Use a standard address with @ and a domain (e.g. name@company.com).
+                  </p>
                 )}
               </div>
 
