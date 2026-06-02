@@ -1,7 +1,10 @@
 /**
- * Run: node --env-file=.env scripts/test-vtiger-webhook.mjs
- * Tests Vtiger createleads webhook auth (header Token + urlencoded) and prints your public IP for allowlisting.
+ * Run from project root: node scripts/test-vtiger-webhook.mjs
+ * (Works on Node 18+; loads .env automatically.)
  */
+import { loadProjectEnv } from "./load-env.mjs";
+
+loadProjectEnv();
 
 const url = process.env.VTIGER_WEBHOOK_URL?.trim();
 const token = process.env.VTIGER_WEBHOOK_TOKEN?.trim();
