@@ -78,6 +78,13 @@ export function VendorModal() {
         throw new Error(data.error || "Unable to submit application right now.");
       }
 
+      const data = (await response.json().catch(() => ({}))) as {
+        vtiger?: { ok: boolean; leadId?: string; message?: string };
+      };
+      if (data.vtiger && !data.vtiger.ok) {
+        console.warn("[Vtiger] CRM sync failed (application was saved):", data.vtiger.message);
+      }
+
       setFormStep("success");
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Something went wrong.");
