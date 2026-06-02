@@ -21,6 +21,26 @@ Lead capture uses the VTAP incoming webhook configured in Vtiger (not in this re
    VTIGER_WEBHOOK_TOKEN="paste-from-documentation"
    ```
 
+## PM2 must load `.env` (common “API not hitting” fix)
+
+If logs show `NOT calling webhook` or `hasUrl=false`, PM2 is not passing env vars. **Do not** use `pm2 start npm -- start` alone.
+
+```bash
+cd /var/www/SaasVerified
+pm2 delete saasverified
+pm2 start ecosystem.config.cjs
+pm2 save
+```
+
+Verify the running app sees env:
+
+```bash
+node scripts/check-vtiger-env.mjs
+curl -H "Authorization: Bearer YOUR_ADMIN_TOKEN" https://saasverify.com/api/admin/vtiger-status
+```
+
+`configured` must be `true`.
+
 ## Test from the VPS
 
 ```bash
@@ -28,11 +48,13 @@ cd /var/www/SaasVerified
 node scripts/test-vtiger-exact-browser.mjs
 ```
 
-Expect **HTTP 200**. Then:
+Expect **HTTP 200**. Then submit a buyer form and check:
 
 ```bash
-pm2 restart saasverified
+pm2 logs saasverified --lines 20 | grep Vtiger
 ```
+
+You should see `[Vtiger] POST ...` or `[Vtiger] capture ok`.
 
 ## This app’s request format
 
