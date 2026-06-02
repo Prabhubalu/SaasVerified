@@ -38,7 +38,7 @@ case "$MODE" in
         "cityName": "Bengaluru"
       }' | jq . 2>/dev/null || cat
     echo ""
-    echo "Check dev terminal for: [Vtiger] POST ..."
+    echo "Response includes vtiger.ok / leadId / message. Check server logs for [Vtiger] POST ..."
     ;;
   admin)
     if [ -z "$ADMIN_TOKEN" ]; then
