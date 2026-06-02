@@ -93,7 +93,7 @@ fi
 
 echo ""
 if grep -qE '^VTIGER_WEBHOOK_TOKEN=.+' .env 2>/dev/null; then
-    echo -e "${BLUE}🔗 Testing Vtiger webhook from this server (allowlist the printed IP in API Designer → Security)...${NC}"
+    echo -e "${BLUE}🔗 Testing Vtiger webhook from this server...${NC}"
     node scripts/test-vtiger-webhook.mjs || true
 else
     echo -e "${YELLOW}⚠️  VTIGER_WEBHOOK_URL / VTIGER_WEBHOOK_TOKEN missing in .env — buyer forms will not sync to Vtiger.${NC}"
