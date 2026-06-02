@@ -182,9 +182,20 @@ export function SaaSRecommendationsModal() {
         body: JSON.stringify(apiData),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || "Unable to submit request right now.");
+        throw new Error(
+          (data as { error?: string }).error || "Unable to submit request right now."
+        );
+      }
+
+      const vtiger = (data as { vtiger?: { ok: boolean; leadId?: string; message?: string } })
+        .vtiger;
+      if (vtiger && !vtiger.ok) {
+        console.warn("[Vtiger] CRM sync failed (form was saved):", vtiger.message);
+      } else if (vtiger?.ok && vtiger.leadId) {
+        console.info("[Vtiger] Lead id:", vtiger.leadId);
       }
 
       fireLeadConversionEvent();

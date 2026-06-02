@@ -81,6 +81,8 @@ export async function POST(req: Request) {
       },
     });
 
+    const vtiger = await syncVtigerLead(buyerToVtigerFields(data));
+
     await sendFormNotification({
       title: "New Buyer Request",
       subject: `Buyer Request: ${data.fullName}`,
@@ -100,10 +102,14 @@ export async function POST(req: Request) {
       ],
     });
 
-    await syncVtigerLead(buyerToVtigerFields(data));
-
     return NextResponse.json(
-      { message: "Request submitted successfully", id: buyerRequest.id },
+      {
+        message: "Request submitted successfully",
+        id: buyerRequest.id,
+        vtiger: vtiger.ok
+          ? { ok: true as const, leadId: vtiger.leadId }
+          : { ok: false as const, message: vtiger.message },
+      },
       { status: 200 }
     );
   } catch (error) {

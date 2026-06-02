@@ -3,7 +3,7 @@ import { digitsOnlyPhoneLast10, isValidIndiaPhone } from "@/lib/phone-in";
 export type VtigerWebsiteFormSource = "Buyer" | "Vendors" | "Contact";
 
 export type VtigerCaptureResult =
-  | { ok: true }
+  | { ok: true; leadId?: string }
   | { ok: false; message: string };
 
 /**
@@ -151,12 +151,14 @@ export async function captureVtigerLead(
     try {
       const json = JSON.parse(rawText) as {
         success?: boolean;
+        result?: { id?: string };
         error?: string;
         message?: string;
       };
       if (json.success === false) {
         return { ok: false, message: json.error || json.message || rawText.slice(0, 800) };
       }
+      return { ok: true, leadId: json.result?.id };
     } catch {
       // Non-JSON success bodies are OK.
     }
@@ -167,21 +169,23 @@ export async function captureVtigerLead(
 
 export async function syncVtigerLead(
   fields: Record<string, string | undefined | null>
-): Promise<void> {
+): Promise<VtigerCaptureResult> {
   const status = getVtigerEnvStatus();
   const email = fields.email?.trim() || "(no email)";
 
   if (!status.configured) {
-    console.warn(
-      `[Vtiger] NOT calling webhook for ${email} — env missing (hasUrl=${status.hasUrl}, hasToken=${status.hasToken}). Fix .env and restart PM2 with ecosystem.config.cjs`
-    );
-    return;
+    const message = "VTIGER_WEBHOOK_URL or VTIGER_WEBHOOK_TOKEN not set in server env";
+    console.warn(`[Vtiger] NOT calling webhook for ${email} — ${message}`);
+    return { ok: false, message };
   }
 
   const result = await captureVtigerLead(fields);
   if (result.ok) {
-    console.log(`[Vtiger] capture ok for ${email}`);
+    console.log(
+      `[Vtiger] capture ok for ${email}${result.leadId ? ` (id: ${result.leadId})` : ""}`
+    );
   } else {
     console.error(`[Vtiger] capture failed for ${email}:`, result.message);
   }
+  return result;
 }
