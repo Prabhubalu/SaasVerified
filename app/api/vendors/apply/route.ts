@@ -2,13 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { sendFormNotification } from "@/lib/email";
-import {
-  captureLeadSquaredLead,
-  isLeadSquaredConfigured,
-  splitFullName,
-  type LeadSquaredAttribute,
-} from "@/lib/leadsquared";
-import { digitsOnlyPhoneLast10, isValidIndiaPhone } from "@/lib/phone-in";
+import { syncVtigerLead } from "@/lib/vtiger";
+import { vendorToVtigerFields } from "@/lib/vtiger-vendor";
 
 const applySchema = z.object({
   productName: z.string().min(1),
@@ -20,17 +15,6 @@ const applySchema = z.object({
   phoneNumber: z.string().min(1),
   pricingModel: z.string().min(1),
 });
-
-/** LeadSquared `Source` — fixed value for CRM picklists / reporting. */
-const VENDOR_LEAD_SOURCE = "Vendor Website";
-
-function phoneForLeadSquared(phone: string): string {
-  const digits = phone.replace(/\D/g, "");
-  if (isValidIndiaPhone(phone)) {
-    return digitsOnlyPhoneLast10(phone);
-  }
-  return digits.slice(0, 20);
-}
 
 export async function POST(req: Request) {
   try {
@@ -83,37 +67,18 @@ export async function POST(req: Request) {
       ],
     });
 
-    if (isLeadSquaredConfigured()) {
-      const { firstName, lastName } = splitFullName(contactName);
-      const phoneLsq = phoneForLeadSquared(phoneNumber);
-
-      const fullAttributes: LeadSquaredAttribute[] = [
-        { Attribute: "FirstName", Value: firstName },
-        { Attribute: "LastName", Value: lastName },
-        { Attribute: "EmailAddress", Value: emailAddress },
-        { Attribute: "Phone", Value: phoneLsq },
-        { Attribute: "Company", Value: productName },
-        { Attribute: "Website", Value: websiteUrl },
-        { Attribute: "mx_Vendor_Category", Value: category },
-        { Attribute: "mx_Vendor_Target_Audience", Value: targetAudience },
-        { Attribute: "mx_Vendor_Pricing_Model", Value: pricingModel },
-        { Attribute: "Source", Value: VENDOR_LEAD_SOURCE },
-      ];
-
-      const skipCustom = process.env.LEADSQUARED_SKIP_CUSTOM_FIELDS === "true";
-      const attributes: LeadSquaredAttribute[] = skipCustom
-        ? fullAttributes.filter(
-            (a) => !a.Attribute.startsWith("mx_") && a.Attribute !== "Source"
-          )
-        : fullAttributes;
-
-      const lsq = await captureLeadSquaredLead(attributes);
-      if (!lsq.ok) {
-        console.error("LeadSquared capture failed:", lsq.message);
-      }
-    } else {
-      console.warn("LeadSquared: skipping capture (LEADSQUARED_HOST / keys not set)");
-    }
+    await syncVtigerLead(
+      vendorToVtigerFields({
+        contactName,
+        emailAddress,
+        phoneNumber,
+        productName,
+        websiteUrl,
+        category,
+        targetAudience,
+        pricingModel,
+      })
+    );
 
     return NextResponse.json(
       { message: "Application submitted successfully", id: vendorApplication.id },

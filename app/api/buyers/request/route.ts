@@ -2,14 +2,10 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { sendFormNotification } from "@/lib/email";
-import {
-  captureLeadSquaredLead,
-  isLeadSquaredConfigured,
-  splitFullName,
-  type LeadSquaredAttribute,
-} from "@/lib/leadsquared";
+import { buyerToVtigerFields } from "@/lib/vtiger-buyer";
+import { syncVtigerLead } from "@/lib/vtiger";
 import { CITIES_BY_STATE, INDIAN_STATES } from "@/lib/india-locations";
-import { digitsOnlyPhoneLast10, isValidIndiaPhone } from "@/lib/phone-in";
+import { isValidIndiaPhone } from "@/lib/phone-in";
 
 const requestSchema = z.object({
   fullName: z.string().min(1),
@@ -34,7 +30,7 @@ function isValidIndiaLocation(stateName: string, cityName: string): boolean {
   return cities?.includes(cityName) ?? false;
 }
 
-/** LeadSquared `Source` + DB `leadSource` — fixed value for CRM picklists / reporting. */
+/** DB `leadSource` for admin export / reporting. */
 const BUYER_LEAD_SOURCE = "Website";
 
 export async function POST(req: Request) {
@@ -104,39 +100,7 @@ export async function POST(req: Request) {
       ],
     });
 
-    if (isLeadSquaredConfigured()) {
-      const { firstName, lastName } = splitFullName(data.fullName);
-      const phoneLsq = digitsOnlyPhoneLast10(data.phoneNumber);
-
-      const fullAttributes: LeadSquaredAttribute[] = [
-        { Attribute: "FirstName", Value: firstName },
-        { Attribute: "LastName", Value: lastName },
-        { Attribute: "EmailAddress", Value: data.email },
-        { Attribute: "Phone", Value: phoneLsq },
-        { Attribute: "Company", Value: data.company },
-        { Attribute: "mx_Requirement", Value: data.lookingFor || "" },
-        { Attribute: "mx_Company_Size", Value: data.companySize || "" },
-        { Attribute: "mx_Decision_Timeline", Value: data.decisionTimeline || "" },
-        { Attribute: "mx_Designation", Value: data.role },
-        { Attribute: "mx_State", Value: data.stateName },
-        { Attribute: "mx_City", Value: data.cityName },
-        { Attribute: "Source", Value: BUYER_LEAD_SOURCE },
-      ];
-
-      const skipCustom = process.env.LEADSQUARED_SKIP_CUSTOM_FIELDS === "true";
-      const attributes: LeadSquaredAttribute[] = skipCustom
-        ? fullAttributes.filter(
-            (a) => !a.Attribute.startsWith("mx_") && a.Attribute !== "Source"
-          )
-        : fullAttributes;
-
-      const lsq = await captureLeadSquaredLead(attributes);
-      if (!lsq.ok) {
-        console.error("LeadSquared capture failed:", lsq.message);
-      }
-    } else {
-      console.warn("LeadSquared: skipping capture (LEADSQUARED_HOST / keys not set)");
-    }
+    await syncVtigerLead(buyerToVtigerFields(data));
 
     return NextResponse.json(
       { message: "Request submitted successfully", id: buyerRequest.id },
