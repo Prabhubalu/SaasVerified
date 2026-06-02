@@ -1,4 +1,4 @@
-import { buildVtigerLeadPayload, phoneForVtiger, splitFullName } from "@/lib/vtiger";
+import { buildVtigerLeadPayload, phoneForVtiger } from "@/lib/vtiger";
 
 export type ContactVtigerInput = {
   name: string;
@@ -9,12 +9,10 @@ export type ContactVtigerInput = {
 };
 
 export function contactToVtigerFields(data: ContactVtigerInput): Record<string, string> {
-  const { firstName, lastName } = splitFullName(data.name);
   const phoneTrimmed = data.phone?.trim() ?? "";
 
   return buildVtigerLeadPayload({
-    firstname: firstName,
-    lastname: lastName,
+    lastname: data.name.trim().replace(/\s+/g, " "),
     email: data.email,
     ...(phoneTrimmed ? { mobile: phoneForVtiger(phoneTrimmed) } : {}),
     cf_leads_howcanwehelp: data.enquiryType,

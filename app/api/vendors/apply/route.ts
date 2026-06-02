@@ -51,6 +51,19 @@ export async function POST(req: Request) {
       },
     });
 
+    const vtiger = await syncVtigerLead(
+      vendorToVtigerFields({
+        contactName,
+        emailAddress,
+        phoneNumber,
+        productName,
+        websiteUrl,
+        category,
+        targetAudience,
+        pricingModel,
+      })
+    );
+
     await sendFormNotification({
       title: "New Vendor Application",
       subject: `Vendor Application: ${productName}`,
@@ -64,24 +77,18 @@ export async function POST(req: Request) {
         { label: "Email address", value: emailAddress },
         { label: "Phone number", value: phoneNumber },
         { label: "Pricing model", value: pricingModel },
+        { label: "Form source", value: "Vendors" },
       ],
     });
 
-    await syncVtigerLead(
-      vendorToVtigerFields({
-        contactName,
-        emailAddress,
-        phoneNumber,
-        productName,
-        websiteUrl,
-        category,
-        targetAudience,
-        pricingModel,
-      })
-    );
-
     return NextResponse.json(
-      { message: "Application submitted successfully", id: vendorApplication.id },
+      {
+        message: "Application submitted successfully",
+        id: vendorApplication.id,
+        vtiger: vtiger.ok
+          ? { ok: true as const, leadId: vtiger.leadId }
+          : { ok: false as const, message: vtiger.message },
+      },
       { status: 200 }
     );
   } catch (error) {
