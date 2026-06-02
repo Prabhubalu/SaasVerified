@@ -1,4 +1,9 @@
-import { buildVtigerLeadPayload, phoneForVtiger, vtigerLookingForValue } from "@/lib/vtiger";
+import {
+  buildVtigerLeadPayload,
+  phoneForVtiger,
+  vtigerLookingForValue,
+  vtigerNonBuyerLeadDefaults,
+} from "@/lib/vtiger";
 
 export type VendorVtigerInput = {
   contactName: string;
@@ -13,6 +18,8 @@ export type VendorVtigerInput = {
 
 export function vendorToVtigerFields(data: VendorVtigerInput): Record<string, string> {
   return buildVtigerLeadPayload({
+    ...vtigerNonBuyerLeadDefaults(),
+    company: data.productName,
     lastname: data.contactName.trim().replace(/\s+/g, " "),
     email: data.emailAddress,
     mobile: phoneForVtiger(data.phoneNumber),

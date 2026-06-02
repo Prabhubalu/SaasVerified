@@ -1,4 +1,9 @@
-import { buildVtigerLeadPayload, phoneForVtiger, vtigerLookingForValue } from "@/lib/vtiger";
+import {
+  buildVtigerLeadPayload,
+  phoneForVtiger,
+  vtigerLookingForValue,
+  vtigerNonBuyerLeadDefaults,
+} from "@/lib/vtiger";
 
 export type ContactVtigerInput = {
   name: string;
@@ -12,6 +17,7 @@ export function contactToVtigerFields(data: ContactVtigerInput): Record<string, 
   const phoneTrimmed = data.phone?.trim() ?? "";
 
   return buildVtigerLeadPayload({
+    ...vtigerNonBuyerLeadDefaults(),
     lastname: data.name.trim().replace(/\s+/g, " "),
     email: data.email,
     ...(phoneTrimmed ? { mobile: phoneForVtiger(phoneTrimmed) } : {}),

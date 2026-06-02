@@ -13,6 +13,24 @@ export const VTIGER_LOOKING_FOR_OPTIONS = [
   "Other",
 ] as const;
 
+/** Values allowed on Vtiger Leads `cf_leads_companysize` (required by webhook). */
+export const VTIGER_COMPANY_SIZE_OPTIONS = [
+  "1–10",
+  "11–20",
+  "21–50",
+  "51–200",
+  "201–500",
+  "501+",
+] as const;
+
+/** Values allowed on Vtiger Leads `cf_leads_decisiontimeline` (required by webhook). */
+export const VTIGER_DECISION_TIMELINE_OPTIONS = [
+  "Immediately",
+  "0–30 days",
+  "1–3 months",
+  "Just exploring",
+] as const;
+
 /** Maps a website category/enquiry to a valid Vtiger picklist value (defaults to Other). */
 export function vtigerLookingForValue(value: string | undefined | null): string {
   const trimmed = value?.trim() ?? "";
@@ -20,6 +38,21 @@ export function vtigerLookingForValue(value: string | undefined | null): string 
     return trimmed;
   }
   return "Other";
+}
+
+/**
+ * Required Vtiger webhook fields that buyer collects but vendor/contact do not.
+ * Uses valid picklist values so non-buyer forms pass the same CRM validation.
+ */
+export function vtigerNonBuyerLeadDefaults(): Record<string, string> {
+  return {
+    designation: "Other",
+    company: "Website inquiry",
+    state: process.env.VTIGER_DEFAULT_STATE?.trim() || "Karnataka",
+    city: process.env.VTIGER_DEFAULT_CITY?.trim() || "Bengaluru",
+    cf_leads_companysize: VTIGER_COMPANY_SIZE_OPTIONS[0],
+    cf_leads_decisiontimeline: "Just exploring",
+  };
 }
 
 export type VtigerCaptureResult =
