@@ -194,6 +194,11 @@ export async function captureVtigerLead(
       });
     }
 
+    const email = payload.email;
+    console.log(
+      `[Vtiger] POST ${url.replace(/([?&][^=]+)=([^&]+)/g, "$1=***")} (email: ${email}, attempt ${i + 1}/${attempts.length})`
+    );
+
     const res = await fetch(url, {
       method: "POST",
       headers,
