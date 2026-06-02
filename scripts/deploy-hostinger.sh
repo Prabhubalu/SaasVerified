@@ -82,16 +82,21 @@ echo ""
 if command -v pm2 &> /dev/null; then
     echo -e "${BLUE}🔄 Restarting PM2 process...${NC}"
     if pm2 describe "$PM2_APP_NAME" &> /dev/null; then
-        pm2 restart "$PM2_APP_NAME"
-        echo -e "${GREEN}✅ PM2 restarted: $PM2_APP_NAME${NC}"
-    else
-        echo -e "${YELLOW}⚠️  PM2 app '$PM2_APP_NAME' not found. Starting it...${NC}"
-        pm2 start npm --name "$PM2_APP_NAME" -- start
-        pm2 save
-        echo -e "${GREEN}✅ PM2 started and saved${NC}"
+        pm2 delete "$PM2_APP_NAME" 2>/dev/null || true
     fi
+    pm2 start ecosystem.config.cjs --only "$PM2_APP_NAME"
+    pm2 save
+    echo -e "${GREEN}✅ PM2 started with ecosystem.config.cjs (loads .env from app directory)${NC}"
 else
     echo -e "${YELLOW}⚠️  PM2 not installed. Start manually: npm start${NC}"
+fi
+
+echo ""
+if grep -qE '^VTIGER_WEBHOOK_TOKEN=.+' .env 2>/dev/null; then
+    echo -e "${BLUE}🔗 Testing Vtiger webhook from this server (allowlist the printed IP in API Designer → Security)...${NC}"
+    node scripts/test-vtiger-webhook.mjs || true
+else
+    echo -e "${YELLOW}⚠️  VTIGER_WEBHOOK_URL / VTIGER_WEBHOOK_TOKEN missing in .env — buyer forms will not sync to Vtiger.${NC}"
 fi
 
 echo ""
