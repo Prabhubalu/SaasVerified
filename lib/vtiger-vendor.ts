@@ -1,4 +1,4 @@
-import { buildVtigerLeadPayload, phoneForVtiger } from "@/lib/vtiger";
+import { buildVtigerLeadPayload, phoneForVtiger, vtigerLookingForValue } from "@/lib/vtiger";
 
 export type VendorVtigerInput = {
   contactName: string;
@@ -21,6 +21,7 @@ export function vendorToVtigerFields(data: VendorVtigerInput): Record<string, st
     cf_leads_category: data.category,
     cf_leads_targetaudience: data.targetAudience,
     cf_leads_pricingmodel: data.pricingModel,
+    cf_leads_whatareyoulookingfor: vtigerLookingForValue(data.category),
     cf_leads_websiteformsource: "Vendors",
   });
 }

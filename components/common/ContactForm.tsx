@@ -112,13 +112,11 @@ export function ContactForm() {
       }
 
       const data: {
-        vtiger?: { ok: boolean; reason?: string };
+        vtiger?: { ok: boolean; leadId?: string; message?: string; reason?: string };
       } = await response.json().catch(() => ({}));
 
       setSubmitStatus("success");
-      setCrmSyncWarning(
-        data.vtiger?.ok === false && data.vtiger?.reason === "capture_failed"
-      );
+      setCrmSyncWarning(data.vtiger?.ok === false);
       setFormData({ name: "", email: "", phone: "", enquiryType: "", message: "" });
       setErrors({});
       setEmailError("");

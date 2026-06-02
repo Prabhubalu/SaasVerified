@@ -1,4 +1,4 @@
-import { buildVtigerLeadPayload, phoneForVtiger } from "@/lib/vtiger";
+import { buildVtigerLeadPayload, phoneForVtiger, vtigerLookingForValue } from "@/lib/vtiger";
 
 export type ContactVtigerInput = {
   name: string;
@@ -17,6 +17,7 @@ export function contactToVtigerFields(data: ContactVtigerInput): Record<string, 
     ...(phoneTrimmed ? { mobile: phoneForVtiger(phoneTrimmed) } : {}),
     cf_leads_howcanwehelp: data.enquiryType,
     description: data.message,
+    cf_leads_whatareyoulookingfor: vtigerLookingForValue("Other"),
     cf_leads_websiteformsource: "Contact",
   });
 }

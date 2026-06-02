@@ -1,4 +1,4 @@
-import { buildVtigerLeadPayload, phoneForVtiger, splitFullName } from "@/lib/vtiger";
+import { buildVtigerLeadPayload, phoneForVtiger, splitFullName, vtigerLookingForValue } from "@/lib/vtiger";
 
 export type BuyerVtigerInput = {
   fullName: string;
@@ -25,7 +25,7 @@ export function buyerToVtigerFields(data: BuyerVtigerInput): Record<string, stri
     mobile: phoneForVtiger(data.phoneNumber),
     state: data.stateName,
     city: data.cityName,
-    cf_leads_whatareyoulookingfor: data.lookingFor,
+    cf_leads_whatareyoulookingfor: vtigerLookingForValue(data.lookingFor),
     cf_leads_companysize: data.companySize,
     cf_leads_decisiontimeline: data.decisionTimeline,
     cf_leads_websiteformsource: "Buyer",

@@ -2,6 +2,26 @@ import { digitsOnlyPhoneLast10, isValidIndiaPhone } from "@/lib/phone-in";
 
 export type VtigerWebsiteFormSource = "Buyer" | "Vendors" | "Contact";
 
+/** Values allowed on Vtiger Leads `cf_leads_whatareyoulookingfor` (required by webhook). */
+export const VTIGER_LOOKING_FOR_OPTIONS = [
+  "CRM",
+  "HRMS",
+  "Accounting",
+  "ERP",
+  "Website / Mobile App",
+  "Cloud Telephony",
+  "Other",
+] as const;
+
+/** Maps a website category/enquiry to a valid Vtiger picklist value (defaults to Other). */
+export function vtigerLookingForValue(value: string | undefined | null): string {
+  const trimmed = value?.trim() ?? "";
+  if ((VTIGER_LOOKING_FOR_OPTIONS as readonly string[]).includes(trimmed)) {
+    return trimmed;
+  }
+  return "Other";
+}
+
 export type VtigerCaptureResult =
   | { ok: true; leadId?: string }
   | { ok: false; message: string };
@@ -129,7 +149,7 @@ export async function captureVtigerLead(
   }
 
   console.log(
-    `[Vtiger] POST ${url.replace(/([?&][^=]+)=([^&]+)/g, "$1=***")} (email: ${payload.email})`
+    `[Vtiger] POST ${url.replace(/([?&][^=]+)=([^&]+)/g, "$1=***")} (source: ${payload.cf_leads_websiteformsource ?? "unknown"}, email: ${payload.email})`
   );
 
   const res = await fetch(url, {
@@ -171,21 +191,29 @@ export async function syncVtigerLead(
   fields: Record<string, string | undefined | null>
 ): Promise<VtigerCaptureResult> {
   const status = getVtigerEnvStatus();
-  const email = fields.email?.trim() || "(no email)";
+  const payload = buildVtigerLeadPayload(fields);
+  const email = payload.email?.trim() || "(no email)";
+  const source = payload.cf_leads_websiteformsource ?? "unknown";
 
   if (!status.configured) {
     const message = "VTIGER_WEBHOOK_URL or VTIGER_WEBHOOK_TOKEN not set in server env";
-    console.warn(`[Vtiger] NOT calling webhook for ${email} — ${message}`);
+    console.warn(`[Vtiger] NOT calling webhook for ${source} / ${email} — ${message}`);
     return { ok: false, message };
   }
 
-  const result = await captureVtigerLead(fields);
-  if (result.ok) {
-    console.log(
-      `[Vtiger] capture ok for ${email}${result.leadId ? ` (id: ${result.leadId})` : ""}`
-    );
-  } else {
-    console.error(`[Vtiger] capture failed for ${email}:`, result.message);
+  try {
+    const result = await captureVtigerLead(fields);
+    if (result.ok) {
+      console.log(
+        `[Vtiger] capture ok for ${source} / ${email}${result.leadId ? ` (id: ${result.leadId})` : ""}`
+      );
+    } else {
+      console.error(`[Vtiger] capture failed for ${source} / ${email}:`, result.message);
+    }
+    return result;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`[Vtiger] capture error for ${source} / ${email}:`, message);
+    return { ok: false, message };
   }
-  return result;
 }
