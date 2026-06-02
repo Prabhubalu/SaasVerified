@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sendFormNotification } from "@/lib/email";
 import { CONTACT_ENQUIRY_OPTIONS } from "@/lib/contact-enquiry-options";
-import { captureVtigerLead, isVtigerConfigured } from "@/lib/vtiger";
+import { syncVtigerLead } from "@/lib/vtiger";
 import { contactToVtigerFields } from "@/lib/vtiger-contact";
 
 const contactSchema = z.object({
@@ -34,33 +34,15 @@ export async function POST(req: Request) {
       );
     }
 
-    type VtigerClientResult =
-      | { ok: true }
-      | { ok: false; reason: "not_configured" }
-      | { ok: false; reason: "capture_failed" };
-
-    let vtigerClientResult: VtigerClientResult = { ok: false, reason: "not_configured" };
-
-    if (isVtigerConfigured()) {
-      const vtiger = await captureVtigerLead(
-        contactToVtigerFields({
-          name: data.name,
-          email: data.email,
-          phone: phoneTrimmed,
-          enquiryType: data.enquiryType,
-          message: data.message,
-        })
-      );
-
-      if (vtiger.ok) {
-        vtigerClientResult = { ok: true };
-      } else {
-        console.error("[Contact] Vtiger capture failed:", vtiger.message);
-        vtigerClientResult = { ok: false, reason: "capture_failed" };
-      }
-    } else {
-      console.warn("Vtiger: skipping capture (VTIGER_WEBHOOK_URL / VTIGER_WEBHOOK_TOKEN not set)");
-    }
+    const vtiger = await syncVtigerLead(
+      contactToVtigerFields({
+        name: data.name,
+        email: data.email,
+        phone: phoneTrimmed,
+        enquiryType: data.enquiryType,
+        message: data.message,
+      })
+    );
 
     await sendFormNotification({
       title: "Contact form",
@@ -78,12 +60,9 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         message: "Message sent successfully",
-        vtiger:
-          vtigerClientResult.ok === true
-            ? { ok: true as const }
-            : vtigerClientResult.reason === "not_configured"
-              ? { ok: false as const, reason: "not_configured" as const }
-              : { ok: false as const, reason: "capture_failed" as const },
+        vtiger: vtiger.ok
+          ? { ok: true as const, leadId: vtiger.leadId }
+          : { ok: false as const, message: vtiger.message },
       },
       { status: 200 }
     );
