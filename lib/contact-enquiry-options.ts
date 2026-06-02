@@ -1,4 +1,4 @@
-/** LeadSquared `mx_Enquiry_Type` — values must match CRM picklist options. */
+/** Contact form enquiry options — values must match CRM picklist options when configured. */
 export const CONTACT_ENQUIRY_OPTIONS = [
   "I want to buy software",
   "I want to become a vendor/partner",
