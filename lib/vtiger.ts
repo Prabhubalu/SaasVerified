@@ -60,13 +60,6 @@ function resolveWebhookUrl(): string | null {
   return url.toString();
 }
 
-function vtigerAuthMode(): "query" | "header" | "none" {
-  const token = process.env.VTIGER_WEBHOOK_TOKEN?.trim();
-  if (!token) return "none";
-  if (process.env.VTIGER_WEBHOOK_TOKEN_QUERY_PARAM?.trim()) return "query";
-  return "header";
-}
-
 /** Matches VTAP API Designer example (JSON body + Token header). */
 export const VTIGER_JSON_CONTENT_TYPE = "application/json; charset=UTF-8";
 
@@ -92,76 +85,14 @@ function encodeVtigerBody(payload: Record<string, string>): string {
   return JSON.stringify(payload);
 }
 
-function vtigerAuthHint(): string {
-  const mode = vtigerAuthMode();
-  const headerName = process.env.VTIGER_WEBHOOK_TOKEN_HEADER?.trim() || "Token";
-  const queryParam = process.env.VTIGER_WEBHOOK_TOKEN_QUERY_PARAM?.trim() || "token";
-
-  if (mode === "query") {
-    return `Token sent as URL query param "${queryParam}". In Vtiger API Designer → createleads → Security, confirm parameter mode and name match.`;
-  }
-  if (mode === "header") {
-    return `Token sent as header "${headerName}" with JSON body. In API Designer → Security: confirm header mode, copy a fresh token after Publish, and clear or update the IP allowlist.`;
-  }
-  return "Set VTIGER_WEBHOOK_TOKEN in .env.";
-}
-
-async function fetchEgressIpForAllowlist(): Promise<string | null> {
-  try {
-    const res = await fetch("https://api.ipify.org", {
-      signal: AbortSignal.timeout(4000),
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    const ip = (await res.text()).trim();
-    return ip || null;
-  } catch {
-    return null;
-  }
-}
-
-/** Alternate auth attempts when CRM returns "authentication failed". */
-function vtigerAuthAttempts(): { url: string; headers: Record<string, string> }[] {
-  const base = process.env.VTIGER_WEBHOOK_URL?.trim();
-  const token = process.env.VTIGER_WEBHOOK_TOKEN?.trim();
-  if (!base || !token) return [];
-
-  const headerName = process.env.VTIGER_WEBHOOK_TOKEN_HEADER?.trim() || "Token";
-  const queryParam = process.env.VTIGER_WEBHOOK_TOKEN_QUERY_PARAM?.trim();
-  const attempts: { url: string; headers: Record<string, string> }[] = [];
-  const seen = new Set<string>();
-
-  const add = (url: string, headers: Record<string, string>) => {
-    const key = `${url}::${JSON.stringify(headers)}`;
-    if (seen.has(key)) return;
-    seen.add(key);
-    attempts.push({ url, headers });
-  };
-
-  add(resolveWebhookUrl()!, buildRequestHeaders(true));
-
-  if (!queryParam) {
-    for (const param of ["Token", "token"]) {
-      const url = new URL(base);
-      url.searchParams.set(param, token);
-      add(url.toString(), buildRequestHeaders(false));
-    }
-  }
-
-  if (queryParam) {
-    add(resolveWebhookUrl()!, buildRequestHeaders(true));
-  }
-
-  return attempts;
-}
-
 /**
- * POST lead fields to the VTAP incoming webhook (create/update by email on CRM side).
+ * POST lead fields to the VTAP incoming webhook (same as API Designer fetch example).
  */
 export async function captureVtigerLead(
   fields: Record<string, string | undefined | null>
 ): Promise<VtigerCaptureResult> {
-  if (!resolveWebhookUrl()) {
+  const url = resolveWebhookUrl();
+  if (!url) {
     return { ok: false, message: "Vtiger is not configured" };
   }
 
@@ -170,72 +101,53 @@ export async function captureVtigerLead(
     return { ok: false, message: "Email is required for Vtiger lead capture" };
   }
 
+  const headers = buildRequestHeaders(true);
   const body = encodeVtigerBody(payload);
-  const attempts = vtigerAuthAttempts();
 
   if (process.env.DEBUG_VTIGER === "true") {
     console.log("[Vtiger] debug:", {
-      authMode: vtigerAuthMode(),
-      attemptCount: attempts.length,
+      url: url.replace(/([?&][^=]+)=([^&]+)/g, "$1=***"),
+      headerKeys: Object.keys(headers),
       fieldCount: Object.keys(payload).length,
       keys: Object.keys(payload),
     });
   }
 
-  let lastMessage = "";
+  console.log(
+    `[Vtiger] POST ${url.replace(/([?&][^=]+)=([^&]+)/g, "$1=***")} (email: ${payload.email})`
+  );
 
-  for (let i = 0; i < attempts.length; i++) {
-    const { url, headers } = attempts[i];
+  const res = await fetch(url, {
+    method: "POST",
+    headers,
+    body,
+  });
 
-    if (process.env.DEBUG_VTIGER === "true") {
-      console.log("[Vtiger] attempt", i + 1, {
-        url: url.replace(/([?&][^=]+)=([^&]+)/g, "$1=***"),
-        headerKeys: Object.keys(headers),
-      });
-    }
+  const rawText = await res.text();
 
-    const email = payload.email;
-    console.log(
-      `[Vtiger] POST ${url.replace(/([?&][^=]+)=([^&]+)/g, "$1=***")} (email: ${email}, attempt ${i + 1}/${attempts.length})`
-    );
+  if (!res.ok) {
+    return {
+      ok: false,
+      message: rawText.trim() || res.statusText || `HTTP ${res.status}`,
+    };
+  }
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers,
-      body,
-    });
-
-    const rawText = await res.text();
-
-    if (res.ok) {
-      if (rawText.trim()) {
-        try {
-          const json = JSON.parse(rawText) as {
-            success?: boolean;
-            error?: string;
-            message?: string;
-          };
-          if (json.success === false) {
-            lastMessage = json.error || json.message || rawText.slice(0, 800);
-            continue;
-          }
-        } catch {
-          // Non-JSON success bodies are OK.
-        }
+  if (rawText.trim()) {
+    try {
+      const json = JSON.parse(rawText) as {
+        success?: boolean;
+        error?: string;
+        message?: string;
+      };
+      if (json.success === false) {
+        return { ok: false, message: json.error || json.message || rawText.slice(0, 800) };
       }
-      if (i > 0) {
-        console.log(`[Vtiger] capture succeeded on auth fallback attempt ${i + 1}/${attempts.length}`);
-      }
-      return { ok: true };
-    }
-
-    lastMessage = rawText.trim() || res.statusText || `HTTP ${res.status}`;
-    if (!/authentication failed/i.test(lastMessage)) {
-      return { ok: false, message: lastMessage };
+    } catch {
+      // Non-JSON success bodies are OK.
     }
   }
 
-  return { ok: false, message: lastMessage || "authentication failed" };
+  return { ok: true };
 }
 
 export async function syncVtigerLead(
@@ -248,19 +160,6 @@ export async function syncVtigerLead(
 
   const result = await captureVtigerLead(fields);
   if (!result.ok) {
-    const authFailed = /authentication failed/i.test(result.message);
-    if (authFailed) {
-      const ip = await fetchEgressIpForAllowlist();
-      console.error(
-        "Vtiger capture failed:",
-        result.message,
-        `(${vtigerAuthHint()}`,
-        ip
-          ? `Allowlist this public IP in API Designer → Security if restrictions are enabled: ${ip})`
-          : "Check API Designer → Security → IP allowlist and use a fresh token from Documentation after Publish.)"
-      );
-    } else {
-      console.error("Vtiger capture failed:", result.message);
-    }
+    console.error("Vtiger capture failed:", result.message);
   }
 }

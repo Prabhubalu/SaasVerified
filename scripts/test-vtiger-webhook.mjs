@@ -44,15 +44,6 @@ async function tryPost(label, targetUrl, headers) {
 }
 
 async function main() {
-  let ip = "?";
-  try {
-    const ipRes = await fetch("https://api.ipify.org");
-    ip = (await ipRes.text()).trim();
-  } catch {
-    /* ignore */
-  }
-
-  console.log("Public IP (allowlist in Vtiger Security if enabled):", ip);
   console.log("Webhook URL:", url);
   console.log("Testing email:", email);
 
@@ -62,7 +53,9 @@ async function main() {
   });
 
   if (!ok) {
-    console.log("\nIf this fails, check Vtiger Security: token, IP allowlist, Publish status.");
+    console.log(
+      "\nIf this fails: Vtiger → API Designer → createleads → Security — clear IP/domain restrictions, Regenerate token, Save, Publish. See docs/VTIGER_WEBHOOK.md"
+    );
     process.exitCode = 1;
   }
 }
