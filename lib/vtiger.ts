@@ -47,6 +47,21 @@ export function isVtigerConfigured(): boolean {
   );
 }
 
+/** For health/admin checks — never exposes the token value. */
+export function getVtigerEnvStatus(): {
+  configured: boolean;
+  hasUrl: boolean;
+  hasToken: boolean;
+} {
+  const hasUrl = Boolean(process.env.VTIGER_WEBHOOK_URL?.trim());
+  const hasToken = Boolean(process.env.VTIGER_WEBHOOK_TOKEN?.trim());
+  return {
+    configured: hasUrl && hasToken,
+    hasUrl,
+    hasToken,
+  };
+}
+
 function resolveWebhookUrl(): string | null {
   const base = process.env.VTIGER_WEBHOOK_URL?.trim();
   const token = process.env.VTIGER_WEBHOOK_TOKEN?.trim();
@@ -153,13 +168,20 @@ export async function captureVtigerLead(
 export async function syncVtigerLead(
   fields: Record<string, string | undefined | null>
 ): Promise<void> {
-  if (!isVtigerConfigured()) {
-    console.warn("Vtiger: skipping capture (VTIGER_WEBHOOK_URL / VTIGER_WEBHOOK_TOKEN not set)");
+  const status = getVtigerEnvStatus();
+  const email = fields.email?.trim() || "(no email)";
+
+  if (!status.configured) {
+    console.warn(
+      `[Vtiger] NOT calling webhook for ${email} — env missing (hasUrl=${status.hasUrl}, hasToken=${status.hasToken}). Fix .env and restart PM2 with ecosystem.config.cjs`
+    );
     return;
   }
 
   const result = await captureVtigerLead(fields);
-  if (!result.ok) {
-    console.error("Vtiger capture failed:", result.message);
+  if (result.ok) {
+    console.log(`[Vtiger] capture ok for ${email}`);
+  } else {
+    console.error(`[Vtiger] capture failed for ${email}:`, result.message);
   }
 }
