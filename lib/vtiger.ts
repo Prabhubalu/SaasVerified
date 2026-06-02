@@ -67,14 +67,18 @@ function vtigerAuthMode(): "query" | "header" | "none" {
   return "header";
 }
 
-function buildRequestHeaders(): Record<string, string> {
+/** Matches VTAP API Designer example (JSON body + Token header). */
+export const VTIGER_JSON_CONTENT_TYPE = "application/json; charset=UTF-8";
+
+function buildRequestHeaders(includeToken: boolean): Record<string, string> {
   const headers: Record<string, string> = {
-    "Content-Type": "application/x-www-form-urlencoded",
+    "Content-Type": VTIGER_JSON_CONTENT_TYPE,
   };
+
+  if (!includeToken) return headers;
 
   const token = process.env.VTIGER_WEBHOOK_TOKEN?.trim();
   const queryParam = process.env.VTIGER_WEBHOOK_TOKEN_QUERY_PARAM?.trim();
-  /** VTAP createleads docs use header name `Token` (case-sensitive on some hosts). */
   const headerName = process.env.VTIGER_WEBHOOK_TOKEN_HEADER?.trim() || "Token";
 
   if (token && !queryParam) {
@@ -85,7 +89,7 @@ function buildRequestHeaders(): Record<string, string> {
 }
 
 function encodeVtigerBody(payload: Record<string, string>): string {
-  return new URLSearchParams(payload).toString();
+  return JSON.stringify(payload);
 }
 
 function vtigerAuthHint(): string {
@@ -97,7 +101,7 @@ function vtigerAuthHint(): string {
     return `Token sent as URL query param "${queryParam}". In Vtiger API Designer → createleads → Security, confirm parameter mode and name match.`;
   }
   if (mode === "header") {
-    return `Token sent as header "${headerName}" with urlencoded body. In API Designer → Security: confirm header mode, copy a fresh token after Publish, and clear or update the IP allowlist.`;
+    return `Token sent as header "${headerName}" with JSON body. In API Designer → Security: confirm header mode, copy a fresh token after Publish, and clear or update the IP allowlist.`;
   }
   return "Set VTIGER_WEBHOOK_TOKEN in .env.";
 }
@@ -134,21 +138,18 @@ function vtigerAuthAttempts(): { url: string; headers: Record<string, string> }[
     attempts.push({ url, headers });
   };
 
-  add(resolveWebhookUrl()!, buildRequestHeaders());
+  add(resolveWebhookUrl()!, buildRequestHeaders(true));
 
   if (!queryParam) {
     for (const param of ["Token", "token"]) {
       const url = new URL(base);
       url.searchParams.set(param, token);
-      add(url.toString(), { "Content-Type": "application/x-www-form-urlencoded" });
+      add(url.toString(), buildRequestHeaders(false));
     }
   }
 
   if (queryParam) {
-    add(resolveWebhookUrl()!, {
-      "Content-Type": "application/x-www-form-urlencoded",
-      [headerName]: token,
-    });
+    add(resolveWebhookUrl()!, buildRequestHeaders(true));
   }
 
   return attempts;

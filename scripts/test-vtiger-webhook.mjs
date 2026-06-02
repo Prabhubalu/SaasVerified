@@ -1,6 +1,6 @@
 /**
  * Run from project root: node scripts/test-vtiger-webhook.mjs
- * (Works on Node 18+; loads .env automatically.)
+ * Matches VTAP API Designer fetch example (JSON + Token header).
  */
 import { loadProjectEnv } from "./load-env.mjs";
 
@@ -16,20 +16,29 @@ if (!url || !token) {
 }
 
 const email = `vtiger-script-test-${Date.now()}@example.com`;
-const body = new URLSearchParams({
-  firstname: "Script",
+const body = JSON.stringify({
   lastname: "Test",
+  firstname: "Script",
   email,
-  company: "Test Co",
+  designation: "Other",
+  mobile: "9999900000",
+  state: "Karnataka",
+  city: "Bengaluru",
+  cf_leads_whatareyoulookingfor: "Accounting",
+  cf_leads_companysize: "1–10",
+  cf_leads_decisiontimeline: "0–30 days",
   cf_leads_websiteformsource: "Buyer",
-}).toString();
+});
 
 async function tryPost(label, targetUrl, headers) {
-  const res = await fetch(targetUrl, { method: "POST", headers, body });
+  const res = await fetch(targetUrl, {
+    method: "POST",
+    headers,
+    body,
+  });
   const text = await res.text();
-  const statusLine = res.statusText || "";
   console.log(
-    `${label}: HTTP ${res.status} ${statusLine}${text ? ` — ${text.slice(0, 120)}` : " (empty body)"}`
+    `${label}: HTTP ${res.status} ${res.statusText}${text ? ` — ${text.slice(0, 200)}` : " (empty body)"}`
   );
   return res.ok;
 }
@@ -42,37 +51,20 @@ async function main() {
   } catch {
     /* ignore */
   }
-  console.log("Public IP (add to Vtiger Security allowlist if enabled):", ip);
-  console.log("Token length in .env:", token.length, "(re-copy from Documentation after Regenerate + Publish)");
+
+  console.log("Public IP (allowlist in Vtiger Security if enabled):", ip);
   console.log("Webhook URL:", url);
   console.log("Testing email:", email);
 
-  const headerOk = await tryPost("Header auth", url, {
-    "Content-Type": "application/x-www-form-urlencoded",
+  const ok = await tryPost("JSON + Token header", url, {
+    "Content-Type": "application/json; charset=UTF-8",
     [headerName]: token,
   });
 
-  if (!headerOk) {
-    for (const param of ["Token", "token"]) {
-      const u = new URL(url);
-      u.searchParams.set(param, token);
-      const ok = await tryPost(`Query ?${param}=`, u.toString(), {
-        "Content-Type": "application/x-www-form-urlencoded",
-      });
-      if (ok) break;
-    }
+  if (!ok) {
+    console.log("\nIf this fails, check Vtiger Security: token, IP allowlist, Publish status.");
+    process.exitCode = 1;
   }
-
-  console.log(`
-All methods failed — this is a Vtiger Security issue, not the website code.
-
-Checklist (createleads → Security):
-  1. IP allowlist: add ${ip} OR remove all IPs for dev
-  2. Regenerate token → Save → Publish → paste new token into VTIGER_WEBHOOK_TOKEN
-  3. Token mode must match docs: header "Token" OR URL param (try VTIGER_WEBHOOK_TOKEN_QUERY_PARAM=Token)
-  4. Playground → Start listening → run this script again; request must appear in Vtiger
-`);
-  process.exitCode = 1;
 }
 
 main().catch((e) => {
