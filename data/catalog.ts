@@ -116,6 +116,31 @@ export const catalogData: CategoryData = {
       "name": "Close",
       "url": "https://close.com",
       "description": "CRM built for inside sales teams with strong calling and email automation."
+    },
+    {
+      "name": "CRM Doctor",
+      "url": "https://crm-doctor.com/",
+      "description": "CRM platform for managing leads, follow-ups, and sales pipelines."
+    },
+    {
+      "name": "LeadSquared",
+      "url": "https://www.leadsquared.com/",
+      "description": "Sales execution and marketing automation CRM for high-volume lead teams."
+    },
+    {
+      "name": "Superleap",
+      "url": "https://www.superleap.com/",
+      "description": "AI-native CRM for enterprise sales, marketing, and service teams."
+    },
+    {
+      "name": "Arivu Systems",
+      "url": "https://www.arivusystems.com/",
+      "description": "Process-first business platform with connected CRM and operations apps."
+    },
+    {
+      "name": "Bitrix24",
+      "url": "https://www.bitrix24.in/",
+      "description": "CRM suite with collaboration, tasks, and contact center in one workspace."
     }
   ],
   "Accounting": [
@@ -272,6 +297,31 @@ export const catalogData: CategoryData = {
       "name": "PeopleStrong",
       "url": "https://www.peoplestrong.com",
       "description": "HR automation platform for talent and workforce management."
+    },
+    {
+      "name": "ZingHR",
+      "url": "https://www.zinghr.com/",
+      "description": "Enterprise HRMS covering hire-to-retire workforce and payroll processes."
+    },
+    {
+      "name": "WeekMate",
+      "url": "https://weekmate.in/",
+      "description": "All-in-one HRMS with payroll, tasks, and team communication built in."
+    },
+    {
+      "name": "Superworks",
+      "url": "https://superworks.com/",
+      "description": "HRMS and payroll suite for attendance, recruitment, and performance."
+    },
+    {
+      "name": "Pocket HRMS",
+      "url": "https://www.pockethrms.com/",
+      "description": "Cloud HRMS with payroll, attendance, and employee self-service."
+    },
+    {
+      "name": "Skilwi",
+      "url": "https://skilwi.ai/",
+      "description": "AI-based HR automation for skill gap analysis and workforce planning."
     }
   ],
   "Payroll": [
@@ -316,14 +366,24 @@ export const catalogData: CategoryData = {
       "description": "Payroll and benefits management for growing companies."
     },
     {
-      "name": "ZingHR",
-      "url": "https://www.zinghr.com",
-      "description": "Payroll and HR platform for workforce management."
-    },
-    {
       "name": "SumHR",
       "url": "https://sumhr.com",
       "description": "Simple payroll and HR solution for small teams."
+    },
+    {
+      "name": "The Global Payroll",
+      "url": "https://theglobalpayroll.com/",
+      "description": "Managed payroll services with statutory compliance for Indian businesses."
+    },
+    {
+      "name": "Kredily",
+      "url": "https://kredily.com/",
+      "description": "Free payroll and HR software for salary processing and compliance."
+    },
+    {
+      "name": "HRflix",
+      "url": "https://hrflix.in/",
+      "description": "Payroll software covering attendance, leave, and statutory compliance."
     }
   ],
   "Helpdesk": [
@@ -1805,6 +1865,16 @@ export const catalogData: CategoryData = {
       "name": "Ameyo",
       "url": "https://www.ameyo.com",
       "description": "Omnichannel contact center platform."
+    },
+    {
+      "name": "Gupshup",
+      "url": "https://www.gupshup.ai/",
+      "description": "Conversational AI agents for customer support across messaging channels."
+    },
+    {
+      "name": "MCUBE",
+      "url": "https://mcube.com/",
+      "description": "Cloud telephony and call center solution for sales and support teams."
     }
   ],
   "Logistics Management": [
